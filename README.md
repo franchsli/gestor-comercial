@@ -17,3 +17,5 @@ Una aplicación en Java que gestiona los productos, ventas y gastos de una empre
     - Delete: Se puede seleccionar una fila y borrarla o borrar varias filas con una condición.
 4. Cada pestaña tiene sus operaciones propias de ser necesario:
     - La pestaña de Ventas debe actualizar los Productos cada vez que se venda algo.
+5. Cada acción va a darle un feedback/retroalimentación al usuario para informarle que
+la acción fue realizada con éxito o si falló.
