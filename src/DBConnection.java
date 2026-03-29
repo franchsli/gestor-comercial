@@ -25,7 +25,7 @@ public class DBConnection {
      * datos
      * @param sql La sentencia INSERT/UPDATE/DELETE de SQL
      */
-    protected void ejecutar(String sql) {
+    protected static void ejecutar(String sql) {
         try (Connection conn = DBConnection.get();
             PreparedStatement pStatement = conn.prepareStatement(sql)) {
             pStatement.execute();
@@ -42,7 +42,7 @@ public class DBConnection {
      * @throws SQLException Error de SQL si la consulta
      * u algo más falla
      */
-    protected ResultSet consultar(String sql) throws SQLException {
+    protected static ResultSet consultar(String sql) throws SQLException {
         Connection conn = DBConnection.get();
         PreparedStatement pStatement = conn.prepareStatement(sql);
         return pStatement.executeQuery();
