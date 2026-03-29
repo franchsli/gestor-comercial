@@ -6,6 +6,9 @@ Una aplicación en Java que gestiona los productos, ventas y gastos de una empre
 
 ![drawSQL-image-export-2026-03-24](https://github.com/user-attachments/assets/ea4c7760-fb42-4ead-a5cd-c3f75fba0303)
 
+Este diagrama se debe cambiar a uno más a corde ya que el de la imagen es de PostgreSQL no SQLite, 
+depronto se pueda crear uno con [esta herramienta](https://dbschema.com/databases/sqlite/)
+
 ## Ejecución
 
 1. El usuario abre la aplicacion y ve 3 pestañas: Productos, Ventas y Gastos.
