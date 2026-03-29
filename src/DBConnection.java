@@ -14,7 +14,7 @@ public class DBConnection {
      */
     public static Connection get() throws SQLException {
         if (connection == null) {
-            connection = DriverManager.getConnection("jdbc:sqlite:mi_base_de_datos.db");
+            connection = DriverManager.getConnection("jdbc:sqlite:bd_de_prueba.db");
         }
         return connection;
     }
