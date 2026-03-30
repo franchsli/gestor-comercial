@@ -1,21 +1,11 @@
-import java.lang.reflect.AnnotatedType;
-import java.security.KeyStore.Entry;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.function.Supplier;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import org.sqlite.core.DB;
-
-import java.sql.PreparedStatement;
 
 public class Modelo {
     //protected String nombreTabla = "GASTOS";
