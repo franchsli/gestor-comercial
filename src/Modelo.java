@@ -115,9 +115,7 @@ public class Modelo {
         String columna = ultimoDato.getKey();
         String valor = ultimoDato.getValue();
         sql += " " + columna + "=" + valor;
-        if (!condicion.isEmpty()) {
-            sql += " WHERE " + condicion;
-        }
+        sql += " WHERE " + condicion;
 
         DBConnection.ejecutar(sql);
     }
