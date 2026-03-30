@@ -14,7 +14,7 @@ import java.sql.PreparedStatement;
 
 public class Modelo {
     //protected String nombreTabla = "GASTOS";
-    protected String nombreTabla = this.getClass().getSimpleName();
+    protected String nombreTabla = this.getClass().getSimpleName().toUpperCase() + "S";
 
     // TODO: Añadir más métodos GENERALES
     // EJ: Borrar todos, borrar segun condición
