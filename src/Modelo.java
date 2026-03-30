@@ -1,3 +1,5 @@
+import java.lang.reflect.AnnotatedType;
+import java.security.KeyStore.Entry;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -5,9 +7,12 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.function.Supplier;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 import org.sqlite.core.DB;
 
 import java.sql.PreparedStatement;
@@ -17,8 +22,6 @@ public class Modelo {
     protected String nombreTabla = this.getClass().getSimpleName().toUpperCase() + "S";
 
     // TODO: Añadir más métodos GENERALES
-    // actualizar segun condición
-    // seleccionar solo un dato (lo dudo pero bueno)
     // contar todo o solo lo que cumpla una condición
 
     /**
@@ -91,6 +94,34 @@ public class Modelo {
      */
     void insertar(String datos){
         String sql = "INSERT INTO " + nombreTabla + " VALUES " + datos;
+        DBConnection.ejecutar(sql);
+    }
+
+    /**
+     * Actualiza los registros que cumplan con la condición dada
+     * con los datos ingresados.
+     * @param datos Los nuevos datos para los registros.
+     * Ej: "columna":"valor", "otraColumna": 1
+     * @param condicion
+     */
+    void actualizar(LinkedHashMap<String, String> datos, String condicion){
+        String sql = "UPDATE " + nombreTabla + " SET ";
+        Iterator<Map.Entry<String, String>> iterator = datos.entrySet().iterator();
+
+        while (iterator.hasNext()) {
+            Map.Entry<String, String> dato = iterator.next();
+            String columna = dato.getKey();
+            String valor = dato.getValue();
+            sql += " " + columna + "=" + valor + ",";
+        }
+        Map.Entry<String, String> ultimoDato = datos.lastEntry();
+        String columna = ultimoDato.getKey();
+        String valor = ultimoDato.getValue();
+        sql += " " + columna + "=" + valor;
+        if (!condicion.isEmpty()) {
+            sql += " WHERE " + condicion;
+        }
+
         DBConnection.ejecutar(sql);
     }
 
