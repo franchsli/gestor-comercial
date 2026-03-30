@@ -21,9 +21,6 @@ public class Modelo {
     //protected String nombreTabla = "GASTOS";
     protected String nombreTabla = this.getClass().getSimpleName().toUpperCase() + "S";
 
-    // TODO: Añadir más métodos GENERALES
-    // contar todo o solo lo que cumpla una condición
-
     /**
      * Devuelve todos los datos de la tabla.
      * @return Todos los datos de la tabla.
@@ -123,6 +120,36 @@ public class Modelo {
         }
 
         DBConnection.ejecutar(sql);
+    }
+
+    /**
+     * Devuelve el número de filas en la tabla.
+     * @return El número de filas en la tabla.
+     */
+    int contarTodos(){
+        return contarTodos("");
+    }
+
+    /**
+     * Devuelve el número de filas en la tabla
+     * que cumplen la condición dada.
+     * @param condicion La condición que deben cumplir las filas.
+     * @return El número de filas que cumplen la condición.
+     */
+    int contarTodos(String condicion){
+        String sql = "SELECT COUNT(*) FROM " + nombreTabla;
+        if (!condicion.isEmpty()) {
+            sql += " WHERE " + condicion;
+        }
+        try {
+            ResultSet resultSet = DBConnection.consultar(sql);
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return 0;
     }
 
     public static void main(String[] args) {
