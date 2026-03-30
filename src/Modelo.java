@@ -17,7 +17,6 @@ public class Modelo {
     protected String nombreTabla = this.getClass().getSimpleName().toUpperCase() + "S";
 
     // TODO: Añadir más métodos GENERALES
-    // EJ: Borrar todos, borrar segun condición
     // Insertar, actualizar segun condición
     // seleccionar solo un dato (lo dudo pero bueno)
     // contar todo o solo lo que cumpla una condición
@@ -61,6 +60,27 @@ public class Modelo {
             System.err.println("Error: " + e.getMessage());
         }
         return resultados;
+    }
+
+    /**
+     * Borra todos los datos de una tabla.
+     */
+    void borrarTodos(){
+        borrarTodos("");
+    }
+
+    /**
+     * Borra todos los datos de una tabla que
+     * cumplan la condición dada.
+     * @param condicion La condición que deben
+     * cumplir los datos para ser borrados.
+     */
+    void borrarTodos(String condicion){
+        String sql = "DELETE * FROM " + nombreTabla;
+        if (!condicion.isEmpty()) {
+            sql += "WHERE " + condicion;
+        }
+        DBConnection.ejecutar(sql);
     }
 
     public static void main(String[] args) {
