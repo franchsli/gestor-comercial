@@ -17,7 +17,7 @@ public class Modelo {
     protected String nombreTabla = this.getClass().getSimpleName().toUpperCase() + "S";
 
     // TODO: Añadir más métodos GENERALES
-    // Insertar, actualizar segun condición
+    // actualizar segun condición
     // seleccionar solo un dato (lo dudo pero bueno)
     // contar todo o solo lo que cumpla una condición
 
@@ -80,6 +80,17 @@ public class Modelo {
         if (!condicion.isEmpty()) {
             sql += "WHERE " + condicion;
         }
+        DBConnection.ejecutar(sql);
+    }
+
+    /**
+     * Inserta los datos dados en la tabla.
+     * @param datos Los datos a insertar. 
+     * Deben ir entre parentesis y separados por comas
+     * Ej: "(1,2,3,4,5,'texto')"
+     */
+    void insertar(String datos){
+        String sql = "INSERT INTO " + nombreTabla + " VALUES " + datos;
         DBConnection.ejecutar(sql);
     }
 
