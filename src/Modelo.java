@@ -8,8 +8,7 @@ import java.util.Map;
 import java.util.StringJoiner;
 
 public class Modelo {
-    protected String nombreTabla = "GASTOS";
-    //protected String nombreTabla = this.getClass().getSimpleName().toUpperCase() + "S";
+    protected String nombreTabla = this.getClass().getSimpleName().toUpperCase() + "S";
 
     /**
      * Devuelve todos los datos de la tabla.
