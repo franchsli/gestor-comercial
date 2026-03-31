@@ -2,14 +2,14 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 
 public class Modelo {
-    //protected String nombreTabla = "GASTOS";
-    protected String nombreTabla = this.getClass().getSimpleName().toUpperCase() + "S";
+    protected String nombreTabla = "GASTOS";
+    //protected String nombreTabla = this.getClass().getSimpleName().toUpperCase() + "S";
 
     /**
      * Devuelve todos los datos de la tabla.
@@ -93,18 +93,21 @@ public class Modelo {
      */
     void actualizar(LinkedHashMap<String, String> datos, String condicion){
         String sql = "UPDATE " + nombreTabla + " SET ";
-        Iterator<Map.Entry<String, String>> iterator = datos.entrySet().iterator();
 
-        while (iterator.hasNext()) {
-            Map.Entry<String, String> dato = iterator.next();
-            String columna = dato.getKey();
-            String valor = dato.getValue();
-            sql += " " + columna + "=" + valor + ",";
+        if (datos.size() > 1) {
+            StringJoiner stringJoiner = new StringJoiner(", ");
+            for (Map.Entry<String, String> dato : datos.entrySet()) {
+                String textoDato = dato.getKey() + "=" + dato.getValue();
+                stringJoiner.add(textoDato);
+            }
+            sql += stringJoiner.toString();
         }
-        Map.Entry<String, String> ultimoDato = datos.lastEntry();
-        String columna = ultimoDato.getKey();
-        String valor = ultimoDato.getValue();
-        sql += " " + columna + "=" + valor;
+        else{
+            Map.Entry<String, String> unicoDato = datos.firstEntry();
+            String columna = unicoDato.getKey();
+            String valor = unicoDato.getValue();
+            sql += " " + columna + "=" + valor;
+        }
         sql += " WHERE " + condicion;
 
         DBConnection.ejecutar(sql);
@@ -142,10 +145,52 @@ public class Modelo {
 
     public static void main(String[] args) {
         Modelo model = new Modelo();
+        // muestra todos los registros
         List<Map<String, String>> resultados = model.todos();
         for (Map<String,String> map : resultados) {
             System.out.println(map);
         }
+        System.out.println("----------");
+        // cuenta todos los registros
+        int contador = model.contarTodos();
+        System.out.println(contador);
+        System.out.println("----------");
+        // cuenta todos los registros segun condición
+        int contadorCondicionado = model.contarTodos("estado='PENDIENTE'");
+        System.out.println(contadorCondicionado);
+        System.out.println("----------");
+        // inserta un nuevo registro
+        model.insertar("(null, '2026-02-25', 'PAGADO', 50000)");
+        // verifica que esté el nuevo registro
+        resultados = model.todos();
+        for (Map<String,String> map : resultados) {
+            System.out.println(map);
+        }
+        System.out.println("----------");
+        // actualiza un registro (en este caso, el último)
+        LinkedHashMap<String, String> nuevosDatos = new LinkedHashMap<>();
+        nuevosDatos.put("estado", "PENDIENTE");
+        // TODO: BUG: No such column: PENDIENTE
+        model.actualizar(nuevosDatos, "id=11");
+        // verifica que el nuevo registro está actualizado
+        resultados = model.todos("id=11");
+        for (Map<String,String> map : resultados) {
+            System.out.println(map);
+        }
+        System.out.println("----------");
+        // elimina todos los registros según una condición
+        model.borrarTodos("estado='PAGADO'");
+        // verifica que se hayan borrado
+        resultados = model.todos();
+        for (Map<String,String> map : resultados) {
+            System.out.println(map);
+        }
+        System.out.println("----------");
+        // elimina todos los registros
+        model.borrarTodos();
+        // confirma que todo se ha borrado al ver 0
+        model.contarTodos();
+        
     }
 
 }
