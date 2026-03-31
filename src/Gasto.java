@@ -23,4 +23,17 @@ public class Gasto extends Modelo {
         String condicion = "estado='PAGADO'";
         return todos(condicion);
     }
+
+    List<Map<String, String>> todosAntes(String fecha){
+        String condicion = "fecha<" + fecha;
+        return todos(condicion);
+    }
+    List<Map<String, String>> todosDespues(String fecha){
+        String condicion = "fecha>" + fecha;
+        return todos(condicion);
+    }
+    List<Map<String, String>> todosEn(String fecha){
+        String condicion = "fecha=" + fecha;
+        return todos(condicion);
+    }
 }
