@@ -97,7 +97,7 @@ public class Modelo {
         if (datos.size() > 1) {
             StringJoiner stringJoiner = new StringJoiner(", ");
             for (Map.Entry<String, String> dato : datos.entrySet()) {
-                String textoDato = dato.getKey() + "=" + dato.getValue();
+                String textoDato = dato.getKey() + "=" + formatearValor(dato.getValue());
                 stringJoiner.add(textoDato);
             }
             sql += stringJoiner.toString();
@@ -105,7 +105,7 @@ public class Modelo {
         else{
             Map.Entry<String, String> unicoDato = datos.firstEntry();
             String columna = unicoDato.getKey();
-            String valor = unicoDato.getValue();
+            String valor = formatearValor(unicoDato.getValue());
             sql += " " + columna + "=" + valor;
         }
         sql += " WHERE " + condicion;
