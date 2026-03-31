@@ -1,4 +1,6 @@
 import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.List;
 
 public class Gasto extends Modelo {
     /**
@@ -10,5 +12,15 @@ public class Gasto extends Modelo {
         gastoPagado.put("estado", "PAGADO");
         String condicion = "id=" + id;
         actualizar(gastoPagado, condicion);
+    }
+
+    List<Map<String, String>> pendientes(){
+        String condicion = "estado='PENDIENTE'";
+        return todos(condicion);
+    }
+
+    List<Map<String, String>> pagados(){
+        String condicion = "estado='PAGADO'";
+        return todos(condicion);
     }
 }
