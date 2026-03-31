@@ -19,7 +19,6 @@ public class DBConnection {
         return connection;
     }
 
-    // Para INSERT/UPDATE/DELETE
     /**
      * Ejecuta la sentencia INSERT/UPDATE/DELETE en la base de
      * datos
