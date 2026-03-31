@@ -143,6 +143,22 @@ public class Modelo {
         return 0;
     }
 
+    /**
+     * Formatea una String para darle comillas si
+     * es alfanumérica o dejarla igual si es
+     * numérica.
+     * @param valor El valor a formatear.
+     * @return El valor formateado.
+     */
+    private String formatearValor(String valor){
+        try {
+            Double.parseDouble(valor);
+            return valor;
+        } catch (NumberFormatException e) {
+            return "'" + valor + "'";
+        }
+    }
+
     public static void main(String[] args) {
         Modelo model = new Modelo();
         // muestra todos los registros
