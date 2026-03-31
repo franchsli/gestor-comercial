@@ -13,13 +13,12 @@ public class DBConnection {
      * @throws SQLException Error si la conexión no fue posible.
      */
     public static Connection get() throws SQLException {
-        if (connection == null) {
+        if (connection == null || connection.isClosed()) {
             connection = DriverManager.getConnection("jdbc:sqlite:bd_de_prueba.db");
         }
         return connection;
     }
 
-    // Para INSERT/UPDATE/DELETE
     /**
      * Ejecuta la sentencia INSERT/UPDATE/DELETE en la base de
      * datos
