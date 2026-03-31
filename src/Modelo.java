@@ -66,7 +66,7 @@ public class Modelo {
      * cumplir los datos para ser borrados.
      */
     void borrarTodos(String condicion){
-        String sql = "DELETE * FROM " + nombreTabla;
+        String sql = "DELETE FROM " + nombreTabla;
         if (!condicion.isEmpty()) {
             sql += " WHERE " + condicion;
         }
@@ -204,7 +204,7 @@ public class Modelo {
         // elimina todos los registros
         model.borrarTodos();
         // confirma que todo se ha borrado al ver 0
-        model.contarTodos();
+        System.out.println(model.contarTodos());
         
     }
 
