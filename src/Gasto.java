@@ -41,7 +41,7 @@ public class Gasto extends Modelo {
      * @return Todos los gastos previos a esa fecha.
      */
     List<Map<String, String>> todosAntes(String fecha){
-        String condicion = "fecha<" + fecha;
+        String condicion = "fecha<" + formatearValor(fecha);
         return todos(condicion);
     }
 
@@ -51,7 +51,7 @@ public class Gasto extends Modelo {
      * @return Todos los gastos posteriores a esa fecha.
      */
     List<Map<String, String>> todosDespues(String fecha){
-        String condicion = "fecha>" + fecha;
+        String condicion = "fecha>" + formatearValor(fecha);
         return todos(condicion);
     }
 
@@ -61,7 +61,7 @@ public class Gasto extends Modelo {
      * @return Todos los gastos previos en esa fecha.
      */
     List<Map<String, String>> todosEn(String fecha){
-        String condicion = "fecha=" + fecha;
+        String condicion = "fecha=" + formatearValor(fecha);
         return todos(condicion);
     }
 
