@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.List;
@@ -62,5 +63,18 @@ public class Gasto extends Modelo {
     List<Map<String, String>> todosEn(String fecha){
         String condicion = "fecha=" + fecha;
         return todos(condicion);
+    }
+
+    // TODO: Añadir las versiones con más parámetros.
+
+    /**
+     * Crea un nuevo gasto en la base de datos.
+     * @param valor El valor del gasto.
+     */
+    void crear(String valor){
+        LocalDate fechahoy = LocalDate.now();
+        String fechaHoyTexto = fechahoy.toString();
+        String[] datos = {fechaHoyTexto, "PENDIENTE", valor};
+        insertar(datos);
     }
 }
