@@ -65,8 +65,27 @@ public class Gasto extends Modelo {
         return todos(condicion);
     }
 
-    // TODO: Añadir las versiones con más parámetros.
 
+    /**
+     * Crea un nuevo gasto en la base de datos.
+     * @param fecha La fecha en la que se pagó el gasto.
+     * @param estado El estado del gasto
+     * debe ser "PAGADO" o "PENDIENTE".
+     * @param valor El valor del gasto.
+     */
+    void crear(String fecha, String estado, String valor){
+        String[] datos = {fecha, estado, valor};
+        insertar(datos);
+    }
+    /**
+     * Crea un nuevo gasto en la base de datos.
+     * @param fecha La fecha en la que se pagó el gasto.
+     * @param valor El valor del gasto.
+     */
+    void crear(String fecha, String valor){
+        String[] datos = {fecha, "PENDIENTE", valor};
+        insertar(datos);
+    }
     /**
      * Crea un nuevo gasto en la base de datos.
      * @param valor El valor del gasto.
