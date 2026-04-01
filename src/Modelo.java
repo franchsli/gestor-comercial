@@ -148,7 +148,7 @@ public class Modelo {
      * @param valor El valor a formatear.
      * @return El valor formateado.
      */
-    private String formatearValor(String valor){
+    protected String formatearValor(String valor){
         try {
             Double.parseDouble(valor);
             return valor;
@@ -164,7 +164,7 @@ public class Modelo {
      * @param valores Los valores que deben ir en la sentencia.
      * @return La lista de valores formateada.
      */
-    private String formatearValores(String[] valores){
+    protected String formatearValores(String[] valores){
         StringJoiner tupla = new StringJoiner(", ", "(", ")");
         // el id es nulo para que SQL se encargue de incrementarlo
         tupla.add("null");
