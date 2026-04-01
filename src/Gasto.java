@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.List;
 
 public class Gasto extends Modelo {
+    // TODO: Añadir fecha_pago y cambiar fecha a fecha_gasto
     /**
      * Paga el gasto con el id dado.
      * @param id El id del gasto a pagar
@@ -95,5 +96,47 @@ public class Gasto extends Modelo {
         String fechaHoyTexto = fechahoy.toString();
         String[] datos = {fechaHoyTexto, "PENDIENTE", valor};
         insertar(datos);
+    }
+
+    public static void main(String[] args) {
+        Gasto gasto = new Gasto();
+        // pagar un gasto
+        gasto.pagar("10");
+        // verificar que se pagó
+        System.out.println(gasto.todos("id=10"));
+        System.out.println("------");
+        // muestra todos los gastos pendientes
+        List<Map<String, String>> resultados = gasto.pendientes();
+        for (Map<String,String> map : resultados) {
+            System.out.println(map);
+        }
+        System.out.println("------");
+        // muestra todos los gastos pagados
+        resultados = gasto.pagados();
+        for (Map<String,String> map : resultados) {
+            System.out.println(map);
+        }
+        System.out.println("------");
+        // muestra todos los gastos antes de '2025-01-15'
+        resultados = gasto.todosAntes("2025-01-15");
+        for (Map<String,String> map : resultados) {
+            System.out.println(map);
+        }
+        System.out.println("------");
+        // muestra todos los gastos depues de '2025-01-15'
+        resultados = gasto.todosDespues("2025-02-01");
+        for (Map<String,String> map : resultados) {
+            System.out.println(map);
+        }
+        System.out.println("------");
+        // muestra todos los gastos en '2025-01-15'
+        resultados = gasto.todosDespues("2025-03-25");
+        for (Map<String,String> map : resultados) {
+            System.out.println(map);
+        }
+        System.out.println("------");
+        // crea un gasto
+        gasto.crear("100000");
+        System.out.println(gasto.todos("id=11"));
     }
 }
