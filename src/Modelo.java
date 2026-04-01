@@ -158,6 +158,24 @@ public class Modelo {
         }
     }
 
+    /**
+     * Devuelve una String de la lista de valores para
+     * una sentencia SQL.
+     * Ej: [1,2,'texto'] -> "(null, 1,2,'texto')"
+     * @param valores Los valores que deben ir en la sentencia.
+     * @return La lista de valores formateada.
+     */
+    private String formatearValores(String[] valores){
+        StringJoiner tupla = new StringJoiner(", ", "(", ")");
+        // el id es nulo para que SQL se encargue de incrementarlo
+        tupla.add("null");
+        for (int index = 0; index < valores.length; index++) {
+            String valor = formatearValor(valores[index]);
+            tupla.add(valor);
+        }
+        return tupla.toString();
+    }
+
     public static void main(String[] args) {
         Modelo model = new Modelo();
         // muestra todos los registros
