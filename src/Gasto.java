@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.List;
 
 public class Gasto extends Modelo {
-    // TODO: Añadir fecha_pago y cambiar fecha a fecha_gasto
     /**
      * Paga el gasto con el id dado.
      * @param id El id del gasto a pagar
@@ -39,31 +38,79 @@ public class Gasto extends Modelo {
     /**
      * Devuelve todos los gastos antes de la fecha dada.
      * @param fecha La fecha en formato AAAA-MM-DD.
+     * @param pagados Si se debe devolver los gastos pagados o pendientes.
+     * @return Todos los gastos previos a esa fecha.
+     */
+    List<Map<String, String>> todosAntes(String fecha, boolean pagados){
+        String condicion;
+        if (pagados) {
+            condicion = "fecha_pago<" + formatearValor(fecha);            
+        }
+        else{
+            condicion = "fecha_gasto<" + formatearValor(fecha);
+        }
+        return todos(condicion);
+    }
+
+    /**
+     * Devuelve todos los gastos pendientes antes de la fecha dada.
+     * @param fecha La fecha en formato AAAA-MM-DD.
      * @return Todos los gastos previos a esa fecha.
      */
     List<Map<String, String>> todosAntes(String fecha){
-        String condicion = "fecha<" + formatearValor(fecha);
-        return todos(condicion);
+        return todosAntes(fecha, false);
     }
 
     /**
      * Devuelve todos los gastos después de la fecha dada.
      * @param fecha La fecha en formato AAAA-MM-DD.
+     * @param pagados Si se debe devolver los gastos pagados o pendientes.
+     * @return Todos los gastos posteriores a esa fecha.
+     */
+    List<Map<String, String>> todosDespues(String fecha, boolean pagados){
+        String condicion;
+        if (pagados) {
+            condicion = "fecha_pago>" + formatearValor(fecha);            
+        }
+        else{
+            condicion = "fecha_gasto>" + formatearValor(fecha);
+        }
+        return todos(condicion);
+    }
+
+    /**
+     * Devuelve todos los gastos pendientes después de la fecha dada.
+     * @param fecha La fecha en formato AAAA-MM-DD.
      * @return Todos los gastos posteriores a esa fecha.
      */
     List<Map<String, String>> todosDespues(String fecha){
-        String condicion = "fecha>" + formatearValor(fecha);
-        return todos(condicion);
+        return todosDespues(fecha, false);
     }
 
     /**
      * Devuelve todos los gastos en la fecha dada.
      * @param fecha La fecha en formato AAAA-MM-DD.
+     * @param pagados Si se debe devolver los gastos pagados o pendientes.
+     * @return Todos los gastos previos en esa fecha.
+     */
+    List<Map<String, String>> todosEn(String fecha, boolean pagados){
+        String condicion;
+        if (pagados) {
+            condicion = "fecha_pago=" + formatearValor(fecha);            
+        }
+        else{
+            condicion = "fecha_gasto=" + formatearValor(fecha);
+        }
+        return todos(condicion);
+    }
+
+    /**
+     * Devuelve todos los gastos pendientes en la fecha dada.
+     * @param fecha La fecha en formato AAAA-MM-DD.
      * @return Todos los gastos previos en esa fecha.
      */
     List<Map<String, String>> todosEn(String fecha){
-        String condicion = "fecha=" + formatearValor(fecha);
-        return todos(condicion);
+        return todosEn(fecha, false);
     }
 
 
