@@ -116,23 +116,40 @@ public class Gasto extends Modelo {
 
     /**
      * Crea un nuevo gasto en la base de datos.
-     * @param fecha La fecha en la que se pagó el gasto.
+     * @param fecha_gasto La fecha en la que se contrajo el gasto.
+     * @param estado El estado del gasto
+     * debe ser "PAGADO" o "PENDIENTE".
+     * @param valor El valor del gasto.
+     * @param fecha_pago La fecha en la que se pagó el gasto.
+     */
+    void crear(String fecha_gasto, String estado, String valor, String fecha_pago){
+        if (!fecha_pago.isEmpty() && fecha_pago != "null") {
+            estado = "PAGADO";
+        }
+        else {
+            estado = "PENDIENTE";
+        }
+        String[] datos = {fecha_gasto, estado, valor, fecha_pago};
+        insertar(datos);
+    }
+
+    /**
+     * Crea un nuevo gasto en la base de datos.
+     * @param fecha_gasto La fecha en la que se contrajo el gasto.
      * @param estado El estado del gasto
      * debe ser "PAGADO" o "PENDIENTE".
      * @param valor El valor del gasto.
      */
-    void crear(String fecha, String estado, String valor){
-        String[] datos = {fecha, estado, valor};
-        insertar(datos);
+    void crear(String fecha_gasto, String estado, String valor){
+        crear(fecha_gasto, estado, valor, "null");
     }
     /**
      * Crea un nuevo gasto en la base de datos.
-     * @param fecha La fecha en la que se pagó el gasto.
+     * @param fecha La fecha en la que se contrajo el gasto.
      * @param valor El valor del gasto.
      */
-    void crear(String fecha, String valor){
-        String[] datos = {fecha, "PENDIENTE", valor};
-        insertar(datos);
+    void crear(String fecha_gasto, String valor){
+        crear(fecha_gasto, "PENDIENTE", valor, "null");
     }
     /**
      * Crea un nuevo gasto en la base de datos.
@@ -141,8 +158,7 @@ public class Gasto extends Modelo {
     void crear(String valor){
         LocalDate fechahoy = LocalDate.now();
         String fechaHoyTexto = fechahoy.toString();
-        String[] datos = {fechaHoyTexto, "PENDIENTE", valor};
-        insertar(datos);
+        crear(fechaHoyTexto, "PENDIENTE", valor, "null");
     }
 
     public static void main(String[] args) {
@@ -204,5 +220,6 @@ public class Gasto extends Modelo {
             System.out.println(map);
         }
         System.out.println("------");
+        // TODO: Hacer más pruebas
     }
 }
