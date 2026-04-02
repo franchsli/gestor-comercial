@@ -75,11 +75,10 @@ public class Modelo {
     /**
      * Inserta los datos dados en la tabla.
      * @param datos Los datos a insertar. 
-     * Deben ir entre parentesis y separados por comas
-     * Ej: "(1,2,3,4,5,'texto')"
      */
-    void insertar(String datos){
-        String sql = "INSERT INTO " + nombreTabla + " VALUES " + datos;
+    void insertar(String[] datos){
+        String datosSql = formatearValores(datos);
+        String sql = "INSERT INTO " + nombreTabla + " VALUES " + datosSql;
         DBConnection.ejecutar(sql);
     }
 
@@ -149,13 +148,42 @@ public class Modelo {
      * @param valor El valor a formatear.
      * @return El valor formateado.
      */
-    private String formatearValor(String valor){
+    protected String formatearValor(String valor){
         try {
             Double.parseDouble(valor);
             return valor;
         } catch (NumberFormatException e) {
-            return "'" + valor + "'";
+            if (valor != "null") {
+                return "'" + valor + "'";
+            }
+            else {
+                return valor;
+            }
         }
+        // Si el valor resulta ser null (sin comillas)
+        // retornalo con comillas en lugar de romper
+        // el programa
+        catch (NullPointerException e){
+            return "null";
+        }
+    }
+
+    /**
+     * Devuelve una String de la lista de valores para
+     * una sentencia SQL.
+     * Ej: [1,2,'texto'] -> "(null, 1,2,'texto')"
+     * @param valores Los valores que deben ir en la sentencia.
+     * @return La lista de valores formateada.
+     */
+    protected String formatearValores(String[] valores){
+        StringJoiner tupla = new StringJoiner(", ", "(", ")");
+        // el id es nulo para que SQL se encargue de incrementarlo
+        tupla.add("null");
+        for (int index = 0; index < valores.length; index++) {
+            String valor = formatearValor(valores[index]);
+            tupla.add(valor);
+        }
+        return tupla.toString();
     }
 
     public static void main(String[] args) {
@@ -175,7 +203,8 @@ public class Modelo {
         System.out.println(contadorCondicionado);
         System.out.println("----------");
         // inserta un nuevo registro
-        model.insertar("(null, '2026-02-25', 'PAGADO', 50000)");
+        String[] nuevoRegistro = {"2026-02-25", "PAGADO", "50000"};
+        model.insertar(nuevoRegistro);
         // verifica que esté el nuevo registro
         resultados = model.todos();
         for (Map<String,String> map : resultados) {
@@ -204,6 +233,7 @@ public class Modelo {
         model.borrarTodos();
         // confirma que todo se ha borrado al ver 0
         System.out.println(model.contarTodos());
+        DBConnection.cerrar();
         
     }
 
