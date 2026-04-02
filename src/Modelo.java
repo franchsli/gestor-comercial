@@ -159,7 +159,12 @@ public class Modelo {
             else {
                 return valor;
             }
-            
+        }
+        // Si el valor resulta ser null (sin comillas)
+        // retornalo con comillas en lugar de romper
+        // el programa
+        catch (NullPointerException e){
+            return "null";
         }
     }
 
