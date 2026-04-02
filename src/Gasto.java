@@ -220,6 +220,27 @@ public class Gasto extends Modelo {
             System.out.println(map);
         }
         System.out.println("------");
-        // TODO: Hacer más pruebas
+        // crea un gasto con todos los datos
+        gasto.crear("2026-03-01","PENDIENTE",  "100000", "2026-04-01");
+        System.out.println("------");
+        // muestra todos los gastos pagados antes de '2025-01-15'
+        resultados = gasto.todosAntes("2025-01-15", true);
+        for (Map<String,String> map : resultados) {
+            System.out.println(map);
+        }
+        System.out.println("------");
+        // muestra todos los gastos pagados depues de '2025-01-15'
+        resultados = gasto.todosDespues("2025-02-01", true);
+        for (Map<String,String> map : resultados) {
+            System.out.println(map);
+        }
+        System.out.println("------");
+        // muestra todos los gastos pagados en '2025-01-15'
+        resultados = gasto.todosDespues("2025-03-25", true);
+        for (Map<String,String> map : resultados) {
+            System.out.println(map);
+        }
+        System.out.println("------");
+        DBConnection.cerrar();
     }
 }
