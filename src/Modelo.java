@@ -233,6 +233,7 @@ public class Modelo {
         model.borrarTodos();
         // confirma que todo se ha borrado al ver 0
         System.out.println(model.contarTodos());
+        DBConnection.cerrar();
         
     }
 
