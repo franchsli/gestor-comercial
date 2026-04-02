@@ -121,15 +121,16 @@ public class Gasto extends Modelo {
      * debe ser "PAGADO" o "PENDIENTE".
      * @param valor El valor del gasto.
      * @param fecha_pago La fecha en la que se pagó el gasto.
+     * @param descripcion Explicación del gasto.
      */
-    void crear(String fecha_gasto, String estado, String valor, String fecha_pago){
+    void crear(String fecha_gasto, String estado, String valor, String fecha_pago, String descripcion){
         if (!fecha_pago.isEmpty() && fecha_pago != "null") {
             estado = "PAGADO";
         }
         else {
             estado = "PENDIENTE";
         }
-        String[] datos = {fecha_gasto, estado, valor, fecha_pago};
+        String[] datos = {fecha_gasto, estado, valor, fecha_pago, descripcion};
         insertar(datos);
     }
 
@@ -139,26 +140,29 @@ public class Gasto extends Modelo {
      * @param estado El estado del gasto
      * debe ser "PAGADO" o "PENDIENTE".
      * @param valor El valor del gasto.
+     * @param descripcion Explicación del gasto.
      */
-    void crear(String fecha_gasto, String estado, String valor){
-        crear(fecha_gasto, estado, valor, "null");
+    void crear(String fecha_gasto, String estado, String valor, String descripcion){
+        crear(fecha_gasto, estado, valor, "null", descripcion);
     }
     /**
      * Crea un nuevo gasto en la base de datos.
      * @param fecha La fecha en la que se contrajo el gasto.
      * @param valor El valor del gasto.
+     * @param descripcion Explicación del gasto.
      */
-    void crear(String fecha_gasto, String valor){
-        crear(fecha_gasto, "PENDIENTE", valor, "null");
+    void crear(String fecha_gasto, String valor, String descripcion){
+        crear(fecha_gasto, "PENDIENTE", valor, "null", descripcion);
     }
     /**
      * Crea un nuevo gasto en la base de datos.
      * @param valor El valor del gasto.
+     * @param descripcion Explicación del gasto.
      */
-    void crear(String valor){
+    void crear(String valor, String descripcion){
         LocalDate fechahoy = LocalDate.now();
         String fechaHoyTexto = fechahoy.toString();
-        crear(fechaHoyTexto, "PENDIENTE", valor, "null");
+        crear(fechaHoyTexto, "PENDIENTE", valor, "null", descripcion);
     }
 
     public static void main(String[] args) {
@@ -199,7 +203,7 @@ public class Gasto extends Modelo {
         }
         System.out.println("------");
         // crea un gasto
-        gasto.crear("100000");
+        gasto.crear("100000", "no sé");
         System.out.println(gasto.todos("id=11"));
         System.out.println("------");
         // muestra todos los gastos pagados antes de '2025-01-15'
@@ -221,7 +225,7 @@ public class Gasto extends Modelo {
         }
         System.out.println("------");
         // crea un gasto con todos los datos
-        gasto.crear("2026-03-01","PENDIENTE",  "100000", "2026-04-01");
+        gasto.crear("2026-03-01","PENDIENTE",  "100000", "2026-04-01", "algo");
         System.out.println("------");
         // muestra todos los gastos pagados antes de '2025-01-15'
         resultados = gasto.todosAntes("2025-01-15", true);
