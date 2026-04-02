@@ -153,7 +153,13 @@ public class Modelo {
             Double.parseDouble(valor);
             return valor;
         } catch (NumberFormatException e) {
-            return "'" + valor + "'";
+            if (valor != "null") {
+                return "'" + valor + "'";
+            }
+            else {
+                return valor;
+            }
+            
         }
     }
 
