@@ -11,7 +11,7 @@ depronto se pueda crear uno con [esta herramienta](https://dbschema.com/database
 
 ## Diagrama de Datos Actual
 
-<img width="874" height="456" alt="DIAGRAMA DE DATOS PI" src="https://github.com/user-attachments/assets/cc13c486-91d0-4c99-ae74-0390f42898f7" />
+<img width="874" height="456" alt="DIAGRAMA DE DATOS PI" src="https://github.com/user-attachments/assets/95540d23-bd97-468c-b7f7-f8bc6a82b58a" />
 
 Este diagrama fue creado con [esta herramienta](https://dbschema.com/databases/sqlite/), lo malo es que la relacion muchos a uno no se ve bien
 en ventas_productos porque las lineas apuntan a la tabla y no a los campos como si lo hacen en el diagrama de PostgreSQL.
