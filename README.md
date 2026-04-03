@@ -2,12 +2,19 @@
 
 Una aplicación en Java que gestiona los productos, ventas y gastos de una empresa.
 
-## Diagrama de Datos Actual
+## Diagrama de Datos Antiguo
 
 ![drawSQL-image-export-2026-03-24](https://github.com/user-attachments/assets/ea4c7760-fb42-4ead-a5cd-c3f75fba0303)
 
 Este diagrama se debe cambiar a uno más a corde ya que el de la imagen es de PostgreSQL no SQLite, 
 depronto se pueda crear uno con [esta herramienta](https://dbschema.com/databases/sqlite/)
+
+## Diagrama de Datos Actual
+
+<img width="874" height="456" alt="DIAGRAMA DE DATOS PI" src="https://github.com/user-attachments/assets/cc13c486-91d0-4c99-ae74-0390f42898f7" />
+
+Este diagrama fue creado con [esta herramienta](https://dbschema.com/databases/sqlite/), lo malo es que la relacion muchos a uno no se ve bien
+en ventas_productos porque las lineas apuntan a la tabla y no a los campos como si lo hacen en el diagrama de PostgreSQL.
 
 ## Ejecución
 
