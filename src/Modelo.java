@@ -52,6 +52,42 @@ public class Modelo {
     }
 
     /**
+     * Devuelve el valor (String) de una columna del registro con el id dado.
+     * @param nombreColumna La columna de la cual se va a sacar el valor
+     * @param id El id del registro en la tabla.
+     * @return El valor String de la columna.
+     */
+    String stringColumna(String nombreColumna, String id){
+        String sql = "SELECT " + nombreColumna + " FROM " + nombreTabla + " WHERE id=" + id;
+        try {
+            ResultSet resultSet = DBConnection.consultar(sql);
+            resultSet.next();
+            return resultSet.getString(nombreColumna);
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+            return "null";
+        }
+    }
+
+    /**
+     * Devuelve el valor (int) de una columna del registro con el id dado.
+     * @param nombreColumna La columna de la cual se va a sacar el valor
+     * @param id El id del registro en la tabla.
+     * @return El valor entero de la columna.
+     */
+    int intColumna(String nombreColumna, String id){
+        String sql = "SELECT " + nombreColumna + " FROM " + nombreTabla + " WHERE id=" + id;
+        try {
+            ResultSet resultSet = DBConnection.consultar(sql);
+            resultSet.next();
+            return resultSet.getInt(nombreColumna);
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+            return 0;
+        }
+    }
+
+    /**
      * Borra todos los datos de una tabla.
      */
     void borrarTodos(){
