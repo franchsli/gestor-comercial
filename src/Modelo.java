@@ -112,6 +112,20 @@ public class Modelo {
     }
 
     /**
+     * Actualiza la columna de los registros que cumplan con la condición dada
+     * con el valor ingresado.
+     * @param columna La columna a actualzar.
+     * @param valor El nuevo dato.
+     * @param condicion
+     */
+    void actualizar(String columna, String valor, String condicion){
+        LinkedHashMap<String, String> datos = new LinkedHashMap<>();
+        datos.put(columna, valor);
+        actualizar(datos, condicion);
+    }
+
+
+    /**
      * Devuelve el número de filas en la tabla.
      * @return El número de filas en la tabla.
      */
