@@ -88,6 +88,24 @@ public class Modelo {
     }
 
     /**
+     * Devuelve el valor (double) de una columna del registro con el id dado.
+     * @param nombreColumna La columna de la cual se va a sacar el valor
+     * @param id El id del registro en la tabla.
+     * @return El valor flotante (double) de la columna.
+     */
+    double doubleColumna(String nombreColumna, String id){
+        String sql = "SELECT " + nombreColumna + " FROM " + nombreTabla + " WHERE id=" + id;
+        try {
+            ResultSet resultSet = DBConnection.consultar(sql);
+            resultSet.next();
+            return resultSet.getDouble(nombreColumna);
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+            return 0.0;
+        }
+    }
+
+    /**
      * Borra todos los datos de una tabla.
      */
     void borrarTodos(){
