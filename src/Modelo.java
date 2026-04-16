@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.StringJoiner;
 
 public class Modelo {
-    protected String nombreTabla = this.getClass().getSimpleName().toUpperCase() + "S";
+    String nombreTabla = this.getClass().getSimpleName().toUpperCase() + "S";
 
     /**
      * Devuelve todos los datos de la tabla.
@@ -216,7 +216,7 @@ public class Modelo {
      * @param valor El valor a formatear.
      * @return El valor formateado.
      */
-    protected String formatearValor(String valor){
+    String formatearValor(String valor){
         try {
             Double.parseDouble(valor);
             return valor;
@@ -243,7 +243,7 @@ public class Modelo {
      * @param valores Los valores que deben ir en la sentencia.
      * @return La lista de valores formateada.
      */
-    protected String formatearValores(String[] valores){
+    String formatearValores(String[] valores){
         StringJoiner tupla = new StringJoiner(", ", "(", ")");
         // el id es nulo para que SQL se encargue de incrementarlo
         tupla.add("null");
