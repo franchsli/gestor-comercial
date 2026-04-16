@@ -45,7 +45,7 @@ public class Modelo {
                 // guarda los datos obtenidos de la fila en la lista
                 resultados.add(fila);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
         }
         return resultados;
@@ -63,7 +63,7 @@ public class Modelo {
             ResultSet resultSet = DBConnection.consultar(sql);
             resultSet.next();
             return resultSet.getString(nombreColumna);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
             return "null";
         }
@@ -81,7 +81,7 @@ public class Modelo {
             ResultSet resultSet = DBConnection.consultar(sql);
             resultSet.next();
             return resultSet.getInt(nombreColumna);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
             return 0;
         }
@@ -99,7 +99,7 @@ public class Modelo {
             ResultSet resultSet = DBConnection.consultar(sql);
             resultSet.next();
             return resultSet.getDouble(nombreColumna);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
             return 0.0;
         }
