@@ -12,7 +12,7 @@ public class DBConnection {
      * @return La conexión con la base de datos.
      * @throws SQLException Error si la conexión no fue posible.
      */
-    public static Connection get() throws SQLException {
+    static Connection get() throws SQLException {
         if (connection == null || connection.isClosed()) {
             connection = DriverManager.getConnection("jdbc:sqlite:bd_de_prueba.db");
             // activa el soporte para que las claves foráneas funcionen
@@ -52,7 +52,7 @@ public class DBConnection {
 
     /** Cierra la conexión a la base de datos 
     */
-    public static void cerrar() {
+    static void cerrar() {
         try {
             if (connection != null && !connection.isClosed()) {
                 connection.close();
