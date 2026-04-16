@@ -1,7 +1,7 @@
 import javax.swing.JFrame;
 
 public class Ventana extends JFrame {
-    public Ventana(){
+    Ventana(){
         setTitle("Gestor Comercial");
         setSize(800, 600);
         // cierra el programa al cerrar la ventana
