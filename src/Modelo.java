@@ -45,7 +45,7 @@ public class Modelo {
                 // guarda los datos obtenidos de la fila en la lista
                 resultados.add(fila);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
         }
         return resultados;
@@ -63,7 +63,7 @@ public class Modelo {
             ResultSet resultSet = DBConnection.consultar(sql);
             resultSet.next();
             return resultSet.getString(nombreColumna);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
             return "null";
         }
@@ -81,9 +81,27 @@ public class Modelo {
             ResultSet resultSet = DBConnection.consultar(sql);
             resultSet.next();
             return resultSet.getInt(nombreColumna);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
             return 0;
+        }
+    }
+
+    /**
+     * Devuelve el valor (double) de una columna del registro con el id dado.
+     * @param nombreColumna La columna de la cual se va a sacar el valor
+     * @param id El id del registro en la tabla.
+     * @return El valor flotante (double) de la columna.
+     */
+    double doubleColumna(String nombreColumna, String id){
+        String sql = "SELECT " + nombreColumna + " FROM " + nombreTabla + " WHERE id=" + id;
+        try {
+            ResultSet resultSet = DBConnection.consultar(sql);
+            resultSet.next();
+            return resultSet.getDouble(nombreColumna);
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+            return 0.0;
         }
     }
 
