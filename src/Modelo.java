@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
+import javax.naming.spi.DirStateFactory.Result;
+
 public class Modelo {
     String nombreTabla = this.getClass().getSimpleName().toUpperCase() + "S";
 
@@ -49,6 +51,29 @@ public class Modelo {
             System.err.println("Error: " + e.getMessage());
         }
         return resultados;
+    }
+
+    Map<String, String> unicoRegistro(String columna, String valor){
+        String sql = "SELECT * FROM " + nombreTabla + " WHERE " + columna + "=" + formatearValor(valor);
+        try {
+            ResultSet resultSet = DBConnection.consultar(sql);
+            if (resultSet.next()) {
+                ResultSetMetaData rSetMetaData = resultSet.getMetaData();
+                int columnas = rSetMetaData.getColumnCount();
+                Map<String, String> registro = new LinkedHashMap<>();
+                for (int index = 1; index <= columnas; index++) {
+                    // guarda los datos del registro (fila)
+                    // "columna" : "dato"
+                    registro.put(rSetMetaData.getColumnName(index), formatearValor(resultSet.getString(index)));
+                }
+                return registro;
+            }
+            else return null;
+            
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+            return null;
+        }
     }
 
     /**
