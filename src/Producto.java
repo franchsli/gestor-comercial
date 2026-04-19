@@ -1,4 +1,9 @@
 public class Producto extends Modelo {
+    // TODO: AÑADIR MÉTODO PARA CREAR PRODUCTO
+
+    Producto(){
+        this.columnas = "(nombre, precio_unitario, cantidad)";
+    }
 
     /**
      * Actualiza el nombre del producto con el id dado.
