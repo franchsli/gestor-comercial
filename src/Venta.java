@@ -85,6 +85,31 @@ public class Venta extends Modelo {
     }
 
     public static void main(String[] args) {
-        // TODO: PROBAR QUE LOS MÉTODOS FUNCIONEN
+        Venta tablaVenta = new Venta();
+        Modelo tablaVentasProductos = new Modelo();
+        tablaVentasProductos.nombreTabla = "VENTAS_PRODUCTOS";
+        System.out.println("ACTUALIZAR FECHA FUNCIONA:");
+        String fechaPrevia = tablaVenta.stringColumna("fecha", "1");
+        tablaVenta.actualizarFecha("1", "2000-11-02");
+        System.out.println(fechaPrevia != tablaVenta.stringColumna("fecha", "1"));
+        System.out.println("ACTUALIZAR ESTADO FUNCIONA:");
+        String estadoPrevio = tablaVenta.stringColumna("estado", "1");
+        tablaVenta.actualizarEstado("1", "PENDIENTE");
+        System.out.println(estadoPrevio != tablaVenta.stringColumna("estado", "1"));
+        System.out.println("ACTUALIZAR VALOR FUNCIONA");
+        String valorPrevio = tablaVenta.stringColumna("valor", "1");
+        tablaVenta.actualizarValor("1", "1");
+        System.out.println(valorPrevio != tablaVenta.stringColumna("valor", "1"));
+        System.out.println("CREAR VENTA FUNCIONA:");
+        tablaVenta.crear(valorPrevio);
+        System.out.println(!tablaVenta.stringColumna("estado", "11").isEmpty());
+        System.out.println("CREAR VENTA_PRODUCTO FUNCIONA:");
+        String[] datos = {"10", "10", "5"};
+        tablaVentasProductos.insertar(datos);
+        System.out.println(tablaVentasProductos.intColumna("cantidad_producto", "16") == 5);
+        DBConnection.cerrar();
+
+
+
     }
 }
