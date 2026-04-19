@@ -3,7 +3,8 @@ import java.util.Map;
 
 public class Venta extends Modelo {
     String columnas = "(fecha, estado, valor)";
-    
+    VentaProducto ventasProductos = new VentaProducto();
+
     /**
      * Actualiza la fecha de una venta.
      * @param id El id de la venta a actualizar.
@@ -63,17 +64,6 @@ public class Venta extends Modelo {
     }
 
     /**
-     * Crea un nuevo registro en la tabla intermedia VENTAS_PRODUCTOS.
-     * @param ventaId El id de la venta.
-     * @param productoId El id del producto.
-     * @param cantidadProducto La cantidad del producto en la venta.
-     */
-    void crearVentaProducto(String ventaId, String productoId, String cantidadProducto){
-        String[] datos = {ventaId, productoId, cantidadProducto};
-        insertar("VENTAS_PRODUCTOS",datos);
-    }
-
-    /**
      * Asocia el producto con el nombre dado a una venta en VENTAS_PRODUCTOS.
      * @param ventaId El id de la venta.
      * @param nombreProducto El nombre del producto.
@@ -82,14 +72,11 @@ public class Venta extends Modelo {
     void vender(String ventaId, String nombreProducto, String cantidadProducto){
         Map<String, String> producto = unicoRegistro("nombre", nombreProducto);
         String productoId = producto.get("id");
-        crearVentaProducto(ventaId, productoId, cantidadProducto);
+        ventasProductos.crear(ventaId, productoId, cantidadProducto);
     }
 
     public static void main(String[] args) {
         Venta tablaVenta = new Venta();
-        Modelo tablaVentasProductos = new Modelo();
-        tablaVentasProductos.nombreTabla = "VENTAS_PRODUCTOS";
-        tablaVentasProductos.columnas = "(id_venta, id_producto, cantidad_producto)";
         System.out.println("ACTUALIZAR FECHA FUNCIONA:");
         String fechaPrevia = tablaVenta.stringColumna("fecha", "1");
         tablaVenta.actualizarFecha("1", "2000-11-02");
@@ -105,10 +92,6 @@ public class Venta extends Modelo {
         System.out.println("CREAR VENTA FUNCIONA:");
         tablaVenta.crear(valorPrevio);
         System.out.println(!tablaVenta.stringColumna("estado", "11").isEmpty());
-        System.out.println("CREAR VENTA_PRODUCTO FUNCIONA:");
-        String[] datos = {"10", "10", "5"};
-        tablaVentasProductos.insertar(datos);
-        System.out.println(tablaVentasProductos.intColumna("cantidad_producto", "16") == 5);
         DBConnection.cerrar();
 
 
