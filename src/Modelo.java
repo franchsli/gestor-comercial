@@ -89,7 +89,7 @@ public class Modelo {
             return resultSet.getString(nombreColumna);
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
-            return "null";
+            return null;
         }
     }
 
