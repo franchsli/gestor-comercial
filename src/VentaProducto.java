@@ -1,6 +1,9 @@
 public class VentaProducto extends Modelo {
-    String nombreTabla = "VENTAS_PRODUCTOS";
-    String columnas = "(id_venta, id_producto, cantidad_producto)";
+
+    VentaProducto(){
+        this.nombreTabla = "VENTAS_PRODUCTOS";
+        this.columnas = "(id_venta, id_producto, cantidad_producto)";
+    }
 
     /**
      * Crea un nuevo registro en la tabla VENTAS_PRODUCTOS.
