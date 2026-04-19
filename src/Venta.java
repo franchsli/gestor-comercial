@@ -2,8 +2,12 @@ import java.time.LocalDate;
 import java.util.Map;
 
 public class Venta extends Modelo {
-    String columnas = "(fecha, estado, valor)";
     VentaProducto ventasProductos = new VentaProducto();
+    Producto productos = new Producto();
+
+    Venta(){
+        this.columnas = "(fecha, estado, valor)";
+    }
 
     /**
      * Actualiza la fecha de una venta.
@@ -70,7 +74,7 @@ public class Venta extends Modelo {
      * @param cantidadProducto La cantidad del producto en la venta.
      */
     void vender(String ventaId, String nombreProducto, String cantidadProducto){
-        Map<String, String> producto = unicoRegistro("nombre", nombreProducto);
+        Map<String, String> producto = productos.unicoRegistro("nombre", nombreProducto);
         String productoId = producto.get("id");
         ventasProductos.crear(ventaId, productoId, cantidadProducto);
     }
