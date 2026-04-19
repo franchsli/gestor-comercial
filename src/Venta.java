@@ -2,6 +2,7 @@ import java.time.LocalDate;
 import java.util.Map;
 
 public class Venta extends Modelo {
+    String columnas = "(fecha, estado, valor)";
     
     /**
      * Actualiza la fecha de una venta.
@@ -88,6 +89,7 @@ public class Venta extends Modelo {
         Venta tablaVenta = new Venta();
         Modelo tablaVentasProductos = new Modelo();
         tablaVentasProductos.nombreTabla = "VENTAS_PRODUCTOS";
+        tablaVentasProductos.columnas = "(id_venta, id_producto, cantidad_producto)";
         System.out.println("ACTUALIZAR FECHA FUNCIONA:");
         String fechaPrevia = tablaVenta.stringColumna("fecha", "1");
         tablaVenta.actualizarFecha("1", "2000-11-02");

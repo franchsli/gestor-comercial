@@ -1,4 +1,6 @@
 public class Producto extends Modelo {
+    String columnas = "(nombre, precio_unitario, cantidad)";
+    // TODO: AÑADIR MÉTODO PARA CREAR PRODUCTO
 
     /**
      * Actualiza el nombre del producto con el id dado.

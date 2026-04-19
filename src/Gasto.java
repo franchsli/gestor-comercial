@@ -4,6 +4,8 @@ import java.util.Map;
 import java.util.List;
 
 public class Gasto extends Modelo {
+    String columnas = "(fecha_gasto, estado, valor, fecha_pago)";
+
     /**
      * Paga el gasto con el id dado.
      * @param id El id del gasto a pagar

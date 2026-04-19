@@ -9,6 +9,7 @@ import java.util.StringJoiner;
 
 public class Modelo {
     String nombreTabla = this.getClass().getSimpleName().toUpperCase() + "S";
+    String columnas;
 
     /**
      * Devuelve todos los datos de la tabla.
@@ -148,16 +149,6 @@ public class Modelo {
         }
         DBConnection.ejecutar(sql);
     }
-    
-    /**
-     * Inserta los datos dados en la tabla deseada.
-     * @param datos Los datos a insertar. 
-     */
-    void insertar(String nombreTabla, String[] datos){
-        String datosSql = formatearValores(datos);
-        String sql = "INSERT INTO " + nombreTabla + " VALUES " + datosSql;
-        DBConnection.ejecutar(sql);
-    }
 
     /**
      * Inserta los datos dados en la tabla.
@@ -165,7 +156,7 @@ public class Modelo {
      */
     void insertar(String[] datos){
         String datosSql = formatearValores(datos);
-        String sql = "INSERT INTO " + nombreTabla + " VALUES " + datosSql;
+        String sql = "INSERT INTO " + nombreTabla + " " + columnas + " VALUES " + datosSql;
         DBConnection.ejecutar(sql);
     }
 
@@ -271,15 +262,13 @@ public class Modelo {
 
     /**
      * Devuelve una String de la lista de valores para
-     * una sentencia SQL.
-     * Ej: [1,2,'texto'] -> "(null, 1,2,'texto')"
+     * una sentencia INSERT SQL.
+     * Ej: [1,2,'texto'] -> "(1,2,'texto')"
      * @param valores Los valores que deben ir en la sentencia.
      * @return La lista de valores formateada.
      */
     String formatearValores(String[] valores){
         StringJoiner tupla = new StringJoiner(", ", "(", ")");
-        // el id es nulo para que SQL se encargue de incrementarlo
-        tupla.add("null");
         for (int index = 0; index < valores.length; index++) {
             String valor = formatearValor(valores[index]);
             tupla.add(valor);
