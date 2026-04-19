@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
-import javax.naming.spi.DirStateFactory.Result;
-
 public class Modelo {
     String nombreTabla = this.getClass().getSimpleName().toUpperCase() + "S";
 
@@ -148,6 +146,16 @@ public class Modelo {
         if (!condicion.isEmpty()) {
             sql += " WHERE " + condicion;
         }
+        DBConnection.ejecutar(sql);
+    }
+    
+    /**
+     * Inserta los datos dados en la tabla deseada.
+     * @param datos Los datos a insertar. 
+     */
+    void insertar(String nombreTabla, String[] datos){
+        String datosSql = formatearValores(datos);
+        String sql = "INSERT INTO " + nombreTabla + " VALUES " + datosSql;
         DBConnection.ejecutar(sql);
     }
 
