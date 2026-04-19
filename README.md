@@ -16,6 +16,8 @@ depronto se pueda crear uno con [esta herramienta](https://dbschema.com/database
 Este diagrama fue creado con [esta herramienta](https://dbschema.com/databases/sqlite/), lo malo es que la relacion muchos a uno no se ve bien
 en ventas_productos porque las lineas apuntan a la tabla y no a los campos como si lo hacen en el diagrama de PostgreSQL.
 
+**ESTE DIAGRAMA DE DATOS DEBE SER ACTUALIZADO DEBIDO AL CAMBIO HECHO EN #22**
+
 ## Ejecución
 
 1. El usuario abre la aplicacion y ve 3 pestañas: Productos, Ventas y Gastos.
