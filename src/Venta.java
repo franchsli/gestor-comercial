@@ -93,6 +93,13 @@ public class Venta extends Modelo {
     }
 
     /**
+     * Crea una venta con valor 0 y estado PENDIENTE en la base de datos.
+     */
+    void crear(){
+        crear("0");
+    }
+
+    /**
      * Asocia el producto con el nombre dado a una venta en VENTAS_PRODUCTOS.
      * @param ventaId El id de la venta.
      * @param nombreProducto El nombre del producto.
