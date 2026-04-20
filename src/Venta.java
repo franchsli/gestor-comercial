@@ -21,7 +21,7 @@ public class Venta extends Modelo {
     /**
      * Actualiza el estado de una venta.
      * @param id El id de la venta a actualizar.
-     * @param nuevaFecha El nuevo estado de la venta.
+     * @param nuevoEstado El nuevo estado de la venta.
      */
     void actualizarEstado(String id, String nuevoEstado){
         actualizar("estado", nuevoEstado, id);
@@ -30,11 +30,36 @@ public class Venta extends Modelo {
     /**
      * Actualiza el valor de una venta.
      * @param id El id de la venta a actualizar.
-     * @param nuevaFecha El nuevo valor de la venta.
+     * @param nuevoValor El nuevo valor de la venta.
      */
     void actualizarValor(String id, String nuevoValor){
         actualizar("valor", nuevoValor, id);
     }
+
+    /**
+     * Incrementa el valor de una venta.
+     * @param id El id de la venta a la cual incrementar el valor.
+     * @param valor El valor a sumarle a la venta.
+     */
+    void incrementarValor(String id, String valor){
+        int valorActual = intColumna("valor", id);
+        int valorIncrementado = valorActual + Integer.parseInt(valor);
+        String valorIncrementadoString = Integer.toString(valorIncrementado);
+        actualizarValor(id, valorIncrementadoString);
+    }
+
+    /**
+     * Reduce el valor de una venta.
+     * @param id El id de la venta a la cual reducir el valor.
+     * @param valor El valor a restarle a la venta.
+     */
+    void reducirValor(String id, String valor){
+        int valorActual = intColumna("valor", id);
+        int valorReducido = valorActual - Integer.parseInt(valor);
+        String valorReducidoString = Integer.toString(valorReducido);
+        actualizarValor(id, valorReducidoString);
+    }
+
 
 
     /**
@@ -77,6 +102,10 @@ public class Venta extends Modelo {
         Map<String, String> producto = productos.unicoRegistro("nombre", nombreProducto);
         String productoId = producto.get("id");
         ventasProductos.crear(ventaId, productoId, cantidadProducto);
+        int precioProducto = Integer.parseInt(producto.get("precio_unitario"));
+        int cantidadProductoInt = Integer.parseInt(cantidadProducto);
+        String totalVentaProducto = Integer.toString(precioProducto * cantidadProductoInt);
+        incrementarValor(ventaId, totalVentaProducto);
     }
 
     public static void main(String[] args) {
@@ -99,6 +128,7 @@ public class Venta extends Modelo {
         System.out.println("VENDER FUNCIONA:");
         tablaVenta.vender("11", "Bolsa para basura 70x90", "5");
         System.out.println(tablaVenta.ventasProductos.contarTodos() == 16);
+        // TODO: Añade más pruebas...
         DBConnection.cerrar();
 
 
