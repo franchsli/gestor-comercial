@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Gasto extends Modelo {
     
-    Gasto(){
+    public Gasto(){
         this.columnas = "(fecha_gasto, estado, valor, fecha_pago)";
     }
 
@@ -14,7 +14,7 @@ public class Gasto extends Modelo {
      * Paga el gasto con el id dado.
      * @param id El id del gasto a pagar
      */
-    void pagar(String id){
+    public void pagar(String id){
         LinkedHashMap<String, String> gastoPagado = new LinkedHashMap<>();
         gastoPagado.put("estado", "PAGADO");
         String condicion = "id=" + id;
@@ -26,7 +26,7 @@ public class Gasto extends Modelo {
      * la base de datos.
      * @return Los gastos pendientes en la base de datos.
      */
-    List<Map<String, String>> pendientes(){
+    public List<Map<String, String>> pendientes(){
         String condicion = "estado='PENDIENTE'";
         return todos(condicion);
     }
@@ -36,7 +36,7 @@ public class Gasto extends Modelo {
      * la base de datos.
      * @return Los gastos pagados en la base de datos.
      */
-    List<Map<String, String>> pagados(){
+    public List<Map<String, String>> pagados(){
         String condicion = "estado='PAGADO'";
         return todos(condicion);
     }
@@ -47,7 +47,7 @@ public class Gasto extends Modelo {
      * @param pagados Si se debe devolver los gastos pagados o pendientes.
      * @return Todos los gastos previos a esa fecha.
      */
-    List<Map<String, String>> todosAntes(String fecha, boolean pagados){
+    public List<Map<String, String>> todosAntes(String fecha, boolean pagados){
         String condicion;
         if (pagados) {
             condicion = "fecha_pago<" + formatearValor(fecha);            
@@ -63,7 +63,7 @@ public class Gasto extends Modelo {
      * @param fecha La fecha en formato AAAA-MM-DD.
      * @return Todos los gastos previos a esa fecha.
      */
-    List<Map<String, String>> todosAntes(String fecha){
+    public List<Map<String, String>> todosAntes(String fecha){
         return todosAntes(fecha, false);
     }
 
@@ -73,7 +73,7 @@ public class Gasto extends Modelo {
      * @param pagados Si se debe devolver los gastos pagados o pendientes.
      * @return Todos los gastos posteriores a esa fecha.
      */
-    List<Map<String, String>> todosDespues(String fecha, boolean pagados){
+    public List<Map<String, String>> todosDespues(String fecha, boolean pagados){
         String condicion;
         if (pagados) {
             condicion = "fecha_pago>" + formatearValor(fecha);            
@@ -89,7 +89,7 @@ public class Gasto extends Modelo {
      * @param fecha La fecha en formato AAAA-MM-DD.
      * @return Todos los gastos posteriores a esa fecha.
      */
-    List<Map<String, String>> todosDespues(String fecha){
+    public List<Map<String, String>> todosDespues(String fecha){
         return todosDespues(fecha, false);
     }
 
@@ -99,7 +99,7 @@ public class Gasto extends Modelo {
      * @param pagados Si se debe devolver los gastos pagados o pendientes.
      * @return Todos los gastos previos en esa fecha.
      */
-    List<Map<String, String>> todosEn(String fecha, boolean pagados){
+    public List<Map<String, String>> todosEn(String fecha, boolean pagados){
         String condicion;
         if (pagados) {
             condicion = "fecha_pago=" + formatearValor(fecha);            
@@ -115,7 +115,7 @@ public class Gasto extends Modelo {
      * @param fecha La fecha en formato AAAA-MM-DD.
      * @return Todos los gastos previos en esa fecha.
      */
-    List<Map<String, String>> todosEn(String fecha){
+    public List<Map<String, String>> todosEn(String fecha){
         return todosEn(fecha, false);
     }
 
@@ -129,7 +129,7 @@ public class Gasto extends Modelo {
      * @param fecha_pago La fecha en la que se pagó el gasto.
      * @param descripcion Explicación del gasto.
      */
-    void crear(String fecha_gasto, String estado, String valor, String fecha_pago, String descripcion){
+    public void crear(String fecha_gasto, String estado, String valor, String fecha_pago, String descripcion){
         if (!fecha_pago.isEmpty() && fecha_pago != "null") {
             estado = "PAGADO";
         }
@@ -148,7 +148,7 @@ public class Gasto extends Modelo {
      * @param valor El valor del gasto.
      * @param descripcion Explicación del gasto.
      */
-    void crear(String fecha_gasto, String estado, String valor, String descripcion){
+    public void crear(String fecha_gasto, String estado, String valor, String descripcion){
         crear(fecha_gasto, estado, valor, "null", descripcion);
     }
     /**
@@ -157,7 +157,7 @@ public class Gasto extends Modelo {
      * @param valor El valor del gasto.
      * @param descripcion Explicación del gasto.
      */
-    void crear(String fecha_gasto, String valor, String descripcion){
+    public void crear(String fecha_gasto, String valor, String descripcion){
         crear(fecha_gasto, "PENDIENTE", valor, "null", descripcion);
     }
     /**
@@ -165,7 +165,7 @@ public class Gasto extends Modelo {
      * @param valor El valor del gasto.
      * @param descripcion Explicación del gasto.
      */
-    void crear(String valor, String descripcion){
+    public void crear(String valor, String descripcion){
         LocalDate fechahoy = LocalDate.now();
         String fechaHoyTexto = fechahoy.toString();
         crear(fechaHoyTexto, "PENDIENTE", valor, "null", descripcion);

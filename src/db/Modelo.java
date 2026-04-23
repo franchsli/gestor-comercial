@@ -16,7 +16,7 @@ public class Modelo {
      * Devuelve todos los datos de la tabla.
      * @return Todos los datos de la tabla.
      */
-    List<Map<String, String>> todos(){
+    public List<Map<String, String>> todos(){
         return todos("");
     }
 
@@ -26,7 +26,7 @@ public class Modelo {
      * @param condicion La condición que los datos deben cumplir.
      * @return Los datos que cumplen con la condición.
      */
-    List<Map<String, String>> todos(String condicion){
+    public List<Map<String, String>> todos(String condicion){
         String sql = "SELECT * FROM " + nombreTabla;
         if (!condicion.isEmpty()) {
             sql += " WHERE " + condicion;
@@ -53,7 +53,7 @@ public class Modelo {
         return resultados;
     }
 
-    Map<String, String> unicoRegistro(String columna, String valor){
+    public Map<String, String> unicoRegistro(String columna, String valor){
         String sql = "SELECT * FROM " + nombreTabla + " WHERE " + columna + "=" + formatearValor(valor);
         try {
             ResultSet resultSet = DBConnection.consultar(sql);
@@ -82,7 +82,7 @@ public class Modelo {
      * @param id El id del registro en la tabla.
      * @return El valor String de la columna.
      */
-    String stringColumna(String nombreColumna, String id){
+    public String stringColumna(String nombreColumna, String id){
         String sql = "SELECT " + nombreColumna + " FROM " + nombreTabla + " WHERE id=" + id;
         try {
             ResultSet resultSet = DBConnection.consultar(sql);
@@ -100,7 +100,7 @@ public class Modelo {
      * @param id El id del registro en la tabla.
      * @return El valor entero de la columna.
      */
-    int intColumna(String nombreColumna, String id){
+    public int intColumna(String nombreColumna, String id){
         String sql = "SELECT " + nombreColumna + " FROM " + nombreTabla + " WHERE id=" + id;
         try {
             ResultSet resultSet = DBConnection.consultar(sql);
@@ -118,7 +118,7 @@ public class Modelo {
      * @param id El id del registro en la tabla.
      * @return El valor flotante (double) de la columna.
      */
-    double doubleColumna(String nombreColumna, String id){
+    public double doubleColumna(String nombreColumna, String id){
         String sql = "SELECT " + nombreColumna + " FROM " + nombreTabla + " WHERE id=" + id;
         try {
             ResultSet resultSet = DBConnection.consultar(sql);
@@ -133,7 +133,7 @@ public class Modelo {
     /**
      * Borra todos los datos de una tabla.
      */
-    void borrarTodos(){
+    public void borrarTodos(){
         borrarTodos("");
     }
 
@@ -143,7 +143,7 @@ public class Modelo {
      * @param condicion La condición que deben
      * cumplir los datos para ser borrados.
      */
-    void borrarTodos(String condicion){
+    public void borrarTodos(String condicion){
         String sql = "DELETE FROM " + nombreTabla;
         if (!condicion.isEmpty()) {
             sql += " WHERE " + condicion;
@@ -155,7 +155,7 @@ public class Modelo {
      * Inserta los datos dados en la tabla.
      * @param datos Los datos a insertar. 
      */
-    void insertar(String[] datos){
+    public void insertar(String[] datos){
         String datosSql = formatearValores(datos);
         String sql = "INSERT INTO " + nombreTabla + " " + columnas + " VALUES " + datosSql;
         DBConnection.ejecutar(sql);
@@ -168,7 +168,7 @@ public class Modelo {
      * Ej: "columna":"valor", "otraColumna": 1
      * @param condicion
      */
-    void actualizar(LinkedHashMap<String, String> datos, String condicion){
+    public void actualizar(LinkedHashMap<String, String> datos, String condicion){
         String sql = "UPDATE " + nombreTabla + " SET ";
 
         if (datos.size() > 1) {
@@ -197,7 +197,7 @@ public class Modelo {
      * @param valor El nuevo dato.
      * @param condicion
      */
-    void actualizar(String columna, String valor, String condicion){
+    public void actualizar(String columna, String valor, String condicion){
         LinkedHashMap<String, String> datos = new LinkedHashMap<>();
         datos.put(columna, valor);
         actualizar(datos, condicion);
@@ -208,7 +208,7 @@ public class Modelo {
      * Devuelve el número de filas en la tabla.
      * @return El número de filas en la tabla.
      */
-    int contarTodos(){
+    public int contarTodos(){
         return contarTodos("");
     }
 
@@ -218,7 +218,7 @@ public class Modelo {
      * @param condicion La condición que deben cumplir las filas.
      * @return El número de filas que cumplen la condición.
      */
-    int contarTodos(String condicion){
+    public int contarTodos(String condicion){
         String sql = "SELECT COUNT(*) FROM " + nombreTabla;
         if (!condicion.isEmpty()) {
             sql += " WHERE " + condicion;

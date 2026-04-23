@@ -2,7 +2,7 @@ package db;
 public class VentaProducto extends Modelo {
     Producto productos = new Producto();
 
-    VentaProducto(){
+    public VentaProducto(){
         this.nombreTabla = "VENTAS_PRODUCTOS";
         this.columnas = "(id_venta, id_producto, cantidad_producto)";
     }
@@ -14,7 +14,7 @@ public class VentaProducto extends Modelo {
      * @param productoId El id del producto.
      * @param cantidadProducto La cantidad del producto en la venta.
      */
-    void crear(String ventaId, String productoId, String cantidadProducto){
+    public void crear(String ventaId, String productoId, String cantidadProducto){
         int cantidad = Integer.parseInt(cantidadProducto);
         productos.reducirInventario(productoId, cantidad);
         String[] datos = {ventaId, productoId, cantidadProducto};

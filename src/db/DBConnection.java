@@ -13,7 +13,7 @@ public class DBConnection {
      * @return La conexión con la base de datos.
      * @throws SQLException Error si la conexión no fue posible.
      */
-    static Connection get() throws SQLException {
+    public static Connection get() throws SQLException {
         if (connection == null || connection.isClosed()) {
             connection = DriverManager.getConnection("jdbc:sqlite:bd_de_prueba.db");
             // activa el soporte para que las claves foráneas funcionen
@@ -28,7 +28,7 @@ public class DBConnection {
      * datos
      * @param sql La sentencia INSERT/UPDATE/DELETE de SQL
      */
-    static void ejecutar(String sql) {
+    public static void ejecutar(String sql) {
         try {
             Connection conn = DBConnection.get();
             PreparedStatement pStatement = conn.prepareStatement(sql);
@@ -46,7 +46,7 @@ public class DBConnection {
      * @throws SQLException Error de SQL si la consulta
      * u algo más falla
      */
-    static ResultSet consultar(String sql) throws SQLException {
+    public static ResultSet consultar(String sql) throws SQLException {
         Connection conn = DBConnection.get();
         PreparedStatement pStatement = conn.prepareStatement(sql);
         return pStatement.executeQuery();
@@ -54,7 +54,7 @@ public class DBConnection {
 
     /** Cierra la conexión a la base de datos 
     */
-    static void cerrar() {
+    public static void cerrar() {
         try {
             if (connection != null && !connection.isClosed()) {
                 connection.close();

@@ -2,7 +2,7 @@ package db;
 public class Producto extends Modelo {
     // TODO: AÑADIR MÉTODO PARA CREAR PRODUCTO
 
-    Producto(){
+    public Producto(){
         this.columnas = "(nombre, precio_unitario, cantidad)";
     }
 
@@ -11,7 +11,7 @@ public class Producto extends Modelo {
      * @param id El id del producto a cambiar el nombre.
      * @param nuevoNombre El nuevo nombre del producto.
      */
-    void actualizarNombre(String id, String nuevoNombre){
+    public void actualizarNombre(String id, String nuevoNombre){
         actualizar("nombre", nuevoNombre, "id=" + id);
     }
 
@@ -20,7 +20,7 @@ public class Producto extends Modelo {
      * @param id El id del producto a cambiar el precio unitario.
      * @param nuevoPrecio El nuevo precio unitario del producto.
      */
-    void actualizarPrecioUnitario(String id, String nuevoPrecio){
+    public void actualizarPrecioUnitario(String id, String nuevoPrecio){
         actualizar("precio_unitario", nuevoPrecio, "id=" + id);
     }
 
@@ -29,7 +29,7 @@ public class Producto extends Modelo {
      * @param id El id del producto a cambiar la cantidad en stock.
      * @param nuevoInventario El nuevo inventario del producto.
      */
-    void actualizarInventario(String id, String nuevoInventario){
+    public void actualizarInventario(String id, String nuevoInventario){
         actualizar("cantidad", nuevoInventario, "id=" + id);
     }
 
@@ -39,7 +39,7 @@ public class Producto extends Modelo {
      * @param numProductosSalientes El número de productos que salen del inventario.
      * @throws ArithmeticException Lanzada si el inventario se torna menor a 0.
      */
-    void reducirInventario(String id, int numProductosSalientes) throws ArithmeticException{
+    public void reducirInventario(String id, int numProductosSalientes) throws ArithmeticException{
         int inventarioActual = intColumna("cantidad", id);
         int inventarioActualizado = inventarioActual - numProductosSalientes;
         if (inventarioActualizado < 0) {
@@ -55,7 +55,7 @@ public class Producto extends Modelo {
      * @param id El id del producto.
      * @param numProductosEntrantes El número de productos que entran al inventario.
      */
-    void aumentarInventario(String id, int numProductosEntrantes){
+    public void aumentarInventario(String id, int numProductosEntrantes){
         int inventarioActual = intColumna("cantidad", id);
         String inventarioActualizado = Integer.toString(inventarioActual + numProductosEntrantes);
         actualizarInventario(id, inventarioActualizado);

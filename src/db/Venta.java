@@ -6,7 +6,7 @@ public class Venta extends Modelo {
     VentaProducto ventasProductos = new VentaProducto();
     Producto productos = new Producto();
 
-    Venta(){
+    public Venta(){
         this.columnas = "(fecha, estado, valor)";
     }
 
@@ -15,7 +15,7 @@ public class Venta extends Modelo {
      * @param id El id de la venta a actualizar.
      * @param nuevaFecha La nueva fecha de la venta.
      */
-    void actualizarFecha(String id, String nuevaFecha){
+    public void actualizarFecha(String id, String nuevaFecha){
         actualizar("fecha", nuevaFecha, id);
     }
 
@@ -24,7 +24,7 @@ public class Venta extends Modelo {
      * @param id El id de la venta a actualizar.
      * @param nuevoEstado El nuevo estado de la venta.
      */
-    void actualizarEstado(String id, String nuevoEstado){
+    public void actualizarEstado(String id, String nuevoEstado){
         actualizar("estado", nuevoEstado, id);
     }
 
@@ -33,7 +33,7 @@ public class Venta extends Modelo {
      * @param id El id de la venta a actualizar.
      * @param nuevoValor El nuevo valor de la venta.
      */
-    void actualizarValor(String id, String nuevoValor){
+    public void actualizarValor(String id, String nuevoValor){
         actualizar("valor", nuevoValor, id);
     }
 
@@ -42,7 +42,7 @@ public class Venta extends Modelo {
      * @param id El id de la venta a la cual incrementar el valor.
      * @param valor El valor a sumarle a la venta.
      */
-    void incrementarValor(String id, String valor){
+    public void incrementarValor(String id, String valor){
         int valorActual = intColumna("valor", id);
         int valorIncrementado = valorActual + Integer.parseInt(valor);
         String valorIncrementadoString = Integer.toString(valorIncrementado);
@@ -54,7 +54,7 @@ public class Venta extends Modelo {
      * @param id El id de la venta a la cual reducir el valor.
      * @param valor El valor a restarle a la venta.
      */
-    void reducirValor(String id, String valor){
+    public void reducirValor(String id, String valor){
         int valorActual = intColumna("valor", id);
         int valorReducido = valorActual - Integer.parseInt(valor);
         String valorReducidoString = Integer.toString(valorReducido);
@@ -69,7 +69,7 @@ public class Venta extends Modelo {
      * @param estado El estado de la venta.
      * @param valor El valor total de la venta.
      */
-    void crear(String fecha, String estado, String valor){
+    public void crear(String fecha, String estado, String valor){
         String[] datos = {fecha, estado, valor};
         insertar(datos);
     }
@@ -79,7 +79,7 @@ public class Venta extends Modelo {
      * @param estado El estado de la venta.
      * @param valor El valor total de la venta.
      */
-    void crear(String estado, String valor){
+    public void crear(String estado, String valor){
         LocalDate fechahoy = LocalDate.now();
         String fechaHoyTexto = fechahoy.toString();
         crear(fechaHoyTexto, estado, valor);
@@ -89,14 +89,14 @@ public class Venta extends Modelo {
      * Crea una venta en la base de datos.
      * @param valor El valor total de la venta.
      */
-    void crear(String valor){
+    public void crear(String valor){
         crear("PENDIENTE", valor);
     }
 
     /**
      * Crea una venta con valor 0 y estado PENDIENTE en la base de datos.
      */
-    void crear(){
+    public void crear(){
         crear("0");
     }
 
@@ -106,7 +106,7 @@ public class Venta extends Modelo {
      * @param nombreProducto El nombre del producto.
      * @param cantidadProducto La cantidad del producto en la venta.
      */
-    void vender(String ventaId, String nombreProducto, String cantidadProducto){
+    public void vender(String ventaId, String nombreProducto, String cantidadProducto){
         Map<String, String> producto = productos.unicoRegistro("nombre", nombreProducto);
         String productoId = producto.get("id");
         ventasProductos.crear(ventaId, productoId, cantidadProducto);
