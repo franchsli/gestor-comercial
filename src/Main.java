@@ -1,6 +1,10 @@
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import db.DBConnection;
+import gui.ProductosPanel;
+import gui.Ventana;
+
 public class Main {
     public static void main(String[] args) {
         JTabbedPane pestañas = new JTabbedPane();
