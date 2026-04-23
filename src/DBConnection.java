@@ -28,8 +28,9 @@ public class DBConnection {
      * @param sql La sentencia INSERT/UPDATE/DELETE de SQL
      */
     static void ejecutar(String sql) {
-        try (Connection conn = DBConnection.get();
-            PreparedStatement pStatement = conn.prepareStatement(sql)) {
+        try {
+            Connection conn = DBConnection.get();
+            PreparedStatement pStatement = conn.prepareStatement(sql);
             pStatement.execute();
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
