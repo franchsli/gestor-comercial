@@ -1,6 +1,5 @@
 package db;
 public class Producto extends Modelo {
-    // TODO: AÑADIR MÉTODO PARA CREAR PRODUCTO
 
     public Producto(){
         this.columnas = "(nombre, precio_unitario, cantidad)";
@@ -59,6 +58,17 @@ public class Producto extends Modelo {
         int inventarioActual = intColumna("cantidad", id);
         String inventarioActualizado = Integer.toString(inventarioActual + numProductosEntrantes);
         actualizarInventario(id, inventarioActualizado);
+    }
+
+    /**
+     * Crea un nuevo producto.
+     * @param nombre El nombre del producto.
+     * @param precioUnitario El precio unitario del producto.
+     * @param cantidad La cantidad en inventario del producto.
+     */
+    public void crear(String nombre, String precioUnitario, String cantidad){
+        String[] datos = {nombre, precioUnitario, cantidad};
+        insertar(datos);
     }
 
     public static void main(String[] args) {
