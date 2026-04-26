@@ -241,7 +241,7 @@ public class Modelo {
      * @param valor El valor a formatear.
      * @return El valor formateado.
      */
-    String formatearValor(String valor){
+    protected String formatearValor(String valor){
         try {
             Double.parseDouble(valor);
             return valor;
@@ -268,7 +268,7 @@ public class Modelo {
      * @param valores Los valores que deben ir en la sentencia.
      * @return La lista de valores formateada.
      */
-    String formatearValores(String[] valores){
+    protected String formatearValores(String[] valores){
         StringJoiner tupla = new StringJoiner(", ", "(", ")");
         for (int index = 0; index < valores.length; index++) {
             String valor = formatearValor(valores[index]);
