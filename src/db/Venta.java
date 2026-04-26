@@ -3,8 +3,8 @@ import java.time.LocalDate;
 import java.util.Map;
 
 public class Venta extends Modelo {
-    VentaProducto ventasProductos = new VentaProducto();
-    Producto productos = new Producto();
+    private VentaProducto ventasProductos = new VentaProducto();
+    private Producto productos = new Producto();
 
     public Venta(){
         this.columnas = "(fecha, estado, valor)";

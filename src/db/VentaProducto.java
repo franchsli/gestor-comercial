@@ -1,6 +1,6 @@
 package db;
 public class VentaProducto extends Modelo {
-    Producto productos = new Producto();
+    private Producto productos = new Producto();
 
     public VentaProducto(){
         this.nombreTabla = "VENTAS_PRODUCTOS";
