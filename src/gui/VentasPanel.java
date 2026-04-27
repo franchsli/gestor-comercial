@@ -4,7 +4,10 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerDateModel;
+
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
@@ -30,8 +33,11 @@ public class VentasPanel extends Panel {
 
     @Override
     public void mostrarFormularioNuevo() {
-        // campos fijos
-        JTextField fecha = new JTextField();
+        JSpinner fecha = new JSpinner(new SpinnerDateModel());
+        JSpinner.DateEditor editor = new JSpinner.DateEditor(fecha, "yyyy-MM-dd");
+        fecha.setEditor(editor);
+        // fecha de hoy por defecto
+        fecha.setValue(new java.util.Date());
         String[] estados = {"PENDIENTE", "FINALIZADA", "CANCELADA"};
         JComboBox<String> estado = new JComboBox<>(estados);
 
@@ -64,7 +70,8 @@ public class VentasPanel extends Panel {
 
         if (result == JOptionPane.OK_OPTION) {
             // crear la venta primero (valor se calculará en vender())
-            ventas.crear(fecha.getText(), estado.getSelectedItem().toString(), "0");
+            String fechaStr = editor.getFormat().format(fecha.getValue());
+            ventas.crear(fechaStr, estado.getSelectedItem().toString(), "0");
 
             // obtener el id de la venta recién creada
             String ventaId = ventas.ultimoId();
