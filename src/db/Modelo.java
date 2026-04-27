@@ -234,6 +234,19 @@ public class Modelo {
         return 0;
     }
 
+    public String ultimoId(){
+        String sql = "SELECT MAX(id) FROM " + nombreTabla;
+        try {
+            ResultSet resultSet = DBConnection.consultar(sql);
+            if (resultSet.next()) {
+                return resultSet.getString("id");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return null;
+    }
+
     /**
      * Formatea una String para darle comillas si
      * es alfanumérica o dejarla igual si es
