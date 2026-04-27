@@ -239,7 +239,7 @@ public class Modelo {
         try {
             ResultSet resultSet = DBConnection.consultar(sql);
             if (resultSet.next()) {
-                return resultSet.getString("id");
+                return resultSet.getString(1);
             }
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
