@@ -30,7 +30,7 @@ public class ProductosPanel extends Panel {
         int result = JOptionPane.showConfirmDialog(this, form,
             "Nuevo producto", JOptionPane.OK_CANCEL_OPTION);
 
-        if (result == JOptionPane.OK_OPTION) {
+        if (result == JOptionPane.OK_OPTION && formularioEsValido(form)) {
             productos.crear(nombre.getText(), precio.getText(), cantidad.getText());
             cargarDatos();
         }

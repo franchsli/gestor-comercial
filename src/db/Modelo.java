@@ -42,7 +42,7 @@ public class Modelo {
                 for (int index = 1; index <= columnas; index++) {
                     // guarda los datos de la fila
                     // "columna" : "dato"
-                    fila.put(rSetMetaData.getColumnName(index), formatearValor(resultSet.getString(index)));
+                    fila.put(rSetMetaData.getColumnName(index), resultSet.getString(index));
                 }
                 // guarda los datos obtenidos de la fila en la lista
                 resultados.add(fila);
@@ -64,7 +64,7 @@ public class Modelo {
                 for (int index = 1; index <= columnas; index++) {
                     // guarda los datos del registro (fila)
                     // "columna" : "dato"
-                    registro.put(rSetMetaData.getColumnName(index), formatearValor(resultSet.getString(index)));
+                    registro.put(rSetMetaData.getColumnName(index), resultSet.getString(index));
                 }
                 return registro;
             }
@@ -232,6 +232,19 @@ public class Modelo {
             System.err.println("Error: " + e.getMessage());
         }
         return 0;
+    }
+
+    public String ultimoId(){
+        String sql = "SELECT MAX(id) FROM " + nombreTabla;
+        try {
+            ResultSet resultSet = DBConnection.consultar(sql);
+            if (resultSet.next()) {
+                return resultSet.getString(1);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return null;
     }
 
     /**

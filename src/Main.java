@@ -1,4 +1,3 @@
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import db.DBConnection;

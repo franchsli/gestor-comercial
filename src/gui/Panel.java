@@ -2,12 +2,14 @@ package gui;
 import java.util.List;
 import java.util.Map;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -99,4 +101,30 @@ public class Panel extends JPanel {
 
     // subclases sobreescriben este método para mostrar su formulario
     public void mostrarFormularioNuevo() {}
+
+    protected boolean formularioEsValido(JPanel form) {
+        return formularioEsValido(form, null);
+    }
+
+    protected boolean formularioEsValido(JPanel form, String excepcion) {
+        for (Component c : form.getComponents()) {
+            String valor = null;
+            String nombre = c.getName();
+
+            if (c instanceof JTextField) {
+                valor = ((JTextField) c).getText().trim();
+            } else if (c instanceof JSpinner) {
+                valor = ((JSpinner) c).getValue().toString().trim();
+            }
+
+            if (valor != null && valor.isEmpty()) {
+                if (excepcion != null && excepcion.equals(nombre)) continue;
+                JOptionPane.showMessageDialog(this,
+                    "Por favor completa todos los campos",
+                    "Campos vacíos", JOptionPane.WARNING_MESSAGE);
+                return false;
+            }
+        }
+        return true;
+    }
 }
