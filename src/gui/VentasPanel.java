@@ -68,7 +68,7 @@ public class VentasPanel extends Panel {
         int result = JOptionPane.showConfirmDialog(this, form,
             "Nueva venta", JOptionPane.OK_CANCEL_OPTION);
 
-        if (result == JOptionPane.OK_OPTION) {
+        if (result == JOptionPane.OK_OPTION && formularioEsValido(form)) {
             // crear la venta primero (valor se calculará en vender())
             String fechaStr = editor.getFormat().format(fecha.getValue());
             ventas.crear(fechaStr, estado.getSelectedItem().toString(), "0");
