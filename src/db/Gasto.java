@@ -7,7 +7,7 @@ import java.util.List;
 public class Gasto extends Modelo {
     
     public Gasto(){
-        this.columnas = "(fecha_gasto, estado, valor, fecha_pago)";
+        this.columnas = "(fecha_gasto, estado, valor, fecha_pago, descripcion)";
     }
 
     /**
