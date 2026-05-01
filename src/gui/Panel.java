@@ -135,4 +135,8 @@ public class Panel extends JPanel {
         }
         return true;
     }
+
+    protected String fechaATexto(JSpinner.DateEditor editorFecha, JSpinner campoFecha){
+        return editorFecha.getFormat().format(campoFecha.getValue());
+    }
 }
