@@ -1,5 +1,4 @@
 package db;
-import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.List;
@@ -140,37 +139,6 @@ public class Gasto extends Modelo {
         insertar(datos);
     }
 
-    /**
-     * Crea un nuevo gasto en la base de datos.
-     * @param fecha_gasto La fecha en la que se contrajo el gasto.
-     * @param estado El estado del gasto
-     * debe ser "PAGADO" o "PENDIENTE".
-     * @param valor El valor del gasto.
-     * @param descripcion Explicación del gasto.
-     */
-    public void crear(String fecha_gasto, String estado, String valor, String descripcion){
-        crear(fecha_gasto, estado, valor, "null", descripcion);
-    }
-    /**
-     * Crea un nuevo gasto en la base de datos.
-     * @param fecha La fecha en la que se contrajo el gasto.
-     * @param valor El valor del gasto.
-     * @param descripcion Explicación del gasto.
-     */
-    public void crear(String fecha_gasto, String valor, String descripcion){
-        crear(fecha_gasto, "PENDIENTE", valor, "null", descripcion);
-    }
-    /**
-     * Crea un nuevo gasto en la base de datos.
-     * @param valor El valor del gasto.
-     * @param descripcion Explicación del gasto.
-     */
-    public void crear(String valor, String descripcion){
-        LocalDate fechahoy = LocalDate.now();
-        String fechaHoyTexto = fechahoy.toString();
-        crear(fechaHoyTexto, "PENDIENTE", valor, "null", descripcion);
-    }
-
     public static void main(String[] args) {
         Gasto gasto = new Gasto();
         // pagar un gasto
@@ -209,7 +177,7 @@ public class Gasto extends Modelo {
         }
         System.out.println("------");
         // crea un gasto
-        gasto.crear("100000", "no sé");
+        gasto.crear("2026-04-03", "no sé", "100000", "2026-05-01", "Algo");
         System.out.println(gasto.todos("id=11"));
         System.out.println("------");
         // muestra todos los gastos pagados antes de '2025-01-15'

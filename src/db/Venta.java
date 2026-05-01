@@ -1,5 +1,4 @@
 package db;
-import java.time.LocalDate;
 import java.util.Map;
 
 public class Venta extends Modelo {
@@ -75,32 +74,6 @@ public class Venta extends Modelo {
     }
 
     /**
-     * Crea una venta en la base de datos.
-     * @param estado El estado de la venta.
-     * @param valor El valor total de la venta.
-     */
-    public void crear(String estado, String valor){
-        LocalDate fechahoy = LocalDate.now();
-        String fechaHoyTexto = fechahoy.toString();
-        crear(fechaHoyTexto, estado, valor);
-    }
-
-    /**
-     * Crea una venta en la base de datos.
-     * @param valor El valor total de la venta.
-     */
-    public void crear(String valor){
-        crear("PENDIENTE", valor);
-    }
-
-    /**
-     * Crea una venta con valor 0 y estado PENDIENTE en la base de datos.
-     */
-    public void crear(){
-        crear("0");
-    }
-
-    /**
      * Asocia el producto con el nombre dado a una venta en VENTAS_PRODUCTOS.
      * @param ventaId El id de la venta.
      * @param nombreProducto El nombre del producto.
@@ -131,7 +104,7 @@ public class Venta extends Modelo {
         tablaVenta.actualizarValor("1", "1");
         System.out.println(valorPrevio != tablaVenta.stringColumna("valor", "1"));
         System.out.println("CREAR VENTA FUNCIONA:");
-        tablaVenta.crear(valorPrevio);
+        tablaVenta.crear("2026-02-02", "PENDIENTE", valorPrevio);
         System.out.println(!tablaVenta.stringColumna("estado", "11").isEmpty());
         System.out.println("VENDER FUNCIONA:");
         tablaVenta.vender("11", "Bolsa para basura 70x90", "5");
