@@ -23,6 +23,7 @@ public class GastosPanel extends Panel {
     @Override
     public void mostrarFormularioNuevo() {
         JTextField campoFechaPago = new JTextField();
+        campoFechaPago.setName("fecha_pago");
         JSpinner campoFechaGasto = campoFecha; 
         JSpinner.DateEditor editorFechaGasto = new JSpinner.DateEditor(campoFechaGasto, "yyyy-MM-dd"); 
         campoFechaGasto.setEditor(editorFechaGasto); 
@@ -41,7 +42,7 @@ public class GastosPanel extends Panel {
         int result = JOptionPane.showConfirmDialog(this, form,
             "Nuevo gasto", JOptionPane.OK_CANCEL_OPTION);
 
-        if (result == JOptionPane.OK_OPTION && formularioEsValido(form)) {
+        if (result == JOptionPane.OK_OPTION && formularioEsValido(form, "fecha_pago")) {
             String fechaGastoStr = fechaATexto(editorFecha, campoFechaGasto);
             String fechaPagoStr = campoFechaPago.getText();
             gastos.crear(fechaGastoStr, estado.getSelectedItem().toString(), valor.getText(), fechaPagoStr, descripcion.getText());
