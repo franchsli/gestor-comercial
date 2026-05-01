@@ -4,9 +4,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSpinner;
 import javax.swing.JTextField;
-import javax.swing.SpinnerDateModel;
 
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
@@ -33,11 +31,6 @@ public class VentasPanel extends Panel {
 
     @Override
     public void mostrarFormularioNuevo() {
-        JSpinner fecha = new JSpinner(new SpinnerDateModel());
-        JSpinner.DateEditor editor = new JSpinner.DateEditor(fecha, "yyyy-MM-dd");
-        fecha.setEditor(editor);
-        // fecha de hoy por defecto
-        fecha.setValue(new java.util.Date());
         String[] estados = {"PENDIENTE", "FINALIZADA", "CANCELADA"};
         JComboBox<String> estado = new JComboBox<>(estados);
 
@@ -57,7 +50,7 @@ public class VentasPanel extends Panel {
         // formulario completo
         JPanel form = new JPanel(new BorderLayout(5, 5));
         JPanel camposFijos = new JPanel(new GridLayout(2, 2, 5, 5));
-        camposFijos.add(new JLabel("Fecha (YYYY-MM-DD):")); camposFijos.add(fecha);
+        camposFijos.add(new JLabel("Fecha (YYYY-MM-DD):")); camposFijos.add(campoFecha);
         camposFijos.add(new JLabel("Estado:")); camposFijos.add(estado);
 
         form.add(camposFijos, BorderLayout.NORTH);
@@ -70,7 +63,7 @@ public class VentasPanel extends Panel {
 
         if (result == JOptionPane.OK_OPTION && formularioEsValido(form)) {
             // crear la venta primero (valor se calculará en vender())
-            String fechaStr = editor.getFormat().format(fecha.getValue());
+            String fechaStr = fechaATexto(editorFecha, campoFecha);
             ventas.crear(fechaStr, estado.getSelectedItem().toString(), "0");
 
             // obtener el id de la venta recién creada

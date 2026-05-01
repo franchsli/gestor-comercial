@@ -13,6 +13,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerDateModel;
 import javax.swing.table.DefaultTableModel;
 
 import db.Modelo;
@@ -23,6 +24,8 @@ public class Panel extends JPanel {
    DefaultTableModel modeloTabla;
    JButton btnNuevo, btnEditar, btnEliminar, btnFiltrar;
    JTextField campoBuscar;
+   JSpinner campoFecha;
+   JSpinner.DateEditor editorFecha;
 
     public Panel() {
         setLayout(new BorderLayout());
@@ -33,6 +36,11 @@ public class Panel extends JPanel {
         btnEliminar = new JButton("Eliminar");
         btnFiltrar = new JButton("Filtrar");
         campoBuscar = new JTextField(20);
+        campoFecha = new JSpinner(new SpinnerDateModel()); 
+        editorFecha = new JSpinner.DateEditor(campoFecha, "yyyy-MM-dd"); 
+        campoFecha.setEditor(editorFecha); 
+        // fecha de hoy por defecto 
+        campoFecha.setValue(new java.util.Date()); 
         campoBuscar.putClientProperty("JTextField.placeholderText", "Buscar...");
 
         barraBotones.add(btnNuevo);
@@ -126,5 +134,9 @@ public class Panel extends JPanel {
             }
         }
         return true;
+    }
+
+    protected String fechaATexto(JSpinner.DateEditor editorFecha, JSpinner campoFecha){
+        return editorFecha.getFormat().format(campoFecha.getValue());
     }
 }
