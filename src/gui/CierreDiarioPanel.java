@@ -14,10 +14,11 @@ public class CierreDiarioPanel extends Panel {
         this.btnNuevo.setVisible(false);
         this.campoBuscar.setVisible(false);
         cargarDatos();
+        cargarTotales();
     }
 
     public void cargarTotales() {
-        String[] columnas = {"ventas_efectivo", "ventas_credito", "total_ventas", "presupuesto", "gastos"};
+        String[] columnas = {"ventas_efectivo", "ventas_credito", "total_ventas", "presupuesto", "cumplimiento", "gastos"};
         Object[] filaTotal = new Object[modeloTabla.getColumnCount()];
         
         filaTotal[0] = "TOTAL";
