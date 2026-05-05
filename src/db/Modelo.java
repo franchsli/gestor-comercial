@@ -248,6 +248,22 @@ public class Modelo {
     }
 
     /**
+     * Retorna la suma de la columna.
+     * @param columna El nombre de la columna a sumar.
+     * @return El valor total de sumar todos los valores en la columna.
+     */
+    public int sumarColumna(String columna) {
+        String sql = "SELECT SUM(" + columna + ") FROM " + nombreTabla;
+        try {
+            ResultSet rs = DBConnection.consultar(sql);
+            if (rs.next()) return rs.getInt(1);
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return 0;
+    }
+
+    /**
      * Formatea una String para darle comillas si
      * es alfanumérica o dejarla igual si es
      * numérica.
