@@ -7,6 +7,12 @@ public class CierreDiarioPanel extends Panel {
 
     public CierreDiarioPanel() {
         this.modelo = cierresDiarios;
+        // borra los botones ya que esta pestaña es solo lectura
+        this.btnEditar.setVisible(false);
+        this.btnEliminar.setVisible(false);
+        this.btnFiltrar.setVisible(false);
+        this.btnNuevo.setVisible(false);
+        this.campoBuscar.setVisible(false);
         cargarDatos();
     }
 }
