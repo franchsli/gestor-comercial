@@ -13,6 +13,7 @@ public class ProductosPanel extends Panel {
     public ProductosPanel() {
         this.modelo = productos;
         btnNuevo.addActionListener(e -> mostrarFormularioNuevo());
+        btnEliminar.addActionListener(e -> manejarEliminar());
         cargarDatos();
     }
 
