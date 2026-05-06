@@ -17,6 +17,7 @@ public class PresupuestosPanel extends Panel{
         this.modelo = presupuestos;
         btnNuevo.setText("+ Nuevo presupuesto");
         btnNuevo.addActionListener(e -> mostrarFormularioNuevo());
+        btnEliminar.addActionListener(e -> manejarEliminar("fecha"));
         cargarDatos();
     }
 

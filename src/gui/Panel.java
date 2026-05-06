@@ -63,7 +63,7 @@ public class Panel extends JPanel {
         add(new JScrollPane(tabla), BorderLayout.CENTER);
 
         // listeners compartidos
-        btnEliminar.addActionListener(e -> manejarEliminar());
+        //btnEliminar.addActionListener(e -> manejarEliminar());
         btnEditar.addActionListener(e -> manejarEditar());
     }
 
@@ -84,6 +84,10 @@ public class Panel extends JPanel {
     }
 
     public void manejarEliminar() {
+        manejarEliminar("id");
+    }
+
+    public void manejarEliminar(String columna){
         int[] filasSeleccionadas = tabla.getSelectedRows();
         if (filasSeleccionadas.length == 0) {
             JOptionPane.showMessageDialog(this,
@@ -97,7 +101,7 @@ public class Panel extends JPanel {
         if (confirmacion == JOptionPane.YES_OPTION) {
             for (int i = filasSeleccionadas.length - 1; i >= 0; i--) {
                 String id = modeloTabla.getValueAt(filasSeleccionadas[i], 0).toString();
-                modelo.borrarTodos("id=" + id);
+                modelo.borrarTodos(columna + "=" + id);
             }
             cargarDatos();
         }
