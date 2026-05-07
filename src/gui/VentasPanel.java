@@ -26,7 +26,6 @@ public class VentasPanel extends Panel {
         btnNuevo.setText("+ Nueva venta");
         btnEliminar.setText("Anular");
         btnNuevo.addActionListener(e -> mostrarFormularioNuevo());
-        btnEliminar.addActionListener(e -> manejarEliminar());
         cargarDatos();
     }
 

@@ -17,7 +17,6 @@ public class PresupuestosPanel extends Panel{
         this.modelo = presupuestos;
         btnNuevo.setText("+ Nuevo presupuesto");
         btnNuevo.addActionListener(e -> mostrarFormularioNuevo());
-        btnEliminar.addActionListener(e -> manejarEliminar("fecha"));
         cargarDatos();
     }
 
@@ -37,6 +36,27 @@ public class PresupuestosPanel extends Panel{
         if (result == JOptionPane.OK_OPTION && formularioEsValido(form)) {
             String fechaGastoStr = fechaATexto(editorFecha, campoFechaPresupuesto);
             presupuestos.crear(fechaGastoStr, valor.getText());
+            cargarDatos();
+        }
+    }
+
+    @Override
+    public void manejarEliminar(){
+        int[] filasSeleccionadas = tabla.getSelectedRows();
+        if (filasSeleccionadas.length == 0) {
+            JOptionPane.showMessageDialog(this,
+                "Selecciona filas primero",
+                "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        int confirmacion = JOptionPane.showConfirmDialog(this,
+            "Confirma el borrado de los registros",
+            "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            for (int i = filasSeleccionadas.length - 1; i >= 0; i--) {
+                String fecha = modeloTabla.getValueAt(filasSeleccionadas[i], 0).toString();
+                modelo.borrarTodos("fecha='" + fecha + "'");
+            }
             cargarDatos();
         }
     }
