@@ -18,7 +18,6 @@ public class CierreDiarioPanel extends Panel {
         // borra los botones ya que esta pestaña es solo lectura
         this.btnEditar.setVisible(false);
         this.btnEliminar.setVisible(false);
-        this.btnFiltrar.setVisible(false);
         this.btnNuevo.setVisible(false);
         this.campoBuscar.setVisible(false);
         // controles de filtro
