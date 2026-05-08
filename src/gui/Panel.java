@@ -70,11 +70,11 @@ public class Panel extends JPanel {
         btnEditar.addActionListener(e -> manejarEditar());
     }
 
-    public void cargarDatos() {
+    public void cargarDatos(String condicion) {
         modeloTabla.setRowCount(0);
         modeloTabla.setColumnCount(0);
 
-        List<Map<String, String>> filas = modelo.todos();
+        List<Map<String, String>> filas = modelo.todos(condicion);
         if (filas.isEmpty()) return;
 
         // columnas desde la primera fila
@@ -84,6 +84,10 @@ public class Panel extends JPanel {
         for (Map<String, String> fila : filas) {
             modeloTabla.addRow(fila.values().toArray());
         }
+    }
+
+    public void cargarDatos() {
+        cargarDatos("");
     }
 
 
