@@ -16,6 +16,7 @@ public class GastosPanel extends Panel {
     public GastosPanel() {
         this.modelo = gastos;
         btnNuevo.setText("+ Nuevo gasto");
+        this.campoBuscar.setVisible(false);
         btnNuevo.addActionListener(e -> mostrarFormularioNuevo());
         cargarDatos();
     }

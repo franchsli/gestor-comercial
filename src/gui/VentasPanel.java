@@ -25,6 +25,7 @@ public class VentasPanel extends Panel {
         this.modelo = ventas;
         btnNuevo.setText("+ Nueva venta");
         btnEliminar.setText("Anular");
+        this.campoBuscar.setVisible(false);
         btnNuevo.addActionListener(e -> mostrarFormularioNuevo());
         cargarDatos();
     }

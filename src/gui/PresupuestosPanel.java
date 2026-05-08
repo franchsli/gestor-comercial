@@ -19,6 +19,7 @@ public class PresupuestosPanel extends Panel{
     public PresupuestosPanel(){
         this.modelo = presupuestos;
         btnNuevo.setText("+ Nuevo presupuesto");
+        this.campoBuscar.setVisible(false);
         btnNuevo.addActionListener(e -> mostrarFormularioNuevo());
         cargarDatos();
     }

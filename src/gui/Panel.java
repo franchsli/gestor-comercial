@@ -37,7 +37,6 @@ public class Panel extends JPanel {
         btnNuevo = new JButton("+ Nuevo");
         btnEditar = new JButton("Editar");
         btnEliminar = new JButton("Eliminar");
-        btnFiltrar = new JButton("Filtrar");
         campoBuscar = new JTextField(20);
         campoFecha = new JSpinner(new SpinnerDateModel()); 
         editorFecha = new JSpinner.DateEditor(campoFecha, "yyyy-MM-dd"); 
@@ -49,7 +48,6 @@ public class Panel extends JPanel {
         barraBotones.add(btnNuevo);
         barraBotones.add(btnEditar);
         barraBotones.add(btnEliminar);
-        barraBotones.add(btnFiltrar);
         barraBotones.add(campoBuscar);
 
         // tabla
