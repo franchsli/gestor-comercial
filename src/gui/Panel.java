@@ -1,11 +1,14 @@
 package gui;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -105,7 +108,44 @@ public class Panel extends JPanel {
     }
 
     public void manejarEditar() {
-        // pendiente de implementar
+        int fila = tabla.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this,
+                "Selecciona una fila primero",
+                "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // construir formulario con los valores actuales
+        int cols = modeloTabla.getColumnCount();
+        JTextField[] campos = new JTextField[cols];
+        JPanel form = new JPanel(new GridLayout(cols, 2, 5, 5));
+
+        for (int i = 0; i < cols; i++) {
+            String nombreColumna = modeloTabla.getColumnName(i);
+            String valorActual = modeloTabla.getValueAt(fila, i).toString();
+            campos[i] = new JTextField(valorActual);
+            campos[i].setName(nombreColumna);
+            form.add(new JLabel(nombreColumna + ":"));
+            form.add(campos[i]);
+        }
+
+        // deshabilitar columna 0 (id o pk)
+        campos[0].setEditable(false);
+
+        int result = JOptionPane.showConfirmDialog(this, form,
+            "Editar registro", JOptionPane.OK_CANCEL_OPTION);
+
+        if (result == JOptionPane.OK_OPTION) {
+            LinkedHashMap<String, String> datos = new LinkedHashMap<>();
+            for (int i = 1; i < cols; i++) { // ignora la pk
+                datos.put(modeloTabla.getColumnName(i), campos[i].getText().trim());
+            }
+            String pk = modeloTabla.getColumnName(0);
+            String pkValor = campos[0].getText();
+            modelo.actualizar(datos, pk + "='" + pkValor + "'");
+            cargarDatos();
+        }
     }
 
     // subclases sobreescriben este método para mostrar su formulario
