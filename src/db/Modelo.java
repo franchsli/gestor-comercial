@@ -248,12 +248,16 @@ public class Modelo {
     }
 
     /**
-     * Retorna la suma de la columna.
+     * Retorna la suma de los registros en la columna que cumplen la condicion dada.
      * @param columna El nombre de la columna a sumar.
-     * @return El valor total de sumar todos los valores en la columna.
+     * @param condicion La condicion que deben cumplir los registros.
+     * @return El valor total de sumar todos los registros que cumplen la condicion en la columna.
      */
-    public int sumarColumna(String columna) {
+    public int sumarColumna(String columna, String condicion) {
         String sql = "SELECT SUM(" + columna + ") FROM " + nombreTabla;
+        if (condicion != null && !condicion.isEmpty()) {
+            sql += " WHERE " + condicion;
+        }
         try {
             ResultSet rs = DBConnection.consultar(sql);
             if (rs.next()) return rs.getInt(1);
@@ -261,6 +265,15 @@ public class Modelo {
             System.err.println("Error: " + e.getMessage());
         }
         return 0;
+    }
+
+    /**
+     * Retorna la suma de la columna.
+     * @param columna El nombre de la columna a sumar.
+     * @return El valor total de sumar todos los valores en la columna.
+     */
+    public int sumarColumna(String columna){
+        return sumarColumna(columna, null);
     }
 
     /**
