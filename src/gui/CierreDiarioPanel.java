@@ -51,20 +51,24 @@ public class CierreDiarioPanel extends Panel {
         cargarTotales();
     }
 
-    public void cargarTotales() {
+    public void cargarTotales(String condicion) {
         String[] columnas = {"ventas_efectivo", "ventas_credito", "total_ventas", "presupuesto", "cumplimiento", "gastos"};
         Object[] filaTotal = new Object[modeloTabla.getColumnCount()];
         
         filaTotal[0] = "TOTAL";
         for (int i = 1; i < columnas.length + 1; i++) {
-            filaTotal[i] = cierresDiarios.sumarColumna(columnas[i - 1]);
+            filaTotal[i] = cierresDiarios.sumarColumna(columnas[i - 1], condicion);
         }
         // cumplimiento va en índice 5, se calcula aparte
-        int totalVentas = cierresDiarios.sumarColumna("total_ventas");
-        int totalPresupuesto = cierresDiarios.sumarColumna("presupuesto");
+        int totalVentas = cierresDiarios.sumarColumna("total_ventas", condicion);
+        int totalPresupuesto = cierresDiarios.sumarColumna("presupuesto", condicion);
         filaTotal[5] = totalPresupuesto == 0 ? "0%" : Math.round((totalVentas * 100.0) / totalPresupuesto) + "%";
 
         modeloTabla.addRow(filaTotal);
+    }
+
+    public void cargarTotales() {
+        cargarTotales(null);
     }
 
     private void aplicarFiltro(int mes, int año) {
@@ -80,6 +84,14 @@ public class CierreDiarioPanel extends Panel {
         for (Map<String, String> fila : filas) {
             modeloTabla.addRow(fila.values().toArray());
         }
-        cargarTotales();
+        String condicion;
+        if (mes == 0) {
+            condicion = "fecha LIKE '" + año + "%'";
+        } else {
+            String mesStr = String.format("%04d-%02d", año, mes);
+            condicion = "fecha LIKE '" + mesStr + "%'";
+            
+        }
+        cargarTotales(condicion);
     }
 }
