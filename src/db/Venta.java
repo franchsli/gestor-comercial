@@ -15,7 +15,8 @@ public class Venta extends Modelo {
      * @param nuevaFecha La nueva fecha de la venta.
      */
     public void actualizarFecha(String id, String nuevaFecha){
-        actualizar("fecha", nuevaFecha, id);
+        String condicion = "id=" + id;
+        actualizar("fecha", nuevaFecha, condicion);
     }
 
     /**
@@ -24,7 +25,8 @@ public class Venta extends Modelo {
      * @param nuevoEstado El nuevo estado de la venta.
      */
     public void actualizarEstado(String id, String nuevoEstado){
-        actualizar("estado", nuevoEstado, id);
+        String condicion = "id=" + id;
+        actualizar("estado", nuevoEstado, condicion);
     }
 
     /**
@@ -33,7 +35,8 @@ public class Venta extends Modelo {
      * @param nuevoValor El nuevo valor de la venta.
      */
     public void actualizarValor(String id, String nuevoValor){
-        actualizar("valor", nuevoValor, id);
+        String condicion = "id=" + id;
+        actualizar("valor", nuevoValor, condicion);
     }
 
     /**
