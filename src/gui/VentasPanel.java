@@ -94,6 +94,12 @@ public class VentasPanel extends Panel {
         }
     }
 
+    /**
+     * Crea una nueva fila de producto para añadir un producto y darle una cantidad.
+     * @param nombres Los nombres de los productos en la base de datos.
+     * @param panelProductos El panel que contiene los productos y su cantidad.
+     * @return Un panel con la nueva fila creada.
+     */
     private JPanel crearFilaProducto(String[] nombres, JPanel panelProductos) {
         JPanel fila = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JComboBox<String> combo = new JComboBox<>(nombres);
@@ -101,7 +107,7 @@ public class VentasPanel extends Panel {
         cantidad.setToolTipText("Cantidad");
 
         cantidad.addActionListener(e -> {
-            // Enter → nueva fila
+            // Si se presiona Enter, se añade una fila
             panelProductos.add(crearFilaProducto(nombres, panelProductos));
             panelProductos.revalidate();
             panelProductos.repaint();
