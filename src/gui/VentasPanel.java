@@ -34,6 +34,9 @@ public class VentasPanel extends Panel {
     public void mostrarFormularioNuevo() {
         String[] estados = {"PENDIENTE", "FINALIZADA", "CANCELADA"};
         JComboBox<String> estado = new JComboBox<>(estados);
+        String[] tipos = {"EFECTIVO", "CREDITO"};
+        JComboBox<String> tipo = new JComboBox<>(tipos);
+
 
         // panel dinámico de productos
         JPanel panelProductos = new JPanel();
@@ -50,9 +53,13 @@ public class VentasPanel extends Panel {
 
         // formulario completo
         JPanel form = new JPanel(new BorderLayout(5, 5));
-        JPanel camposFijos = new JPanel(new GridLayout(2, 2, 5, 5));
-        camposFijos.add(new JLabel("Fecha (YYYY-MM-DD):")); camposFijos.add(campoFecha);
-        camposFijos.add(new JLabel("Estado:")); camposFijos.add(estado);
+        JPanel camposFijos = new JPanel(new GridLayout(3, 2, 5, 5));
+        camposFijos.add(new JLabel("Fecha (YYYY-MM-DD):")); 
+        camposFijos.add(campoFecha);
+        camposFijos.add(new JLabel("Estado:")); 
+        camposFijos.add(estado);
+        camposFijos.add(new JLabel("Tipo:")); 
+        camposFijos.add(tipo);
 
         form.add(camposFijos, BorderLayout.NORTH);
         form.add(new JLabel("Productos:"), BorderLayout.CENTER);
