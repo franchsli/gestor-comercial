@@ -50,6 +50,10 @@ public class CierreDiarioPanel extends Panel {
         cargarTotales();
     }
 
+    /**
+     * Carga la fila de los totales de los cierres diarios basados la condicion dada en la pestaña.
+     * @param condicion La condición que deben cumplir los datos para ser considerados en el total.
+     */
     public void cargarTotales(String condicion) {
         String[] columnas = {"ventas_efectivo", "ventas_credito", "total_ventas", "presupuesto", "cumplimiento", "gastos"};
         Object[] filaTotal = new Object[modeloTabla.getColumnCount()];
@@ -66,10 +70,18 @@ public class CierreDiarioPanel extends Panel {
         modeloTabla.addRow(filaTotal);
     }
 
+    /**
+     * Carga la fila de los totales de los cierres diarios en la pestaña.
+     */
     public void cargarTotales() {
         cargarTotales(null);
     }
 
+    /**
+     * Filtra los cierres diarios de la pestaña para mostrar solo los del mes y año dados.
+     * @param mes El mes en el que deben situarse los cierres diarios.
+     * @param año El AÑO en el que deben situarse los cierres diarios.
+     */
     private void aplicarFiltro(int mes, int año) {
         List<Map<String, String>> filas = mes == 0
             ? cierresDiarios.filtrarPorAño(año)

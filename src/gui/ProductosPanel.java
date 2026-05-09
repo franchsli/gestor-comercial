@@ -44,6 +44,10 @@ public class ProductosPanel extends Panel {
         }
     }
 
+    /**
+     * Busca en la base de datos los productos cuyo nombre contenga
+     * lo escrito en el campoBuscar y lo muestra en la pestaña.
+     */
     private void buscarProducto(){
         String nombreProducto = campoBuscar.getText().strip();
         String condicion = "nombre LIKE '%" + nombreProducto + "%'";

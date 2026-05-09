@@ -68,6 +68,10 @@ public class Panel extends JPanel {
         btnEditar.addActionListener(e -> manejarEditar());
     }
 
+    /**
+     * Carga los datos del modelo de la clase que cumplan la condicion dada en la pestaña.
+     * @param condicion La condición que deben cumplir los datos del modelo de la clase.
+     */
     public void cargarDatos(String condicion) {
         modeloTabla.setRowCount(0);
         modeloTabla.setColumnCount(0);
@@ -84,11 +88,16 @@ public class Panel extends JPanel {
         }
     }
 
+    /**
+     * Carga todos los datos del modelo de la clase en la pestaña.
+     */
     public void cargarDatos() {
         cargarDatos("");
     }
 
-
+    /**
+     * Maneja el borrado de datos en la pestaña.
+     */
     public void manejarEliminar(){
         int[] filasSeleccionadas = tabla.getSelectedRows();
         if (filasSeleccionadas.length == 0) {
@@ -109,6 +118,9 @@ public class Panel extends JPanel {
         }
     }
 
+    /**
+     * Maneja la edición de datos en la pestaña.
+     */
     public void manejarEditar() {
         int fila = tabla.getSelectedRow();
         if (fila == -1) {
@@ -150,13 +162,30 @@ public class Panel extends JPanel {
         }
     }
 
-    // subclases sobreescriben este método para mostrar su formulario
+    /**
+     * Muestra el formulario para la inserción de datos.
+     * (subclases sobreescriben este método para mostrar su formulario)
+     */
     public void mostrarFormularioNuevo() {}
 
+    /**
+     * Devuelve si un formulario es válido o no.
+     * Un formulario es válido si todos sus campos fueron rellenados.
+     * @param form El formulario a validar.
+     * @return Si el formulario es válido o no.
+     */
     protected boolean formularioEsValido(JPanel form) {
         return formularioEsValido(form, null);
     }
 
+    /**
+     * Devuelve si un formulario es válido o no.
+     * Un formulario es válido si todos sus campos 
+     * (excluyendo la excepcion dada) fueron rellenados.
+     * @param form El formulario a validar.
+     * @param excepcion El nombre del campo a ser excluido de la validación.
+     * @return Si el formulario es válido o no.
+     */
     protected boolean formularioEsValido(JPanel form, String excepcion) {
         for (Component c : form.getComponents()) {
             String valor = null;
@@ -179,6 +208,12 @@ public class Panel extends JPanel {
         return true;
     }
 
+    /**
+     * Devuelve la fecha en el campo dado como String.
+     * @param editorFecha El editor del campo que tiene la fecha.
+     * @param campoFecha El campo que tiene la fecha.
+     * @return la fecha en el campo dado como String.
+     */
     protected String fechaATexto(JSpinner.DateEditor editorFecha, JSpinner campoFecha){
         return editorFecha.getFormat().format(campoFecha.getValue());
     }
