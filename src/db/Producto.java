@@ -6,24 +6,6 @@ public class Producto extends Modelo {
     }
 
     /**
-     * Actualiza el nombre del producto con el id dado.
-     * @param id El id del producto a cambiar el nombre.
-     * @param nuevoNombre El nuevo nombre del producto.
-     */
-    public void actualizarNombre(String id, String nuevoNombre){
-        actualizar("nombre", nuevoNombre, "id=" + id);
-    }
-
-    /**
-     * Actualiza el precio unitario del producto con el id dado.
-     * @param id El id del producto a cambiar el precio unitario.
-     * @param nuevoPrecio El nuevo precio unitario del producto.
-     */
-    public void actualizarPrecioUnitario(String id, String nuevoPrecio){
-        actualizar("precio_unitario", nuevoPrecio, "id=" + id);
-    }
-
-    /**
      * Actualiza el inventario del producto con el id dado.
      * @param id El id del producto a cambiar la cantidad en stock.
      * @param nuevoInventario El nuevo inventario del producto.
@@ -50,17 +32,6 @@ public class Producto extends Modelo {
     }
 
     /**
-     * Aumenta el inventario del producto con el id dado.
-     * @param id El id del producto.
-     * @param numProductosEntrantes El número de productos que entran al inventario.
-     */
-    public void aumentarInventario(String id, int numProductosEntrantes){
-        int inventarioActual = intColumna("cantidad", id);
-        String inventarioActualizado = Integer.toString(inventarioActual + numProductosEntrantes);
-        actualizarInventario(id, inventarioActualizado);
-    }
-
-    /**
      * Crea un nuevo producto.
      * @param nombre El nombre del producto.
      * @param precioUnitario El precio unitario del producto.
@@ -78,7 +49,6 @@ public class Producto extends Modelo {
         System.out.println("----------");
         String nombreAntes = producto.stringColumna("nombre", "1");
         System.out.println("Nombre antes: "+ nombreAntes);
-        producto.actualizarNombre("1", "El pepito quince");
         String nombreDespues = producto.stringColumna("nombre", "1");
         System.out.println("Nombre despues: " + nombreDespues);
         System.out.println("Son diferentes?:");
@@ -86,7 +56,6 @@ public class Producto extends Modelo {
         System.out.println("----------");
         double precioAntes = producto.doubleColumna("precio_unitario", "1");
         System.out.println("Precio antes: "+ precioAntes);
-        producto.actualizarPrecioUnitario("1", "150520");
         double precioDespues = producto.doubleColumna("precio_unitario", "1");
         System.out.println("Precio despues: " + precioDespues);
         System.out.println("Son diferentes?:");
@@ -94,7 +63,6 @@ public class Producto extends Modelo {
         System.out.println("----------");
         int inventarioAntes = producto.intColumna("cantidad", "2");
         System.out.println("Inventario antes: " + inventarioAntes);
-        producto.aumentarInventario("2", 1000);
         int inventarioDespues = producto.intColumna("cantidad", "2");
         System.out.println("Inventario despues: " + inventarioDespues);
         System.out.println("Son diferentes?:");

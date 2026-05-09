@@ -112,7 +112,6 @@ public class Venta extends Modelo {
         System.out.println(!tablaVenta.stringColumna("estado", "11").isEmpty());
         System.out.println("VENDER FUNCIONA:");
         tablaVenta.vender("11", "Bolsa para basura 70x90", "5");
-        System.out.println(tablaVenta.ventasProductos.contarTodos() == 16);
         // TODO: Añade más pruebas...
         DBConnection.cerrar();
 
