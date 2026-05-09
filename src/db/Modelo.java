@@ -53,6 +53,13 @@ public class Modelo {
         return resultados;
     }
 
+    /**
+     * Devuelve el único registro de la tabla cuya columna tiene el valor dado.
+     * Este método debe usarse en columnas cuyo valores sean únicos.
+     * @param columna La columna a la que se le va a revisar el valor.
+     * @param valor El valor que debe tener la columna.
+     * @return El único registro de la tabla cuya columna tiene el valor dado.
+     */
     public Map<String, String> unicoRegistro(String columna, String valor){
         String sql = "SELECT * FROM " + nombreTabla + " WHERE " + columna + "=" + formatearValor(valor);
         try {
@@ -196,6 +203,10 @@ public class Modelo {
         actualizar(datos, condicion);
     }
 
+    /**
+     * Devuelve el ultimo id en la tabla.
+     * @return El ultimo id en la tabla.
+     */
     public String ultimoId(){
         String sql = "SELECT MAX(id) FROM " + nombreTabla;
         try {
