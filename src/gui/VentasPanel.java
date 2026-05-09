@@ -72,7 +72,7 @@ public class VentasPanel extends Panel {
         if (result == JOptionPane.OK_OPTION && formularioEsValido(form)) {
             // crear la venta primero (valor se calculará en vender())
             String fechaStr = fechaATexto(editorFecha, campoFecha);
-            ventas.crear(fechaStr, estado.getSelectedItem().toString(), "0");
+            ventas.crear(fechaStr, estado.getSelectedItem().toString(), "0", tipo.getSelectedItem().toString());
 
             // obtener el id de la venta recién creada
             String ventaId = ventas.ultimoId();

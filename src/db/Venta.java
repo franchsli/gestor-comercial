@@ -6,7 +6,7 @@ public class Venta extends Modelo {
     private Producto productos = new Producto();
 
     public Venta(){
-        this.columnas = "(fecha, estado, valor)";
+        this.columnas = "(fecha, estado, valor, tipo)";
     }
 
     /**
@@ -67,9 +67,10 @@ public class Venta extends Modelo {
      * @param fecha La fecha de la venta en formato 'AAAA-MM-DD'.
      * @param estado El estado de la venta.
      * @param valor El valor total de la venta.
+     * @param tipo El tipo de la venta ('EFECTIVO' o 'CREDITO')
      */
-    public void crear(String fecha, String estado, String valor){
-        String[] datos = {fecha, estado, valor};
+    public void crear(String fecha, String estado, String valor, String tipo){
+        String[] datos = {fecha, estado, valor, tipo};
         insertar(datos);
     }
 
@@ -104,7 +105,7 @@ public class Venta extends Modelo {
         tablaVenta.actualizarValor("1", "1");
         System.out.println(valorPrevio != tablaVenta.stringColumna("valor", "1"));
         System.out.println("CREAR VENTA FUNCIONA:");
-        tablaVenta.crear("2026-02-02", "PENDIENTE", valorPrevio);
+        tablaVenta.crear("2026-02-02", "PENDIENTE", valorPrevio, "EFECTIVO");
         System.out.println(!tablaVenta.stringColumna("estado", "11").isEmpty());
         System.out.println("VENDER FUNCIONA:");
         tablaVenta.vender("11", "Bolsa para basura 70x90", "5");
