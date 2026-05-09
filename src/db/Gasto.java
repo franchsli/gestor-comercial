@@ -25,12 +25,4 @@ public class Gasto extends Modelo {
         String[] datos = {fecha_gasto, estado, valor, fecha_pago, descripcion};
         insertar(datos);
     }
-
-    public static void main(String[] args) {
-        Gasto gasto = new Gasto();
-        // verificar que se pagó
-        System.out.println(gasto.todos("id=10"));
-        System.out.println("------");
-        DBConnection.cerrar();
-    }
 }

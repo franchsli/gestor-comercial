@@ -42,39 +42,4 @@ public class Producto extends Modelo {
         insertar(datos);
     }
 
-    public static void main(String[] args) {
-        Producto producto = new Producto();
-        System.out.println(producto.intColumna("cantidad", "1"));
-        // Pruebas:
-        System.out.println("----------");
-        String nombreAntes = producto.stringColumna("nombre", "1");
-        System.out.println("Nombre antes: "+ nombreAntes);
-        String nombreDespues = producto.stringColumna("nombre", "1");
-        System.out.println("Nombre despues: " + nombreDespues);
-        System.out.println("Son diferentes?:");
-        System.out.println(nombreAntes != nombreDespues);
-        System.out.println("----------");
-        double precioAntes = producto.doubleColumna("precio_unitario", "1");
-        System.out.println("Precio antes: "+ precioAntes);
-        double precioDespues = producto.doubleColumna("precio_unitario", "1");
-        System.out.println("Precio despues: " + precioDespues);
-        System.out.println("Son diferentes?:");
-        System.out.println(precioAntes != precioDespues);
-        System.out.println("----------");
-        int inventarioAntes = producto.intColumna("cantidad", "2");
-        System.out.println("Inventario antes: " + inventarioAntes);
-        int inventarioDespues = producto.intColumna("cantidad", "2");
-        System.out.println("Inventario despues: " + inventarioDespues);
-        System.out.println("Son diferentes?:");
-        System.out.println(inventarioAntes != inventarioDespues);
-        System.out.println("----------");
-        inventarioAntes = producto.intColumna("cantidad", "2");
-        System.out.println("Inventario antes: " + inventarioAntes);
-        producto.reducirInventario("2", 1000);
-        inventarioDespues = producto.intColumna("cantidad", "2");
-        System.out.println("Inventario despues: " + inventarioDespues);
-        System.out.println("Son diferentes?:");
-        System.out.println(inventarioAntes != inventarioDespues);
-        DBConnection.cerrar();
-    }
 }

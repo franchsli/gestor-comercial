@@ -272,48 +272,4 @@ public class Modelo {
         return tupla.toString();
     }
 
-    public static void main(String[] args) {
-        Modelo model = new Modelo();
-        // muestra todos los registros
-        List<Map<String, String>> resultados = model.todos();
-        for (Map<String,String> map : resultados) {
-            System.out.println(map);
-        }
-        System.out.println("----------");
-        // cuenta todos los registros
-        System.out.println("----------");
-        // cuenta todos los registros segun condición
-        System.out.println("----------");
-        // inserta un nuevo registro
-        String[] nuevoRegistro = {"2026-02-25", "PAGADO", "50000"};
-        model.insertar(nuevoRegistro);
-        // verifica que esté el nuevo registro
-        resultados = model.todos();
-        for (Map<String,String> map : resultados) {
-            System.out.println(map);
-        }
-        System.out.println("----------");
-        // actualiza un registro (en este caso, el último)
-        LinkedHashMap<String, String> nuevosDatos = new LinkedHashMap<>();
-        nuevosDatos.put("estado", "PENDIENTE");
-        model.actualizar(nuevosDatos, "id=11");
-        // verifica que el nuevo registro está actualizado
-        resultados = model.todos("id=11");
-        for (Map<String,String> map : resultados) {
-            System.out.println(map);
-        }
-        System.out.println("----------");
-        // elimina todos los registros según una condición
-        model.borrarTodos("estado='PAGADO'");
-        // verifica que se hayan borrado
-        resultados = model.todos();
-        for (Map<String,String> map : resultados) {
-            System.out.println(map);
-        }
-        System.out.println("----------");
-        // confirma que todo se ha borrado al ver 0
-        DBConnection.cerrar();
-        
-    }
-
 }
