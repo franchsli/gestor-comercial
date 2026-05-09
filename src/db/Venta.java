@@ -93,30 +93,4 @@ public class Venta extends Modelo {
         incrementarValor(ventaId, totalVentaProducto);
     }
 
-    public static void main(String[] args) {
-        Venta tablaVenta = new Venta();
-        System.out.println("ACTUALIZAR FECHA FUNCIONA:");
-        String fechaPrevia = tablaVenta.stringColumna("fecha", "1");
-        tablaVenta.actualizarFecha("1", "2000-11-02");
-        System.out.println(fechaPrevia != tablaVenta.stringColumna("fecha", "1"));
-        System.out.println("ACTUALIZAR ESTADO FUNCIONA:");
-        String estadoPrevio = tablaVenta.stringColumna("estado", "1");
-        tablaVenta.actualizarEstado("1", "PENDIENTE");
-        System.out.println(estadoPrevio != tablaVenta.stringColumna("estado", "1"));
-        System.out.println("ACTUALIZAR VALOR FUNCIONA");
-        String valorPrevio = tablaVenta.stringColumna("valor", "1");
-        tablaVenta.actualizarValor("1", "1");
-        System.out.println(valorPrevio != tablaVenta.stringColumna("valor", "1"));
-        System.out.println("CREAR VENTA FUNCIONA:");
-        tablaVenta.crear("2026-02-02", "PENDIENTE", valorPrevio, "EFECTIVO");
-        System.out.println(!tablaVenta.stringColumna("estado", "11").isEmpty());
-        System.out.println("VENDER FUNCIONA:");
-        tablaVenta.vender("11", "Bolsa para basura 70x90", "5");
-        System.out.println(tablaVenta.ventasProductos.contarTodos() == 16);
-        // TODO: Añade más pruebas...
-        DBConnection.cerrar();
-
-
-
-    }
 }

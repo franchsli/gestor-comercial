@@ -131,13 +131,6 @@ public class Modelo {
     }
 
     /**
-     * Borra todos los datos de una tabla.
-     */
-    public void borrarTodos(){
-        borrarTodos("");
-    }
-
-    /**
      * Borra todos los datos de una tabla que
      * cumplan la condición dada.
      * @param condicion La condición que deben
@@ -203,37 +196,6 @@ public class Modelo {
         actualizar(datos, condicion);
     }
 
-
-    /**
-     * Devuelve el número de filas en la tabla.
-     * @return El número de filas en la tabla.
-     */
-    public int contarTodos(){
-        return contarTodos("");
-    }
-
-    /**
-     * Devuelve el número de filas en la tabla
-     * que cumplen la condición dada.
-     * @param condicion La condición que deben cumplir las filas.
-     * @return El número de filas que cumplen la condición.
-     */
-    public int contarTodos(String condicion){
-        String sql = "SELECT COUNT(*) FROM " + nombreTabla;
-        if (!condicion.isEmpty()) {
-            sql += " WHERE " + condicion;
-        }
-        try {
-            ResultSet resultSet = DBConnection.consultar(sql);
-            if (resultSet.next()) {
-                return resultSet.getInt(1);
-            }
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
-        }
-        return 0;
-    }
-
     public String ultimoId(){
         String sql = "SELECT MAX(id) FROM " + nombreTabla;
         try {
@@ -265,15 +227,6 @@ public class Modelo {
             System.err.println("Error: " + e.getMessage());
         }
         return 0;
-    }
-
-    /**
-     * Retorna la suma de la columna.
-     * @param columna El nombre de la columna a sumar.
-     * @return El valor total de sumar todos los valores en la columna.
-     */
-    public int sumarColumna(String columna){
-        return sumarColumna(columna, null);
     }
 
     /**
@@ -317,57 +270,6 @@ public class Modelo {
             tupla.add(valor);
         }
         return tupla.toString();
-    }
-
-    public static void main(String[] args) {
-        Modelo model = new Modelo();
-        // muestra todos los registros
-        List<Map<String, String>> resultados = model.todos();
-        for (Map<String,String> map : resultados) {
-            System.out.println(map);
-        }
-        System.out.println("----------");
-        // cuenta todos los registros
-        int contador = model.contarTodos();
-        System.out.println(contador);
-        System.out.println("----------");
-        // cuenta todos los registros segun condición
-        int contadorCondicionado = model.contarTodos("estado='PENDIENTE'");
-        System.out.println(contadorCondicionado);
-        System.out.println("----------");
-        // inserta un nuevo registro
-        String[] nuevoRegistro = {"2026-02-25", "PAGADO", "50000"};
-        model.insertar(nuevoRegistro);
-        // verifica que esté el nuevo registro
-        resultados = model.todos();
-        for (Map<String,String> map : resultados) {
-            System.out.println(map);
-        }
-        System.out.println("----------");
-        // actualiza un registro (en este caso, el último)
-        LinkedHashMap<String, String> nuevosDatos = new LinkedHashMap<>();
-        nuevosDatos.put("estado", "PENDIENTE");
-        model.actualizar(nuevosDatos, "id=11");
-        // verifica que el nuevo registro está actualizado
-        resultados = model.todos("id=11");
-        for (Map<String,String> map : resultados) {
-            System.out.println(map);
-        }
-        System.out.println("----------");
-        // elimina todos los registros según una condición
-        model.borrarTodos("estado='PAGADO'");
-        // verifica que se hayan borrado
-        resultados = model.todos();
-        for (Map<String,String> map : resultados) {
-            System.out.println(map);
-        }
-        System.out.println("----------");
-        // elimina todos los registros
-        model.borrarTodos();
-        // confirma que todo se ha borrado al ver 0
-        System.out.println(model.contarTodos());
-        DBConnection.cerrar();
-        
     }
 
 }
