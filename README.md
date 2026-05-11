@@ -4,7 +4,7 @@ Una aplicación en Java que gestiona los productos, ventas y gastos de una empre
 
 ## Diagrama de Datos Actual
 
-<img width="1121" height="513" alt="DIAGRAMA DE DATOS" src="https://github.com/user-attachments/assets/080bc127-9f81-4cc4-87eb-6ed6664d246b" />
+<img width="1121" height="513" alt="DIAGRAMA DE DATOS" src="https://github.com/user-attachments/assets/ad8a01ca-a6fb-4895-8564-07467ff28f42" />
 
 Este diagrama fue creado con [esta herramienta](https://dbschema.com/databases/sqlite/).
 
