@@ -10,26 +10,6 @@ public class Venta extends Modelo {
     }
 
     /**
-     * Actualiza la fecha de una venta.
-     * @param id El id de la venta a actualizar.
-     * @param nuevaFecha La nueva fecha de la venta.
-     */
-    public void actualizarFecha(String id, String nuevaFecha){
-        String condicion = "id=" + id;
-        actualizar("fecha", nuevaFecha, condicion);
-    }
-
-    /**
-     * Actualiza el estado de una venta.
-     * @param id El id de la venta a actualizar.
-     * @param nuevoEstado El nuevo estado de la venta.
-     */
-    public void actualizarEstado(String id, String nuevoEstado){
-        String condicion = "id=" + id;
-        actualizar("estado", nuevoEstado, condicion);
-    }
-
-    /**
      * Actualiza el valor de una venta.
      * @param id El id de la venta a actualizar.
      * @param nuevoValor El nuevo valor de la venta.
@@ -50,20 +30,6 @@ public class Venta extends Modelo {
         String valorIncrementadoString = Integer.toString(valorIncrementado);
         actualizarValor(id, valorIncrementadoString);
     }
-
-    /**
-     * Reduce el valor de una venta.
-     * @param id El id de la venta a la cual reducir el valor.
-     * @param valor El valor a restarle a la venta.
-     */
-    public void reducirValor(String id, String valor){
-        int valorActual = intColumna("valor", id);
-        int valorReducido = valorActual - Integer.parseInt(valor);
-        String valorReducidoString = Integer.toString(valorReducido);
-        actualizarValor(id, valorReducidoString);
-    }
-
-
 
     /**
      * Crea una venta en la base de datos.
