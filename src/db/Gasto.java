@@ -23,7 +23,7 @@ public class Gasto extends Modelo {
         else {
             estado = "PENDIENTE";
         }
-        String[] datos = {fecha_gasto, estado, valor, fecha_pago, descripcion};
+        String[] datos = {fecha_gasto, estado, valor, fecha_pago, descripcion, fecha_presupuesto};
         insertar(datos);
     }
 }
