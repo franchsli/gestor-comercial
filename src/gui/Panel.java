@@ -2,6 +2,7 @@ package gui;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
@@ -186,7 +187,7 @@ public class Panel extends JPanel {
      * @param excepcion El nombre del campo a ser excluido de la validación.
      * @return Si el formulario es válido o no.
      */
-    protected boolean formularioEsValido(JPanel form, String excepcion) {
+    protected boolean formularioEsValido(JPanel form, Set<String> excepciones) {
         for (Component c : form.getComponents()) {
             String valor = null;
             String nombre = c.getName();
@@ -198,7 +199,7 @@ public class Panel extends JPanel {
             }
 
             if (valor != null && valor.isEmpty()) {
-                if (excepcion != null && excepcion.equals(nombre)) continue;
+                if (excepciones != null && excepciones.contains(nombre)) continue;
                 JOptionPane.showMessageDialog(this,
                     "Por favor completa todos los campos",
                     "Campos vacíos", JOptionPane.WARNING_MESSAGE);

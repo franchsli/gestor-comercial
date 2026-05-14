@@ -1,4 +1,6 @@
 package gui;
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -27,6 +29,9 @@ public class GastosPanel extends Panel {
         JTextField campoFechaPresupuesto = new JTextField();
         campoFechaPago.setName("fecha_pago");
         campoFechaPresupuesto.setName("fecha_presupuesto");
+        Set<String> excepciones = new HashSet<>();
+        excepciones.add("fecha_pago");
+        excepciones.add("fecha_presupuesto");
         JSpinner campoFechaGasto = campoFecha; 
         JSpinner.DateEditor editorFechaGasto = new JSpinner.DateEditor(campoFechaGasto, "yyyy-MM-dd"); 
         campoFechaGasto.setEditor(editorFechaGasto); 
@@ -52,7 +57,7 @@ public class GastosPanel extends Panel {
         int result = JOptionPane.showConfirmDialog(this, form,
             "Nuevo gasto", JOptionPane.OK_CANCEL_OPTION);
 
-        if (result == JOptionPane.OK_OPTION && formularioEsValido(form, "fecha_pago")) {
+        if (result == JOptionPane.OK_OPTION && formularioEsValido(form, excepciones)) {
             String fechaGastoStr = fechaATexto(editorFecha, campoFechaGasto);
             String fechaPagoStr = campoFechaPago.getText();
             gastos.crear(fechaGastoStr, estado.getSelectedItem().toString(), valor.getText(), fechaPagoStr, descripcion.getText(), campoFechaPresupuesto.getText());
