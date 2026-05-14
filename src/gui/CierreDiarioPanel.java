@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import db.CierreDiario;
 
 public class CierreDiarioPanel extends Panel {
-    CierreDiario cierresDiarios = new CierreDiario();
+    private CierreDiario cierresDiarios = new CierreDiario();
 
     public CierreDiarioPanel() {
         this.modelo = cierresDiarios;

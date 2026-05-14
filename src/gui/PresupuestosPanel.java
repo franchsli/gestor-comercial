@@ -14,7 +14,7 @@ import java.util.LinkedHashMap;
 import db.Presupuesto;
 
 public class PresupuestosPanel extends Panel{
-    Presupuesto presupuestos = new Presupuesto();
+    private Presupuesto presupuestos = new Presupuesto();
 
     public PresupuestosPanel(){
         this.modelo = presupuestos;

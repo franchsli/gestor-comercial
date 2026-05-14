@@ -11,7 +11,7 @@ import java.awt.GridLayout;
 import db.Producto;
 
 public class ProductosPanel extends Panel {
-    Producto productos = new Producto();
+    private Producto productos = new Producto();
 
     public ProductosPanel() {
         this.modelo = productos;

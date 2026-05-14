@@ -11,7 +11,7 @@ import java.awt.GridLayout;
 import db.Gasto;
 
 public class GastosPanel extends Panel {
-    Gasto gastos = new Gasto();
+    private Gasto gastos = new Gasto();
 
     public GastosPanel() {
         this.modelo = gastos;
