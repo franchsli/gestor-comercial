@@ -3,7 +3,7 @@ package db;
 public class Gasto extends Modelo {
     
     public Gasto(){
-        this.columnas = "(fecha_gasto, estado, valor, fecha_pago, descripcion)";
+        this.columnas = "(fecha_gasto, estado, valor, fecha_pago, descripcion, fecha_presupuesto)";
     }
 
     /**
@@ -14,8 +14,9 @@ public class Gasto extends Modelo {
      * @param valor El valor del gasto.
      * @param fecha_pago La fecha en la que se pagó el gasto.
      * @param descripcion Explicación del gasto.
+     * @param fecha_presupuesto La fecha del presupuesto
      */
-    public void crear(String fecha_gasto, String estado, String valor, String fecha_pago, String descripcion){
+    public void crear(String fecha_gasto, String estado, String valor, String fecha_pago, String descripcion, String fecha_presupuesto){
         if (!fecha_pago.isEmpty() && fecha_pago != "null") {
             estado = "PAGADO";
         }
