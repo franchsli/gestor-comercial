@@ -17,7 +17,7 @@ public class Gasto extends Modelo {
      * @param fecha_presupuesto La fecha del presupuesto
      */
     public void crear(String fecha_gasto, String estado, String valor, String fecha_pago, String descripcion, String fecha_presupuesto){
-        if (!fecha_pago.isEmpty() && fecha_pago != "null") {
+        if (!fecha_pago.isEmpty()) {
             estado = "PAGADO";
         }
         else {
