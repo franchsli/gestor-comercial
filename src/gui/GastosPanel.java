@@ -1,4 +1,6 @@
 package gui;
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -11,7 +13,7 @@ import java.awt.GridLayout;
 import db.Gasto;
 
 public class GastosPanel extends Panel {
-    Gasto gastos = new Gasto();
+    private Gasto gastos = new Gasto();
 
     public GastosPanel() {
         this.modelo = gastos;
@@ -24,7 +26,12 @@ public class GastosPanel extends Panel {
     @Override
     public void mostrarFormularioNuevo() {
         JTextField campoFechaPago = new JTextField();
+        JTextField campoFechaPresupuesto = new JTextField();
         campoFechaPago.setName("fecha_pago");
+        campoFechaPresupuesto.setName("fecha_presupuesto");
+        Set<String> excepciones = new HashSet<>();
+        excepciones.add("fecha_pago");
+        excepciones.add("fecha_presupuesto");
         JSpinner campoFechaGasto = campoFecha; 
         JSpinner.DateEditor editorFechaGasto = new JSpinner.DateEditor(campoFechaGasto, "yyyy-MM-dd"); 
         campoFechaGasto.setEditor(editorFechaGasto); 
@@ -33,20 +40,27 @@ public class GastosPanel extends Panel {
         String[] estados = {"PENDIENTE", "PAGADO"};
         JComboBox<String> estado = new JComboBox<>(estados);
 
-        JPanel form = new JPanel(new GridLayout(5, 2, 5, 5));
-        form.add(new JLabel("Fecha gasto (YYYY-MM-DD):")); form.add(campoFechaGasto);
-        form.add(new JLabel("Estado:")); form.add(estado);
-        form.add(new JLabel("Valor:")); form.add(valor);
-        form.add(new JLabel("Fecha pago (YYYY-MM-DD):")); form.add(campoFechaPago);
-        form.add(new JLabel("Descripción:")); form.add(descripcion);
+        JPanel form = new JPanel(new GridLayout(6, 2, 5, 5));
+        form.add(new JLabel("Fecha gasto (YYYY-MM-DD):")); 
+        form.add(campoFechaGasto);
+        form.add(new JLabel("Estado:")); 
+        form.add(estado);
+        form.add(new JLabel("Valor:")); 
+        form.add(valor);
+        form.add(new JLabel("Fecha pago (YYYY-MM-DD):")); 
+        form.add(campoFechaPago);
+        form.add(new JLabel("Descripción:")); 
+        form.add(descripcion);
+        form.add(new JLabel("Fecha presupuesto: (YYYY-MM-DD):"));
+        form.add(campoFechaPresupuesto);
 
         int result = JOptionPane.showConfirmDialog(this, form,
             "Nuevo gasto", JOptionPane.OK_CANCEL_OPTION);
 
-        if (result == JOptionPane.OK_OPTION && formularioEsValido(form, "fecha_pago")) {
+        if (result == JOptionPane.OK_OPTION && formularioEsValido(form, excepciones)) {
             String fechaGastoStr = fechaATexto(editorFecha, campoFechaGasto);
             String fechaPagoStr = campoFechaPago.getText();
-            gastos.crear(fechaGastoStr, estado.getSelectedItem().toString(), valor.getText(), fechaPagoStr, descripcion.getText());
+            gastos.crear(fechaGastoStr, estado.getSelectedItem().toString(), valor.getText(), fechaPagoStr, descripcion.getText(), campoFechaPresupuesto.getText());
             cargarDatos();
         }
     }

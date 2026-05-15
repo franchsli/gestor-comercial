@@ -18,8 +18,8 @@ import db.Producto;
 import db.Venta;
 
 public class VentasPanel extends Panel {
-    Venta ventas = new Venta();
-    Producto productos = new Producto();
+    private Venta ventas = new Venta();
+    private Producto productos = new Producto();
     
     public VentasPanel(){
         this.modelo = ventas;
