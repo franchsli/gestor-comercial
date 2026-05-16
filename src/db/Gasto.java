@@ -14,7 +14,7 @@ public class Gasto extends Modelo {
      * @param valor El valor del gasto.
      * @param fecha_pago La fecha en la que se pagó el gasto.
      * @param descripcion Explicación del gasto.
-     * @param fecha_presupuesto La fecha del presupuesto
+     * @param fecha_presupuesto La fecha del presupuesto que se usó para cubrir el gasto (si aplica)
      */
     public void crear(String fecha_gasto, String estado, String valor, String fecha_pago, String descripcion, String fecha_presupuesto){
         if (!fecha_pago.isEmpty()) {
@@ -22,6 +22,10 @@ public class Gasto extends Modelo {
         }
         else {
             estado = "PENDIENTE";
+        }
+        // si se da un valor vacío para esa columna
+        if (fecha_presupuesto.isEmpty() || fecha_presupuesto == null){
+            fecha_presupuesto = "null";
         }
         String[] datos = {fecha_gasto, estado, valor, fecha_pago, descripcion, fecha_presupuesto};
         insertar(datos);
