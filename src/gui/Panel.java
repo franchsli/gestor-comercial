@@ -138,8 +138,8 @@ public class Panel extends JPanel {
 
         for (int i = 0; i < cols; i++) {
             String nombreColumna = modeloTabla.getColumnName(i);
-            String valorActual = modeloTabla.getValueAt(fila, i).toString();
-            campos[i] = new JTextField(valorActual);
+            Object valorActual = modeloTabla.getValueAt(fila, i);
+            campos[i] = new JTextField(valorActual != null ? valorActual.toString() : "");
             campos[i].setName(nombreColumna);
             form.add(new JLabel(nombreColumna + ":"));
             form.add(campos[i]);

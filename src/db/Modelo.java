@@ -248,6 +248,7 @@ public class Modelo {
      * @return El valor formateado.
      */
     protected String formatearValor(String valor){
+        if (valor == null || valor.isEmpty()) return "null";
         try {
             Double.parseDouble(valor);
             return valor;
@@ -258,12 +259,6 @@ public class Modelo {
             else {
                 return valor;
             }
-        }
-        // Si el valor resulta ser null (sin comillas)
-        // retornalo con comillas en lugar de romper
-        // el programa
-        catch (NullPointerException e){
-            return "null";
         }
     }
 
