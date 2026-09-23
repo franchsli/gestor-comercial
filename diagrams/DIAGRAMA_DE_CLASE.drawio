@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net">
   <diagram name="Página-1" id="F68SIA22JYyRubeV5QEN">
-    <mxGraphModel dx="5203" dy="3589" grid="1" gridSize="10" guides="1" tooltips="1" connect="0" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
+    <mxGraphModel dx="1921" dy="1774" grid="1" gridSize="10" guides="1" tooltips="1" connect="0" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -351,7 +351,7 @@
           <mxGeometry height="92" width="240" y="204" as="geometry" />
         </mxCell>
         <mxCell id="je3UZ6_4oj5xrIMTJHlo-1" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Controlador" vertex="1">
-          <mxGeometry height="210" width="210" x="720" y="1190" as="geometry">
+          <mxGeometry height="190" width="210" x="720" y="1190" as="geometry">
             <mxRectangle height="30" width="70" x="970" y="940" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
@@ -361,8 +361,8 @@
         <mxCell id="je3UZ6_4oj5xrIMTJHlo-3" parent="je3UZ6_4oj5xrIMTJHlo-1" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
           <mxGeometry height="8" width="210" y="60" as="geometry" />
         </mxCell>
-        <mxCell id="je3UZ6_4oj5xrIMTJHlo-4" parent="je3UZ6_4oj5xrIMTJHlo-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;+ Controlador()&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;+ todos(String): &lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: transparent;&quot;&gt;List&amp;lt;Map&amp;lt;String, String&amp;gt;&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: transparent;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+ borrarTodos(String): void&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: transparent;&quot;&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;+ actualizar(LinkedHashMap&amp;lt;String, String&amp;gt;, String): void&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
-          <mxGeometry height="142" width="210" y="68" as="geometry" />
+        <mxCell id="je3UZ6_4oj5xrIMTJHlo-4" parent="je3UZ6_4oj5xrIMTJHlo-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ todos(String): &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;List&amp;lt;Map&amp;lt;String, String&amp;gt;&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: transparent;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+ borrarTodos(String): void&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: transparent;&quot;&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;+ actualizar(LinkedHashMap&amp;lt;String, String&amp;gt;, String): void&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="122" width="210" y="68" as="geometry" />
         </mxCell>
         <mxCell id="je3UZ6_4oj5xrIMTJHlo-5" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="CierresDiariosControlador" vertex="1">
           <mxGeometry height="220" width="210" x="1160" y="-120" as="geometry">
@@ -496,7 +496,7 @@
           <mxGeometry relative="1" width="160" as="geometry">
             <Array as="points">
               <mxPoint x="985" y="531" />
-              <mxPoint x="985" y="1280" />
+              <mxPoint x="985" y="1277" />
             </Array>
             <mxPoint x="1010" y="902" as="sourcePoint" />
             <mxPoint x="990" y="1000" as="targetPoint" />
