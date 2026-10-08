@@ -1,4 +1,4 @@
-package gui;
+package com.example.gui;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -14,8 +14,8 @@ import java.awt.Dimension;
 import java.util.List;
 import java.util.Map;
 
-import db.Producto;
-import db.Venta;
+import com.example.db.Producto;
+import com.example.db.Venta;
 
 public class VentasPanel extends Panel {
     private Venta ventas = new Venta();

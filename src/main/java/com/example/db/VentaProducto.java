@@ -1,4 +1,4 @@
-package db;
+package com.example.db;
 public class VentaProducto extends Modelo {
     private Producto productos = new Producto();
 

@@ -1,4 +1,4 @@
-package gui;
+package com.example.gui;
 
 import java.util.List;
 import java.util.Map;
@@ -8,7 +8,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import db.CierreDiario;
+import com.example.db.CierreDiario;
 
 public class CierreDiarioPanel extends Panel {
     private CierreDiario cierresDiarios = new CierreDiario();

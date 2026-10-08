@@ -1,4 +1,4 @@
-package gui;
+package com.example.gui;
 import javax.swing.JFrame;
 
 public class Ventana extends JFrame {

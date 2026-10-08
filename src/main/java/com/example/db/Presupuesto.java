@@ -1,4 +1,4 @@
-package db;
+package com.example.db;
 
 public class Presupuesto extends Modelo {
     public Presupuesto() {

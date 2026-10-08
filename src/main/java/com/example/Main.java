@@ -1,13 +1,14 @@
+package com.example;
 import javax.swing.JTabbedPane;
 
-import db.DBConnection;
-import gui.CierreDiarioPanel;
-import gui.GastosPanel;
-import gui.Panel;
-import gui.PresupuestosPanel;
-import gui.ProductosPanel;
-import gui.Ventana;
-import gui.VentasPanel;
+import com.example.db.DBConnection;
+import com.example.gui.CierreDiarioPanel;
+import com.example.gui.GastosPanel;
+import com.example.gui.Panel;
+import com.example.gui.PresupuestosPanel;
+import com.example.gui.ProductosPanel;
+import com.example.gui.Ventana;
+import com.example.gui.VentasPanel;
 
 public class Main {
     public static void main(String[] args) {
