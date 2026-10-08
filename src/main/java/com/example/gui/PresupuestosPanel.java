@@ -1,4 +1,4 @@
-package gui;
+package com.example.gui;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -11,7 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
-import db.Presupuesto;
+import com.example.db.Presupuesto;
 
 public class PresupuestosPanel extends Panel{
     private Presupuesto presupuestos = new Presupuesto();

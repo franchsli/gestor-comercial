@@ -1,4 +1,4 @@
-package db;
+package com.example.db;
 import java.util.Map;
 
 public class Venta extends Modelo {

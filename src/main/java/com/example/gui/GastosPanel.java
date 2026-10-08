@@ -1,4 +1,4 @@
-package gui;
+package com.example.gui;
 import java.util.HashSet;
 import java.util.Set;
 import javax.swing.JComboBox;
@@ -10,7 +10,7 @@ import javax.swing.JTextField;
 
 import java.awt.GridLayout;
 
-import db.Gasto;
+import com.example.db.Gasto;
 
 public class GastosPanel extends Panel {
     private Gasto gastos = new Gasto();

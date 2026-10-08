@@ -1,4 +1,4 @@
-package gui;
+package com.example.gui;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -8,7 +8,7 @@ import javax.swing.event.DocumentListener;
 
 import java.awt.GridLayout;
 
-import db.Producto;
+import com.example.db.Producto;
 
 public class ProductosPanel extends Panel {
     private Producto productos = new Producto();

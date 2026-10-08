@@ -1,4 +1,4 @@
-package db;
+package com.example.db;
 
 public class Gasto extends Modelo {
     

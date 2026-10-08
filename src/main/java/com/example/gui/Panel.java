@@ -1,4 +1,4 @@
-package gui;
+package com.example.gui;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +20,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerDateModel;
 import javax.swing.table.DefaultTableModel;
 
-import db.Modelo;
+import com.example.db.Modelo;
 
 public class Panel extends JPanel {
    Modelo modelo = new Modelo();
