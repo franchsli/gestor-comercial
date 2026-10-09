@@ -17,7 +17,7 @@ Una aplicación en Java que gestiona los productos, ventas y gastos de una empre
 
 ## Diagrama de Datos Actual
 
-<img width="874" height="703" alt="DIAGRAMA DE DATOS" src="https://github.com/user-attachments/assets/b8a8b713-1b30-4f78-8928-be2c23e90042" />
+<img width="855" height="684" alt="DIAGRAMA_DE_DATOS" src="https://github.com/user-attachments/assets/d8cefaf6-991a-489a-ac08-efcd858ec4a9" />
 
 Este diagrama muestra los tipos de datos que se usan para almacenar los datos en la base de datos
 y también muestra las siguientes relaciones:
