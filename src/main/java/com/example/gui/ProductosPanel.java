@@ -8,6 +8,7 @@ import javax.swing.event.DocumentListener;
 
 import java.awt.GridLayout;
 
+import com.example.db.DBException;
 import com.example.db.Producto;
 
 public class ProductosPanel extends Panel {
@@ -39,8 +40,14 @@ public class ProductosPanel extends Panel {
             "Nuevo producto", JOptionPane.OK_CANCEL_OPTION);
 
         if (result == JOptionPane.OK_OPTION && formularioEsValido(form)) {
-            productos.crear(nombre.getText(), precio.getText(), cantidad.getText());
-            cargarDatos();
+            try {
+                productos.crear(nombre.getText(), precio.getText(), cantidad.getText());
+                cargarDatos();
+            } catch (DBException e) {
+                JOptionPane.showMessageDialog(this,
+                    "Error al guardar: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 

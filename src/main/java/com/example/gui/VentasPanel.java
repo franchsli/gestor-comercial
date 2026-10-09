@@ -14,6 +14,7 @@ import java.awt.Dimension;
 import java.util.List;
 import java.util.Map;
 
+import com.example.db.DBException;
 import com.example.db.Producto;
 import com.example.db.Venta;
 
@@ -66,27 +67,37 @@ public class VentasPanel extends Panel {
             "Nueva venta", JOptionPane.OK_CANCEL_OPTION);
 
         if (result == JOptionPane.OK_OPTION && formularioEsValido(form)) {
-            // crear la venta primero (valor se calculará en vender())
-            String fechaStr = fechaATexto(editorFecha, campoFecha);
-            ventas.crear(fechaStr, "0", tipo.getSelectedItem().toString());
+            try {
+                // crear la venta primero (valor se calculará en vender())
+                String fechaStr = fechaATexto(editorFecha, campoFecha);
+                ventas.crear(fechaStr, "0", tipo.getSelectedItem().toString());
 
-            // obtener el id de la venta recién creada
-            String ventaId = ventas.ultimoId();
+                // obtener el id de la venta recién creada
+                String ventaId = ventas.ultimoId();
 
-            // iterar filas de productos
-            for (Component c : panelProductos.getComponents()) {
-                JPanel fila = (JPanel) c;
-                JComboBox<?> combo = (JComboBox<?>) fila.getComponent(0);
-                JTextField campoCantidad = (JTextField) fila.getComponent(1);
+                // iterar filas de productos
+                for (Component c : panelProductos.getComponents()) {
+                    JPanel fila = (JPanel) c;
+                    JComboBox<?> combo = (JComboBox<?>) fila.getComponent(0);
+                    JTextField campoCantidad = (JTextField) fila.getComponent(1);
 
-                String nombreProducto = combo.getSelectedItem().toString();
-                String cantidadStr = campoCantidad.getText().trim();
-                if (cantidadStr.isEmpty()) continue;
+                    String nombreProducto = combo.getSelectedItem().toString();
+                    String cantidadStr = campoCantidad.getText().trim();
+                    if (cantidadStr.isEmpty()) continue;
 
-                ventas.vender(ventaId, nombreProducto, cantidadStr);
+                    ventas.vender(ventaId, nombreProducto, cantidadStr);
+                }
+
+                cargarDatos();
+            } catch (DBException e) {
+                JOptionPane.showMessageDialog(this,
+                    "Error al guardar venta: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (ArithmeticException e) {
+                JOptionPane.showMessageDialog(this,
+                    e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
             }
-
-            cargarDatos();
         }
     }
 
