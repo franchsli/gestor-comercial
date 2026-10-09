@@ -6,7 +6,7 @@ public class Venta extends Modelo {
     private Producto productos = new Producto();
 
     public Venta(){
-        this.columnas = "(fecha, estado, valor, tipo)";
+        this.columnas = "(fecha, valor, tipo)";
     }
 
     /**
@@ -34,12 +34,11 @@ public class Venta extends Modelo {
     /**
      * Crea una venta en la base de datos.
      * @param fecha La fecha de la venta en formato 'AAAA-MM-DD'.
-     * @param estado El estado de la venta.
      * @param valor El valor total de la venta.
      * @param tipo El tipo de la venta ('EFECTIVO' o 'CREDITO')
      */
-    public void crear(String fecha, String estado, String valor, String tipo){
-        String[] datos = {fecha, estado, valor, tipo};
+    public void crear(String fecha, String valor, String tipo){
+        String[] datos = {fecha, valor, tipo};
         insertar(datos);
     }
 
