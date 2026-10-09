@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 
 import java.awt.GridLayout;
 
+import com.example.db.DBException;
 import com.example.db.Gasto;
 
 public class GastosPanel extends Panel {
@@ -58,10 +59,16 @@ public class GastosPanel extends Panel {
             "Nuevo gasto", JOptionPane.OK_CANCEL_OPTION);
 
         if (result == JOptionPane.OK_OPTION && formularioEsValido(form, excepciones)) {
-            String fechaGastoStr = fechaATexto(editorFecha, campoFechaGasto);
-            String fechaPagoStr = campoFechaPago.getText();
-            gastos.crear(fechaGastoStr, estado.getSelectedItem().toString(), valor.getText(), fechaPagoStr, descripcion.getText(), campoFechaPresupuesto.getText());
-            cargarDatos();
+            try {
+                String fechaGastoStr = fechaATexto(editorFecha, campoFechaGasto);
+                String fechaPagoStr = campoFechaPago.getText();
+                gastos.crear(fechaGastoStr, estado.getSelectedItem().toString(), valor.getText(), fechaPagoStr, descripcion.getText(), campoFechaPresupuesto.getText());
+                cargarDatos();
+            } catch (DBException e) {
+                JOptionPane.showMessageDialog(this,
+                    "Error al guardar: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 }

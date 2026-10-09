@@ -20,6 +20,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerDateModel;
 import javax.swing.table.DefaultTableModel;
 
+import com.example.db.DBException;
 import com.example.db.Modelo;
 
 public class Panel extends JPanel {
@@ -77,15 +78,21 @@ public class Panel extends JPanel {
         modeloTabla.setRowCount(0);
         modeloTabla.setColumnCount(0);
 
-        List<Map<String, String>> filas = modelo.todos(condicion);
-        if (filas.isEmpty()) return;
+        try {
+            List<Map<String, String>> filas = modelo.todos(condicion);
+            if (filas.isEmpty()) return;
 
-        // columnas desde la primera fila
-        filas.get(0).keySet().forEach(modeloTabla::addColumn);
+            // columnas desde la primera fila
+            filas.get(0).keySet().forEach(modeloTabla::addColumn);
 
-        // filas
-        for (Map<String, String> fila : filas) {
-            modeloTabla.addRow(fila.values().toArray());
+            // filas
+            for (Map<String, String> fila : filas) {
+                modeloTabla.addRow(fila.values().toArray());
+            }
+        } catch (DBException e) {
+            JOptionPane.showMessageDialog(this,
+                "Error en la base de datos: " + e.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -111,11 +118,17 @@ public class Panel extends JPanel {
             "Confirma el borrado de los registros",
             "Confirmar", JOptionPane.YES_NO_OPTION);
         if (confirmacion == JOptionPane.YES_OPTION) {
-            for (int i = filasSeleccionadas.length - 1; i >= 0; i--) {
-                String id = modeloTabla.getValueAt(filasSeleccionadas[i], 0).toString();
-                modelo.borrarTodos("id=" + id);
+            try {
+                for (int i = filasSeleccionadas.length - 1; i >= 0; i--) {
+                    String id = modeloTabla.getValueAt(filasSeleccionadas[i], 0).toString();
+                    modelo.borrarTodos("id=" + id);
+                }
+                cargarDatos();
+            } catch (DBException e) {
+                JOptionPane.showMessageDialog(this,
+                    "Error al eliminar: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
             }
-            cargarDatos();
         }
     }
 
@@ -152,14 +165,20 @@ public class Panel extends JPanel {
             "Editar registro", JOptionPane.OK_CANCEL_OPTION);
 
         if (result == JOptionPane.OK_OPTION) {
-            LinkedHashMap<String, String> datos = new LinkedHashMap<>();
-            for (int i = 1; i < cols; i++) { // ignora la pk
-                datos.put(modeloTabla.getColumnName(i), campos[i].getText().trim());
+            try {
+                LinkedHashMap<String, String> datos = new LinkedHashMap<>();
+                for (int i = 1; i < cols; i++) { // ignora la pk
+                    datos.put(modeloTabla.getColumnName(i), campos[i].getText().trim());
+                }
+                String pk = modeloTabla.getColumnName(0);
+                String pkValor = campos[0].getText();
+                modelo.actualizar(datos, pk + "='" + pkValor + "'");
+                cargarDatos();
+            } catch (DBException e) {
+                JOptionPane.showMessageDialog(this,
+                    "Error al actualizar: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
             }
-            String pk = modeloTabla.getColumnName(0);
-            String pkValor = campos[0].getText();
-            modelo.actualizar(datos, pk + "='" + pkValor + "'");
-            cargarDatos();
         }
     }
 

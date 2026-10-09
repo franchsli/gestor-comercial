@@ -6,9 +6,11 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.example.db.CierreDiario;
+import com.example.db.DBException;
 
 public class CierreDiarioPanel extends Panel {
     private CierreDiario cierresDiarios = new CierreDiario();
@@ -55,19 +57,25 @@ public class CierreDiarioPanel extends Panel {
      * @param condicion La condición que deben cumplir los datos para ser considerados en el total.
      */
     public void cargarTotales(String condicion) {
-        String[] columnas = {"ventas_efectivo", "ventas_credito", "total_ventas", "presupuesto", "cumplimiento", "gastos"};
-        Object[] filaTotal = new Object[modeloTabla.getColumnCount()];
-        
-        filaTotal[0] = "TOTAL";
-        for (int i = 1; i < columnas.length + 1; i++) {
-            filaTotal[i] = cierresDiarios.sumarColumna(columnas[i - 1], condicion);
-        }
-        // cumplimiento va en índice 5, se calcula aparte
-        int totalVentas = cierresDiarios.sumarColumna("total_ventas", condicion);
-        int totalPresupuesto = cierresDiarios.sumarColumna("presupuesto", condicion);
-        filaTotal[5] = totalPresupuesto == 0 ? "0%" : Math.round((totalVentas * 100.0) / totalPresupuesto) + "%";
+        try {
+            String[] columnas = {"ventas_efectivo", "ventas_credito", "total_ventas", "presupuesto", "cumplimiento", "gastos"};
+            Object[] filaTotal = new Object[modeloTabla.getColumnCount()];
+            
+            filaTotal[0] = "TOTAL";
+            for (int i = 1; i < columnas.length + 1; i++) {
+                filaTotal[i] = cierresDiarios.sumarColumna(columnas[i - 1], condicion);
+            }
+            // cumplimiento va en índice 5, se calcula aparte
+            int totalVentas = cierresDiarios.sumarColumna("total_ventas", condicion);
+            int totalPresupuesto = cierresDiarios.sumarColumna("presupuesto", condicion);
+            filaTotal[5] = totalPresupuesto == 0 ? "0%" : Math.round((totalVentas * 100.0) / totalPresupuesto) + "%";
 
-        modeloTabla.addRow(filaTotal);
+            modeloTabla.addRow(filaTotal);
+        } catch (DBException e) {
+            JOptionPane.showMessageDialog(this,
+                "Error al calcular totales: " + e.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -83,26 +91,32 @@ public class CierreDiarioPanel extends Panel {
      * @param año El AÑO en el que deben situarse los cierres diarios.
      */
     private void aplicarFiltro(int mes, int año) {
-        List<Map<String, String>> filas = mes == 0
-            ? cierresDiarios.filtrarPorAño(año)
-            : cierresDiarios.filtrarPorMes(año, mes);
+        try {
+            List<Map<String, String>> filas = mes == 0
+                ? cierresDiarios.filtrarPorAño(año)
+                : cierresDiarios.filtrarPorMes(año, mes);
 
-        modeloTabla.setRowCount(0);
-        modeloTabla.setColumnCount(0);
-        if (filas.isEmpty()) return;
+            modeloTabla.setRowCount(0);
+            modeloTabla.setColumnCount(0);
+            if (filas.isEmpty()) return;
 
-        filas.get(0).keySet().forEach(modeloTabla::addColumn);
-        for (Map<String, String> fila : filas) {
-            modeloTabla.addRow(fila.values().toArray());
+            filas.get(0).keySet().forEach(modeloTabla::addColumn);
+            for (Map<String, String> fila : filas) {
+                modeloTabla.addRow(fila.values().toArray());
+            }
+            String condicion;
+            if (mes == 0) {
+                condicion = "fecha LIKE '" + año + "%'";
+            } else {
+                String mesStr = String.format("%04d-%02d", año, mes);
+                condicion = "fecha LIKE '" + mesStr + "%'";
+                
+            }
+            cargarTotales(condicion);
+        } catch (DBException e) {
+            JOptionPane.showMessageDialog(this,
+                "Error al filtrar cierres: " + e.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
         }
-        String condicion;
-        if (mes == 0) {
-            condicion = "fecha LIKE '" + año + "%'";
-        } else {
-            String mesStr = String.format("%04d-%02d", año, mes);
-            condicion = "fecha LIKE '" + mesStr + "%'";
-            
-        }
-        cargarTotales(condicion);
     }
 }

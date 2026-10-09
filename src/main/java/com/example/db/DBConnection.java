@@ -34,7 +34,7 @@ public class DBConnection {
             PreparedStatement pStatement = conn.prepareStatement(sql);
             pStatement.execute();
         } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
+            throw new DBException(e);
         }
     }
 
@@ -43,13 +43,15 @@ public class DBConnection {
      * y devuelve lo hallado
      * @param sql La sentencia SELECT de SQL
      * @return El resultado de la consulta
-     * @throws SQLException Error de SQL si la consulta
-     * u algo más falla
      */
-    public static ResultSet consultar(String sql) throws SQLException {
-        Connection conn = DBConnection.get();
-        PreparedStatement pStatement = conn.prepareStatement(sql);
-        return pStatement.executeQuery();
+    public static ResultSet consultar(String sql) {
+        try {
+            Connection conn = DBConnection.get();
+            PreparedStatement pStatement = conn.prepareStatement(sql);
+            return pStatement.executeQuery();
+        } catch (SQLException e) {
+            throw new DBException(e);
+        }
     }
 
     /** Cierra la conexión a la base de datos 
@@ -60,7 +62,7 @@ public class DBConnection {
                 connection.close();
             }
         } catch (SQLException e) {
-            System.err.println("Error al cerrar: " + e.getMessage());
+            throw new DBException(e);
         }
     }
 }

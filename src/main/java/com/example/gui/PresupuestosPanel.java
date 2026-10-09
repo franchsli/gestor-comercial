@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
+import com.example.db.DBException;
 import com.example.db.Presupuesto;
 
 public class PresupuestosPanel extends Panel{
@@ -38,9 +39,15 @@ public class PresupuestosPanel extends Panel{
             "Nuevo presupuesto", JOptionPane.OK_CANCEL_OPTION);
 
         if (result == JOptionPane.OK_OPTION && formularioEsValido(form)) {
-            String fechaGastoStr = fechaATexto(editorFecha, campoFechaPresupuesto);
-            presupuestos.crear(fechaGastoStr, valor.getText());
-            cargarDatos();
+            try {
+                String fechaGastoStr = fechaATexto(editorFecha, campoFechaPresupuesto);
+                presupuestos.crear(fechaGastoStr, valor.getText());
+                cargarDatos();
+            } catch (DBException e) {
+                JOptionPane.showMessageDialog(this,
+                    "Error al guardar: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
@@ -57,11 +64,17 @@ public class PresupuestosPanel extends Panel{
             "Confirma el borrado de los registros",
             "Confirmar", JOptionPane.YES_NO_OPTION);
         if (confirmacion == JOptionPane.YES_OPTION) {
-            for (int i = filasSeleccionadas.length - 1; i >= 0; i--) {
-                String fecha = modeloTabla.getValueAt(filasSeleccionadas[i], 0).toString();
-                modelo.borrarTodos("fecha='" + fecha + "'");
+            try {
+                for (int i = filasSeleccionadas.length - 1; i >= 0; i--) {
+                    String fecha = modeloTabla.getValueAt(filasSeleccionadas[i], 0).toString();
+                    modelo.borrarTodos("fecha='" + fecha + "'");
+                }
+                cargarDatos();
+            } catch (DBException e) {
+                JOptionPane.showMessageDialog(this,
+                    "Error al eliminar: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
             }
-            cargarDatos();
         }
     }
 
@@ -88,11 +101,17 @@ public class PresupuestosPanel extends Panel{
 
             int result = JOptionPane.showConfirmDialog(this, form, "Editar presupuesto", JOptionPane.OK_CANCEL_OPTION);
             if (result == JOptionPane.OK_OPTION) {
-                LinkedHashMap<String, String> datos = new LinkedHashMap<>();
-                datos.put("fecha", fechaATexto(editorFecha, campoFechaPresupuesto));
-                datos.put("valor", campoValor.getText()); 
-                presupuestos.actualizar(datos, "fecha='" + fechaActual + "'");
-                cargarDatos();
+                try {
+                    LinkedHashMap<String, String> datos = new LinkedHashMap<>();
+                    datos.put("fecha", fechaATexto(editorFecha, campoFechaPresupuesto));
+                    datos.put("valor", campoValor.getText()); 
+                    presupuestos.actualizar(datos, "fecha='" + fechaActual + "'");
+                    cargarDatos();
+                } catch (DBException e) {
+                    JOptionPane.showMessageDialog(this,
+                        "Error al actualizar: " + e.getMessage(),
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         } catch (ParseException e) {
             JOptionPane.showMessageDialog(this, "Fecha actual inválida", "ERROR", JOptionPane.ERROR_MESSAGE);
