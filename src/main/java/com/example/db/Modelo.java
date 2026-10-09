@@ -48,7 +48,7 @@ public class Modelo {
                 resultados.add(fila);
             }
         } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
+            throw new DBException(e);
         }
         return resultados;
     }
@@ -78,8 +78,7 @@ public class Modelo {
             else return null;
             
         } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
-            return null;
+            throw new DBException(e);
         }
     }
 
@@ -93,11 +92,12 @@ public class Modelo {
         String sql = "SELECT " + nombreColumna + " FROM " + nombreTabla + " WHERE id=" + id;
         try {
             ResultSet resultSet = DBConnection.consultar(sql);
-            resultSet.next();
-            return resultSet.getString(nombreColumna);
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
+            if (resultSet.next()) {
+                return resultSet.getString(nombreColumna);
+            }
             return null;
+        } catch (SQLException e) {
+            throw new DBException(e);
         }
     }
 
@@ -111,11 +111,12 @@ public class Modelo {
         String sql = "SELECT " + nombreColumna + " FROM " + nombreTabla + " WHERE id=" + id;
         try {
             ResultSet resultSet = DBConnection.consultar(sql);
-            resultSet.next();
-            return resultSet.getInt(nombreColumna);
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
+            if (resultSet.next()) {
+                return resultSet.getInt(nombreColumna);
+            }
             return 0;
+        } catch (SQLException e) {
+            throw new DBException(e);
         }
     }
 
@@ -129,11 +130,12 @@ public class Modelo {
         String sql = "SELECT " + nombreColumna + " FROM " + nombreTabla + " WHERE id=" + id;
         try {
             ResultSet resultSet = DBConnection.consultar(sql);
-            resultSet.next();
-            return resultSet.getDouble(nombreColumna);
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
+            if (resultSet.next()) {
+                return resultSet.getDouble(nombreColumna);
+            }
             return 0.0;
+        } catch (SQLException e) {
+            throw new DBException(e);
         }
     }
 
@@ -214,10 +216,10 @@ public class Modelo {
             if (resultSet.next()) {
                 return resultSet.getString(1);
             }
+            return null;
         } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
+            throw new DBException(e);
         }
-        return null;
     }
 
     /**
@@ -234,10 +236,10 @@ public class Modelo {
         try {
             ResultSet rs = DBConnection.consultar(sql);
             if (rs.next()) return rs.getInt(1);
+            return 0;
         } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
+            throw new DBException(e);
         }
-        return 0;
     }
 
     /**
