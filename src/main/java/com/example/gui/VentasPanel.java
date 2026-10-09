@@ -32,8 +32,6 @@ public class VentasPanel extends Panel {
 
     @Override
     public void mostrarFormularioNuevo() {
-        String[] estados = {"PENDIENTE", "FINALIZADA", "CANCELADA"};
-        JComboBox<String> estado = new JComboBox<>(estados);
         String[] tipos = {"EFECTIVO", "CREDITO"};
         JComboBox<String> tipo = new JComboBox<>(tipos);
 
@@ -56,8 +54,6 @@ public class VentasPanel extends Panel {
         JPanel camposFijos = new JPanel(new GridLayout(3, 2, 5, 5));
         camposFijos.add(new JLabel("Fecha (YYYY-MM-DD):")); 
         camposFijos.add(campoFecha);
-        camposFijos.add(new JLabel("Estado:")); 
-        camposFijos.add(estado);
         camposFijos.add(new JLabel("Tipo:")); 
         camposFijos.add(tipo);
 
@@ -72,7 +68,7 @@ public class VentasPanel extends Panel {
         if (result == JOptionPane.OK_OPTION && formularioEsValido(form)) {
             // crear la venta primero (valor se calculará en vender())
             String fechaStr = fechaATexto(editorFecha, campoFecha);
-            ventas.crear(fechaStr, estado.getSelectedItem().toString(), "0", tipo.getSelectedItem().toString());
+            ventas.crear(fechaStr, "0", tipo.getSelectedItem().toString());
 
             // obtener el id de la venta recién creada
             String ventaId = ventas.ultimoId();
