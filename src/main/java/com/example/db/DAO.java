@@ -1,17 +1,14 @@
 package com.example.db;
 
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public abstract class DAO<T> {
-    String nombreTabla = this.getClass().getSimpleName().toUpperCase() + "S";
+    String nombreTabla;
 
-    public void mapear(ResultSet resultSet){}
+    public abstract T mapear(ResultSet resultSet);
 
     /**
      * Inserta los datos dados en la tabla.
@@ -29,7 +26,7 @@ public abstract class DAO<T> {
      * Devuelve todos los datos de la tabla.
      * @return Todos los datos de la tabla.
      */
-    public List<Map<String, String>> todos(){
+    public List<T> todos(){
         return todos("");
     }
 
@@ -39,26 +36,19 @@ public abstract class DAO<T> {
      * @param condicion La condición que los datos deben cumplir.
      * @return Los datos que cumplen con la condición.
      */
-    public List<Map<String, String>> todos(String condicion){
+    public List<T> todos(String condicion){
         String sql = "SELECT * FROM " + nombreTabla;
         if (!condicion.isEmpty()) {
             sql += " WHERE " + condicion;
         }
-        List<Map<String, String>> resultados = new ArrayList<>();
+        List<T> resultados = new ArrayList<>();
         
         try {
             ResultSet resultSet = DBConnection.consultar(sql);
-            ResultSetMetaData rSetMetaData = resultSet.getMetaData();
-            int columnas = rSetMetaData.getColumnCount();
             while (resultSet.next()) {
-                Map<String, String> fila = new LinkedHashMap<>();
-                for (int index = 1; index <= columnas; index++) {
-                    // guarda los datos de la fila
-                    // "columna" : "dato"
-                    fila.put(rSetMetaData.getColumnName(index), resultSet.getString(index));
-                }
-                // guarda los datos obtenidos de la fila en la lista
-                resultados.add(fila);
+                // guarda los datos obtenidos en un objeto
+                // de la entidad correspondiente
+                resultados.add(mapear(resultSet));
             }
         } catch (SQLException e) {
             throw new DBException(e);
@@ -73,20 +63,12 @@ public abstract class DAO<T> {
      * @param valor El valor que debe tener la columna.
      * @return El único registro de la tabla cuya columna tiene el valor dado.
      */
-    public Map<String, String> unicoRegistro(String columna, String valor){
+    public T unicoRegistro(String columna, String valor){
         String sql = "SELECT * FROM " + nombreTabla + " WHERE " + columna + "=" + valor;
         try {
             ResultSet resultSet = DBConnection.consultar(sql);
             if (resultSet.next()) {
-                ResultSetMetaData rSetMetaData = resultSet.getMetaData();
-                int columnas = rSetMetaData.getColumnCount();
-                Map<String, String> registro = new LinkedHashMap<>();
-                for (int index = 1; index <= columnas; index++) {
-                    // guarda los datos del registro (fila)
-                    // "columna" : "dato"
-                    registro.put(rSetMetaData.getColumnName(index), resultSet.getString(index));
-                }
-                return registro;
+                return mapear(resultSet);
             }
             else return null;
             
