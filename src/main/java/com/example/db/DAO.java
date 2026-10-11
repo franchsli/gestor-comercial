@@ -11,6 +11,10 @@ import java.util.List;
 public abstract class DAO<T> {
     String nombreTabla;
 
+    protected DAO(String nombreTabla){
+        this.nombreTabla = nombreTabla;
+    }
+
     public abstract T mapear(ResultSet resultSet);
 
     /**
