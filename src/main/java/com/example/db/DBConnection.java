@@ -2,7 +2,6 @@ package com.example.db;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DBConnection {
@@ -21,37 +20,6 @@ public class DBConnection {
             pStatement.execute();
         }
         return connection;
-    }
-
-    /**
-     * Ejecuta la sentencia INSERT/UPDATE/DELETE en la base de
-     * datos
-     * @param sql La sentencia INSERT/UPDATE/DELETE de SQL
-     */
-    public static void ejecutar(String sql) {
-        try {
-            Connection conn = DBConnection.get();
-            PreparedStatement pStatement = conn.prepareStatement(sql);
-            pStatement.execute();
-        } catch (SQLException e) {
-            throw new DBException(e);
-        }
-    }
-
-    /**
-     * Consulta a la base de datos mediante una sentencia SELECT
-     * y devuelve lo hallado
-     * @param sql La sentencia SELECT de SQL
-     * @return El resultado de la consulta
-     */
-    public static ResultSet consultar(String sql) {
-        try {
-            Connection conn = DBConnection.get();
-            PreparedStatement pStatement = conn.prepareStatement(sql);
-            return pStatement.executeQuery();
-        } catch (SQLException e) {
-            throw new DBException(e);
-        }
     }
 
     /** Cierra la conexión a la base de datos 

@@ -1,5 +1,7 @@
 package com.example.db;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,6 +25,37 @@ public abstract class DAO<T> {
     public abstract void actualizar(T entidad);
 
     /**
+     * Ejecuta la sentencia INSERT/UPDATE/DELETE en la base de
+     * datos
+     * @param sql La sentencia INSERT/UPDATE/DELETE de SQL
+     */
+    public static void ejecutar(String sql) {
+        try {
+            Connection conn = DBConnection.get();
+            PreparedStatement pStatement = conn.prepareStatement(sql);
+            pStatement.execute();
+        } catch (SQLException e) {
+            throw new DBException(e);
+        }
+    }
+
+    /**
+     * Consulta a la base de datos mediante una sentencia SELECT
+     * y devuelve lo hallado
+     * @param sql La sentencia SELECT de SQL
+     * @return El resultado de la consulta
+     */
+    public static ResultSet consultar(String sql) {
+        try {
+            Connection conn = DBConnection.get();
+            PreparedStatement pStatement = conn.prepareStatement(sql);
+            return pStatement.executeQuery();
+        } catch (SQLException e) {
+            throw new DBException(e);
+        }
+    }
+
+    /**
      * Devuelve todos los datos de la tabla.
      * @return Todos los datos de la tabla.
      */
@@ -44,7 +77,7 @@ public abstract class DAO<T> {
         List<T> resultados = new ArrayList<>();
         
         try {
-            ResultSet resultSet = DBConnection.consultar(sql);
+            ResultSet resultSet = consultar(sql);
             while (resultSet.next()) {
                 // guarda los datos obtenidos en un objeto
                 // de la entidad correspondiente
@@ -66,7 +99,7 @@ public abstract class DAO<T> {
     public T unicoRegistro(String columna, String valor){
         String sql = "SELECT * FROM " + nombreTabla + " WHERE " + columna + "=" + valor;
         try {
-            ResultSet resultSet = DBConnection.consultar(sql);
+            ResultSet resultSet = consultar(sql);
             if (resultSet.next()) {
                 return mapear(resultSet);
             }
@@ -86,7 +119,7 @@ public abstract class DAO<T> {
     public String stringColumna(String nombreColumna, String id){
         String sql = "SELECT " + nombreColumna + " FROM " + nombreTabla + " WHERE id=" + id;
         try {
-            ResultSet resultSet = DBConnection.consultar(sql);
+            ResultSet resultSet = consultar(sql);
             if (resultSet.next()) {
                 return resultSet.getString(nombreColumna);
             }
@@ -105,7 +138,7 @@ public abstract class DAO<T> {
     public int intColumna(String nombreColumna, String id){
         String sql = "SELECT " + nombreColumna + " FROM " + nombreTabla + " WHERE id=" + id;
         try {
-            ResultSet resultSet = DBConnection.consultar(sql);
+            ResultSet resultSet = consultar(sql);
             if (resultSet.next()) {
                 return resultSet.getInt(nombreColumna);
             }
@@ -124,7 +157,7 @@ public abstract class DAO<T> {
     public double doubleColumna(String nombreColumna, String id){
         String sql = "SELECT " + nombreColumna + " FROM " + nombreTabla + " WHERE id=" + id;
         try {
-            ResultSet resultSet = DBConnection.consultar(sql);
+            ResultSet resultSet = consultar(sql);
             if (resultSet.next()) {
                 return resultSet.getDouble(nombreColumna);
             }
@@ -145,7 +178,7 @@ public abstract class DAO<T> {
         if (!condicion.isEmpty()) {
             sql += " WHERE " + condicion;
         }
-        DBConnection.ejecutar(sql);
+        ejecutar(sql);
     }
 
     /**
@@ -155,7 +188,7 @@ public abstract class DAO<T> {
     public String ultimoId(){
         String sql = "SELECT MAX(id) FROM " + nombreTabla;
         try {
-            ResultSet resultSet = DBConnection.consultar(sql);
+            ResultSet resultSet = consultar(sql);
             if (resultSet.next()) {
                 return resultSet.getString(1);
             }
@@ -177,7 +210,7 @@ public abstract class DAO<T> {
             sql += " WHERE " + condicion;
         }
         try {
-            ResultSet rs = DBConnection.consultar(sql);
+            ResultSet rs = consultar(sql);
             if (rs.next()) return rs.getInt(1);
             return 0;
         } catch (SQLException e) {
