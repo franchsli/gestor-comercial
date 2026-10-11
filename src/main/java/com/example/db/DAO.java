@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,13 +46,35 @@ public abstract class DAO<T> {
      * @param sql La sentencia SELECT de SQL
      * @return El resultado de la consulta
      */
-    public static ResultSet consultar(String sql) {
+    public List<T> consultar(String sql, Object... params) {
+        List<T> resultados = new ArrayList<>();
         try {
             Connection conn = DBConnection.get();
             PreparedStatement pStatement = conn.prepareStatement(sql);
-            return pStatement.executeQuery();
+            asignar(pStatement, params);
+            ResultSet resultSet = pStatement.executeQuery();
+            while (resultSet.next()) {
+                resultados.add(mapear(resultSet));
+            }
         } catch (SQLException e) {
             throw new DBException(e);
+        }
+        return resultados;
+    }
+
+    /**
+     * Asigna los valores dados en la sentencia SQL dada.
+     * @param preparedStatement La sentencia SQL.
+     * @param params Los valores a llenar en la sentencia.
+     * @throws SQLException
+     */
+    protected void asignar(PreparedStatement preparedStatement, Object[] params) throws SQLException {
+        for (int i = 0; i < params.length; i++) {
+            Object param = params[i];
+            if (param instanceof LocalDate) {
+                param = param.toString();
+            }
+            preparedStatement.setObject(i + 1, param);
         }
     }
 
@@ -69,24 +92,12 @@ public abstract class DAO<T> {
      * @param condicion La condición que los datos deben cumplir.
      * @return Los datos que cumplen con la condición.
      */
-    public List<T> todos(String condicion){
+    public List<T> todos(String condicion, Object... params){
         String sql = "SELECT * FROM " + nombreTabla;
-        if (!condicion.isEmpty()) {
+        if (condicion != null && !condicion.isBlank()) {
             sql += " WHERE " + condicion;
         }
-        List<T> resultados = new ArrayList<>();
-        
-        try {
-            ResultSet resultSet = consultar(sql);
-            while (resultSet.next()) {
-                // guarda los datos obtenidos en un objeto
-                // de la entidad correspondiente
-                resultados.add(mapear(resultSet));
-            }
-        } catch (SQLException e) {
-            throw new DBException(e);
-        }
-        return resultados;
+        return consultar(sql, params);
     }
 
     /**
