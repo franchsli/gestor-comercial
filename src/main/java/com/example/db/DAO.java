@@ -29,11 +29,13 @@ public abstract class DAO<T> {
      * Ejecuta la sentencia INSERT/UPDATE/DELETE en la base de
      * datos
      * @param sql La sentencia INSERT/UPDATE/DELETE de SQL
+     * @param params Los parámetros necesarios.
      */
-    public static void ejecutar(String sql) {
+    public void ejecutar(String sql, Object... params) {
         try {
             Connection conn = DBConnection.get();
             PreparedStatement pStatement = conn.prepareStatement(sql);
+            asignar(pStatement, params);
             pStatement.execute();
         } catch (SQLException e) {
             throw new DBException(e);
@@ -183,13 +185,15 @@ public abstract class DAO<T> {
      * cumplan la condición dada.
      * @param condicion La condición que deben
      * cumplir los datos para ser borrados.
+     * @param params Los parámetros necesarios
+     * para rellenar la condición propuesta.
      */
-    public void borrarTodos(String condicion){
+    public void borrarTodos(String condicion, Object... params){
         String sql = "DELETE FROM " + nombreTabla;
-        if (!condicion.isEmpty()) {
+        if (condicion != null && !condicion.isBlank()) {
             sql += " WHERE " + condicion;
         }
-        ejecutar(sql);
+        ejecutar(sql, params);
     }
 
     /**
