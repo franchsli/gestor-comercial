@@ -124,63 +124,6 @@ public abstract class DAO<T> {
     }
 
     /**
-     * Devuelve el valor (String) de una columna del registro con el id dado.
-     * @param nombreColumna La columna de la cual se va a sacar el valor
-     * @param id El id del registro en la tabla.
-     * @return El valor String de la columna.
-     */
-    public String stringColumna(String nombreColumna, String id){
-        String sql = "SELECT " + nombreColumna + " FROM " + nombreTabla + " WHERE id=" + id;
-        try {
-            ResultSet resultSet = consultar(sql);
-            if (resultSet.next()) {
-                return resultSet.getString(nombreColumna);
-            }
-            return null;
-        } catch (SQLException e) {
-            throw new DBException(e);
-        }
-    }
-
-    /**
-     * Devuelve el valor (int) de una columna del registro con el id dado.
-     * @param nombreColumna La columna de la cual se va a sacar el valor
-     * @param id El id del registro en la tabla.
-     * @return El valor entero de la columna.
-     */
-    public int intColumna(String nombreColumna, String id){
-        String sql = "SELECT " + nombreColumna + " FROM " + nombreTabla + " WHERE id=" + id;
-        try {
-            ResultSet resultSet = consultar(sql);
-            if (resultSet.next()) {
-                return resultSet.getInt(nombreColumna);
-            }
-            return 0;
-        } catch (SQLException e) {
-            throw new DBException(e);
-        }
-    }
-
-    /**
-     * Devuelve el valor (double) de una columna del registro con el id dado.
-     * @param nombreColumna La columna de la cual se va a sacar el valor
-     * @param id El id del registro en la tabla.
-     * @return El valor flotante (double) de la columna.
-     */
-    public double doubleColumna(String nombreColumna, String id){
-        String sql = "SELECT " + nombreColumna + " FROM " + nombreTabla + " WHERE id=" + id;
-        try {
-            ResultSet resultSet = consultar(sql);
-            if (resultSet.next()) {
-                return resultSet.getDouble(nombreColumna);
-            }
-            return 0.0;
-        } catch (SQLException e) {
-            throw new DBException(e);
-        }
-    }
-
-    /**
      * Borra todos los datos de una tabla que
      * cumplan la condición dada.
      * @param condicion La condición que deben

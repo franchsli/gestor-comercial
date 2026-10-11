@@ -84,10 +84,14 @@ public class Modelo {
 
     /**
      * Devuelve el valor (String) de una columna del registro con el id dado.
+     * @deprecated Llamadas a este método no sevirán luego de la migración
+     * a DAO, cada clase que lo necesite deberá implementarlo o llamar
+     * a una clase que lo haga.
      * @param nombreColumna La columna de la cual se va a sacar el valor
      * @param id El id del registro en la tabla.
      * @return El valor String de la columna.
      */
+    @Deprecated
     public String stringColumna(String nombreColumna, String id){
         String sql = "SELECT " + nombreColumna + " FROM " + nombreTabla + " WHERE id=" + id;
         try {
@@ -103,10 +107,14 @@ public class Modelo {
 
     /**
      * Devuelve el valor (int) de una columna del registro con el id dado.
+     * @deprecated Llamadas a este método no sevirán luego de la migración
+     * a DAO, cada clase que lo necesite deberá implementarlo o llamar
+     * a una clase que lo haga.
      * @param nombreColumna La columna de la cual se va a sacar el valor
      * @param id El id del registro en la tabla.
      * @return El valor entero de la columna.
      */
+    @Deprecated
     public int intColumna(String nombreColumna, String id){
         String sql = "SELECT " + nombreColumna + " FROM " + nombreTabla + " WHERE id=" + id;
         try {
@@ -122,10 +130,14 @@ public class Modelo {
 
     /**
      * Devuelve el valor (double) de una columna del registro con el id dado.
+     * @deprecated Llamadas a este método no sevirán luego de la migración
+     * a DAO, cada clase que lo necesite deberá implementarlo o llamar
+     * a una clase que lo haga.
      * @param nombreColumna La columna de la cual se va a sacar el valor
      * @param id El id del registro en la tabla.
      * @return El valor flotante (double) de la columna.
      */
+    @Deprecated
     public double doubleColumna(String nombreColumna, String id){
         String sql = "SELECT " + nombreColumna + " FROM " + nombreTabla + " WHERE id=" + id;
         try {
