@@ -114,17 +114,13 @@ public abstract class DAO<T> {
      * @return El único registro de la tabla cuya columna tiene el valor dado.
      */
     public T unicoRegistro(String columna, String valor){
-        String sql = "SELECT * FROM " + nombreTabla + " WHERE " + columna + "=" + valor;
-        try {
-            ResultSet resultSet = consultar(sql);
-            if (resultSet.next()) {
-                return mapear(resultSet);
-            }
-            else return null;
-            
-        } catch (SQLException e) {
-            throw new DBException(e);
+        String sql = "SELECT * FROM " + nombreTabla + " WHERE " + columna + " = ?";
+
+        List<T> registros = consultar(sql, valor);
+        if (!registros.isEmpty()) {
+            return registros.get(0);
         }
+        else return null;
     }
 
     /**
