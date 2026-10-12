@@ -219,8 +219,12 @@ public class Modelo {
 
     /**
      * Devuelve el ultimo id en la tabla.
+     * @deprecated Dejará de usarse cuando
+     * el DAO esté completamente implementado.
+     * Debe usarse DAO.insertarYObtenerId
      * @return El ultimo id en la tabla.
      */
+    @Deprecated
     public String ultimoId(){
         String sql = "SELECT MAX(id) FROM " + nombreTabla;
         try {
