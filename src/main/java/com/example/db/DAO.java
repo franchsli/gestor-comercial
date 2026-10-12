@@ -164,22 +164,55 @@ public abstract class DAO<T> {
     }
 
     /**
-     * Retorna la suma de los registros en la columna que cumplen la condicion dada.
-     * @param columna El nombre de la columna a sumar.
-     * @param condicion La condicion que deben cumplir los registros.
-     * @return El valor total de sumar todos los registros que cumplen la condicion en la columna.
+     * 
+     * Lector de resultados de tipo 'R'
+     * @param <R>
      */
-    public int sumarColumna(String columna, String condicion) {
-        String sql = "SELECT SUM(" + columna + ") FROM " + nombreTabla;
-        if (condicion != null && !condicion.isEmpty()) {
-            sql += " WHERE " + condicion;
-        }
+    @FunctionalInterface
+    protected interface Lector<R> {
+        R leer(ResultSet resultSet) throws SQLException;
+    }
+
+    /**
+     * Consulta un solo dato
+     * de la sentencia sql ejecutada y lo retorna
+     * en el tipo propuesto.
+     * Este método debe usarse en sentencias
+     * que devuelvan solo un dato.
+     * @param <R> Resultado de tipo R.
+     * @param sql La sentencia a ejecutar.
+     * @param lector El lector del resultado.
+     * @param params Parámetros para rellenar la
+     * sentencia (si es necesario)
+     * @return El resultado de tipo R
+     */
+    protected <R> R consultarUno(String sql, Lector<R> lector, Object... params) {
         try {
-            ResultSet rs = consultar(sql);
-            if (rs.next()) return rs.getInt(1);
-            return 0;
+            Connection conn = DBConnection.get();
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            asignar(preparedStatement, params);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return resultSet.next() ? lector.leer(resultSet) : null;
         } catch (SQLException e) {
             throw new DBException(e);
         }
+    }
+
+    /**
+     * Retorna la suma de los registros en la columna que cumplen la condicion dada.
+     * @param columna El nombre de la columna a sumar.
+     * @param condicion La condicion que deben cumplir los registros.
+     * @param params Los parametros que rellenarán la condicion.
+     * @return El valor total de sumar todos los registros que cumplen la condicion en la columna.
+     */
+    public int sumarColumna(String columna, String condicion, Object... params) {
+        String sql = "SELECT SUM(" + columna + ") FROM " + nombreTabla;
+        if (condicion != null && !condicion.isBlank()) {
+            sql += " WHERE " + condicion;
+        }
+        // Implementa leer() del Lector para que devuelva entero
+        int suma = consultarUno(sql, resultSet -> resultSet.getInt(1));
+        return suma;
+
     }
 }
