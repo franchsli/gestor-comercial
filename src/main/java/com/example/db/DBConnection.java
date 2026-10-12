@@ -11,23 +11,30 @@ public class DBConnection {
     /**
      * Establece una conexión con la base de datos y la devuelve.
      * @return La conexión con la base de datos.
-     * @throws SQLException Error si la conexión no fue posible.
      */
-    public static Connection get() throws SQLException {
-        if (connection == null || connection.isClosed()) {
-            connection = DriverManager.getConnection("jdbc:sqlite:bd_de_prueba.db");
-            // activa el soporte para que las claves foráneas funcionen
-            PreparedStatement pStatement = connection.prepareStatement("PRAGMA foreign_keys = ON");
-            pStatement.execute();
+    public static Connection get() {
+        try {
+            if (connection == null || connection.isClosed()) {
+                connection = DriverManager.getConnection("jdbc:sqlite:bd_de_prueba.db");
+                // activa el soporte para que las claves foráneas funcionen
+                PreparedStatement pStatement = connection.prepareStatement("PRAGMA foreign_keys = ON");
+                pStatement.execute();
+            }
+            return connection; 
+        } catch (SQLException e) {
+            throw new DBException(e);
         }
-        return connection;
-    }
 
+    }
+    
     /**
      * Ejecuta la sentencia INSERT/UPDATE/DELETE en la base de
      * datos
+     * @deprecated Se elimina cuando se migre a DAO
+     * por completo, usar DAO.ejecutar()
      * @param sql La sentencia INSERT/UPDATE/DELETE de SQL
      */
+    @Deprecated
     public static void ejecutar(String sql) {
         try {
             Connection conn = DBConnection.get();
@@ -41,9 +48,12 @@ public class DBConnection {
     /**
      * Consulta a la base de datos mediante una sentencia SELECT
      * y devuelve lo hallado
+     * @deprecated Se elimina cuando se migre a DAO
+     * por completo, usar DAO.ejecutar()
      * @param sql La sentencia SELECT de SQL
      * @return El resultado de la consulta
      */
+    @Deprecated 
     public static ResultSet consultar(String sql) {
         try {
             Connection conn = DBConnection.get();
