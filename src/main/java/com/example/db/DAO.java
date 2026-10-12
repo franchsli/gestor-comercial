@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class DAO<T> {
-    String nombreTabla;
+    protected final String nombreTabla;
 
     protected DAO(String nombreTabla){
         this.nombreTabla = nombreTabla;
