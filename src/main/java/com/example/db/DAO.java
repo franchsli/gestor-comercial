@@ -44,7 +44,7 @@ public abstract class DAO<T> {
         Connection conn = DBConnection.get();
         try (PreparedStatement pStatement = conn.prepareStatement(sql)){
             asignar(pStatement, params);
-            pStatement.execute();
+            pStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DBException(e);
         }
@@ -99,7 +99,7 @@ public abstract class DAO<T> {
         Connection conn = DBConnection.get();
         try (PreparedStatement pStatement = conn.prepareStatement(sql)){
             asignar(pStatement, params);
-            pStatement.execute();
+            pStatement.executeUpdate();
             ResultSet keys = pStatement.getGeneratedKeys();
             if (keys.next()) {
                 return keys.getInt(1);
