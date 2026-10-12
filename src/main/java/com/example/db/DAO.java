@@ -41,9 +41,8 @@ public abstract class DAO<T> {
      * @param params Los parámetros necesarios.
      */
     public void ejecutar(String sql, Object... params) {
-        try {
-            Connection conn = DBConnection.get();
-            PreparedStatement pStatement = conn.prepareStatement(sql);
+        Connection conn = DBConnection.get();
+        try (PreparedStatement pStatement = conn.prepareStatement(sql)){
             asignar(pStatement, params);
             pStatement.execute();
         } catch (SQLException e) {
@@ -59,9 +58,8 @@ public abstract class DAO<T> {
      */
     public List<T> consultar(String sql, Object... params) {
         List<T> resultados = new ArrayList<>();
-        try {
-            Connection conn = DBConnection.get();
-            PreparedStatement pStatement = conn.prepareStatement(sql);
+        Connection conn = DBConnection.get();
+        try (PreparedStatement pStatement = conn.prepareStatement(sql)){
             asignar(pStatement, params);
             ResultSet resultSet = pStatement.executeQuery();
             while (resultSet.next()) {
@@ -98,9 +96,8 @@ public abstract class DAO<T> {
      * generado.
      */
     public int insertarYObtenerId(String sql, Object... params){
-        try {
-            Connection conn = DBConnection.get();
-            PreparedStatement pStatement = conn.prepareStatement(sql);
+        Connection conn = DBConnection.get();
+        try (PreparedStatement pStatement = conn.prepareStatement(sql)){
             asignar(pStatement, params);
             pStatement.execute();
             ResultSet keys = pStatement.getGeneratedKeys();
@@ -190,9 +187,8 @@ public abstract class DAO<T> {
      * @return El resultado de tipo R
      */
     protected <R> R consultarUno(String sql, Lector<R> lector, Object... params) {
-        try {
-            Connection conn = DBConnection.get();
-            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        Connection conn = DBConnection.get();
+        try (PreparedStatement preparedStatement = conn.prepareStatement(sql)){
             asignar(preparedStatement, params);
             ResultSet resultSet = preparedStatement.executeQuery();
             return resultSet.next() ? lector.leer(resultSet) : null;
