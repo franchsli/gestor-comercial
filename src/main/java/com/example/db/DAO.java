@@ -85,6 +85,30 @@ public abstract class DAO<T> {
     }
 
     /**
+     * Inserta los datos dados en la tabla y
+     * devuelve el id generado.
+     * @param sql La sentencia SQL.
+     * @param params Los datos a insertar.
+     * @return El id generado. -1 si no fue
+     * generado.
+     */
+    public int insertarYObtenerId(String sql, Object... params){
+        try {
+            Connection conn = DBConnection.get();
+            PreparedStatement pStatement = conn.prepareStatement(sql);
+            asignar(pStatement, params);
+            pStatement.execute();
+            ResultSet keys = pStatement.getGeneratedKeys();
+            if (keys.next()) {
+                return keys.getInt(1);
+            }
+            return -1;
+        } catch (SQLException e) {
+            throw new DBException(e);
+        }
+    }
+
+    /**
      * Devuelve todos los datos de la tabla.
      * @return Todos los datos de la tabla.
      */
@@ -137,23 +161,6 @@ public abstract class DAO<T> {
             sql += " WHERE " + condicion;
         }
         ejecutar(sql, params);
-    }
-
-    /**
-     * Devuelve el ultimo id en la tabla.
-     * @return El ultimo id en la tabla.
-     */
-    public String ultimoId(){
-        String sql = "SELECT MAX(id) FROM " + nombreTabla;
-        try {
-            ResultSet resultSet = consultar(sql);
-            if (resultSet.next()) {
-                return resultSet.getString(1);
-            }
-            return null;
-        } catch (SQLException e) {
-            throw new DBException(e);
-        }
     }
 
     /**
