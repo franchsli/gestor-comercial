@@ -137,10 +137,8 @@ public abstract class DAO<T> {
      * @param valor El valor que debe tener la columna.
      * @return El único registro de la tabla cuya columna tiene el valor dado.
      */
-    public T unicoRegistro(String columna, String valor){
-        String sql = "SELECT * FROM " + nombreTabla + " WHERE " + columna + " = ?";
-
-        List<T> registros = consultar(sql, valor);
+    public T unicoRegistro(String columna, Object valor){
+        List<T> registros = todos(columna + " = ?", valor);
         if (!registros.isEmpty()) {
             return registros.get(0);
         }
