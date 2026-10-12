@@ -21,7 +21,7 @@ public abstract class DAO<T> {
      * @param resultSet
      * @return
      */
-    public abstract T mapear(ResultSet resultSet);
+    public abstract T mapear(ResultSet resultSet) throws SQLException;
 
     /**
      * Inserta los datos de la entidad dada en la tabla.
