@@ -15,11 +15,16 @@ public abstract class DAO<T> {
         this.nombreTabla = nombreTabla;
     }
 
+    /**
+     * Mapea los datos del resultSet en
+     * un objeto y lo devuelve.
+     * @param resultSet
+     * @return
+     */
     public abstract T mapear(ResultSet resultSet);
 
     /**
-     * Inserta los datos dados en la tabla.
-     * Lo implementan las clases hijas.
+     * Inserta los datos de la entidad dada en la tabla.
      */
     public abstract void insertar(T entidad);
 
