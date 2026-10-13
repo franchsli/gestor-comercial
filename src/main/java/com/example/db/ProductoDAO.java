@@ -20,5 +20,10 @@ public class ProductoDAO extends DAO<Productoo> {
         String sql = "UPDATE " + nombreTabla + " SET nombre = ?, precio_unitario = ?, cantidad = ? WHERE id = ?";
         ejecutar(sql, producto.getNombre(), producto.getPrecioUnitario(), producto.getCantidad(), producto.getId());
     }
+
+    @Override 
+    public void insertar(Productoo producto){
+        insertarFila(producto.getNombre(), producto.getPrecioUnitario(), producto.getCantidad());
+    }
     
 }
