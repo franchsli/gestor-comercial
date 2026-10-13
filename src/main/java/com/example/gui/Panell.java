@@ -139,8 +139,8 @@ public abstract class Panell<T> extends JPanel {
         if (confirmacion == JOptionPane.YES_OPTION) {
             try {
                 for (int i = filasSeleccionadas.length - 1; i >= 0; i--) {
-                    String id = modeloTabla.getValueAt(filasSeleccionadas[i], 0).toString();
-                    modelo.borrarTodos("id=" + id);
+                    String pk = modeloTabla.getValueAt(filasSeleccionadas[i], 0).toString();
+                    dao.borrarTodos(columnas()[0] + " = ?", pk);
                 }
                 cargarDatos();
             } catch (DBException e) {
