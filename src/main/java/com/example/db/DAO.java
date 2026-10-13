@@ -39,6 +39,12 @@ public abstract class DAO<T> {
     public abstract void actualizar(T entidad);
 
     /**
+     * Inserta la entidad dada con sus valores en la tabla.
+     * @param entidad La entidad a guardar en la tabla.
+     */
+    public abstract void insertar(T entidad);
+
+    /**
      * Inserta los parametros dados en una nueva fila
      * en la tabla y retorna el id generado.
      * @param valores Los valores que debe tener cada
