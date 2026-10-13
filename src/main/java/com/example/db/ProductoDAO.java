@@ -18,7 +18,7 @@ public class ProductoDAO extends DAO<Productoo> {
     @Override
     public void actualizar(Productoo producto){
         String sql = "UPDATE " + nombreTabla + " SET nombre = ?, precio_unitario = ?, cantidad = ? WHERE id = ?";
-        ejecutar(sql, producto.nombre, producto.precioUnitario, producto.cantidad, producto.id);
+        ejecutar(sql, producto.getNombre(), producto.getPrecioUnitario(), producto.getCantidad(), producto.getId());
     }
     
 }
