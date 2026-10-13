@@ -7,12 +7,15 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 public abstract class DAO<T> {
     protected final String nombreTabla;
+    protected final String columnas;
 
-    protected DAO(String nombreTabla){
+    protected DAO(String nombreTabla, String columnas){
         this.nombreTabla = nombreTabla;
+        this.columnas = columnas;
     }
 
     /**
@@ -24,15 +27,37 @@ public abstract class DAO<T> {
     public abstract T mapear(ResultSet resultSet) throws SQLException;
 
     /**
-     * Inserta los datos de la entidad dada en la tabla.
-     */
-    public abstract void insertar(T entidad);
-
-    /**
      * Actualiza los registros que cumplan con la condición dada
      * con los datos ingresados.
      */
     public abstract void actualizar(T entidad);
+
+    /**
+     * Inserta los parametros dados en una nueva fila
+     * en la tabla y retorna el id generado.
+     * @param params Los valores que debe tener cada
+     * columna de la tabla.
+     * @return El id generado.
+     */
+    public int insertarFila(Object... params){
+        String sql = "INSERT INTO " + nombreTabla + " " + columnas + " VALUES " + marcadores(params.length);
+        return insertarYObtenerId(sql, params);
+    }
+
+    /**
+     * Devuelve una String de la lista de marcadores para
+     * una sentencia INSERT SQL.
+     * Ej: (?, ?, ?)
+     * @param numMarcadores El número de marcadores.
+     * @return La lista de marcadores para la sentencia.
+     */
+    protected String marcadores(int numMarcadores){
+        StringJoiner tupla = new StringJoiner(", ", "(", ")");
+        for (int i = 0; i < numMarcadores; i++) {
+            tupla.add("?");
+        }
+        return tupla.toString();
+    }
 
     /**
      * Ejecuta la sentencia INSERT/UPDATE/DELETE en la base de
