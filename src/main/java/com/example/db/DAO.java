@@ -19,16 +19,22 @@ public abstract class DAO<T> {
     }
 
     /**
-     * Mapea los datos del resultSet en
+     * Mapea los datos de la fila del resultSet en
      * un objeto y lo devuelve.
+     * No debe llamar a resultSet.next(); el
+     * cursor ya debe estar posicionado.
      * @param resultSet
-     * @return
+     * @return La entidad construida con los datos
+     * en la fila.
+     * @throws SQLException Si falla la lectura
+     * de alguna columna.
      */
     public abstract T mapear(ResultSet resultSet) throws SQLException;
 
     /**
-     * Actualiza los registros que cumplan con la condición dada
-     * con los datos ingresados.
+     * Actualiza la fila cuya clave primaria coincida con
+     * la de la entidad. La fila es actualizada
+     * con los datos de la entidad ingresada.
      */
     public abstract void actualizar(T entidad);
 
