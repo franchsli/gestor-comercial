@@ -35,13 +35,13 @@ public abstract class DAO<T> {
     /**
      * Inserta los parametros dados en una nueva fila
      * en la tabla y retorna el id generado.
-     * @param params Los valores que debe tener cada
+     * @param valores Los valores que debe tener cada
      * columna de la tabla.
      * @return El id generado.
      */
-    public int insertarFila(Object... params){
-        String sql = "INSERT INTO " + nombreTabla + " " + columnas + " VALUES " + marcadores(params.length);
-        return insertarYObtenerId(sql, params);
+    public int insertarFila(Object... valores){
+        String sql = "INSERT INTO " + nombreTabla + " " + columnas + " VALUES " + marcadores(valores.length);
+        return insertarYObtenerId(sql, valores);
     }
 
     /**
@@ -99,12 +99,12 @@ public abstract class DAO<T> {
     /**
      * Asigna los valores dados en la sentencia SQL dada.
      * @param preparedStatement La sentencia SQL.
-     * @param params Los valores a llenar en la sentencia.
+     * @param valores Los valores a llenar en la sentencia.
      * @throws SQLException
      */
-    protected void asignar(PreparedStatement preparedStatement, Object[] params) throws SQLException {
-        for (int i = 0; i < params.length; i++) {
-            Object param = params[i];
+    protected void asignar(PreparedStatement preparedStatement, Object[] valores) throws SQLException {
+        for (int i = 0; i < valores.length; i++) {
+            Object param = valores[i];
             if (param instanceof LocalDate) {
                 param = param.toString();
             }
@@ -116,14 +116,14 @@ public abstract class DAO<T> {
      * Inserta los datos dados en la tabla y
      * devuelve el id generado.
      * @param sql La sentencia SQL.
-     * @param params Los datos a insertar.
+     * @param datos Los datos a insertar.
      * @return El id generado. -1 si no fue
      * generado.
      */
-    public int insertarYObtenerId(String sql, Object... params){
+    public int insertarYObtenerId(String sql, Object... datos){
         Connection conn = DBConnection.get();
         try (PreparedStatement pStatement = conn.prepareStatement(sql)){
-            asignar(pStatement, params);
+            asignar(pStatement, datos);
             pStatement.executeUpdate();
             ResultSet keys = pStatement.getGeneratedKeys();
             if (keys.next()) {
@@ -147,6 +147,7 @@ public abstract class DAO<T> {
      * Devuelve todos los datos de la tabla que cumplen
      * la condición dada.
      * @param condicion La condición que los datos deben cumplir.
+     * @param params Los parámetros necesarios pra la condicion.
      * @return Los datos que cumplen con la condición.
      */
     public List<T> todos(String condicion, Object... params){
