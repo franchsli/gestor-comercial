@@ -98,18 +98,15 @@ public abstract class Panell<T> extends JPanel {
      */
     public void cargarDatos(String condicion) {
         modeloTabla.setRowCount(0);
-        modeloTabla.setColumnCount(0);
 
         try {
-            List<Map<String, String>> filas = modelo.todos(condicion);
-            if (filas.isEmpty()) return;
-
-            // columnas desde la primera fila
-            filas.get(0).keySet().forEach(modeloTabla::addColumn);
+            // columnas
+            modeloTabla.setColumnIdentifiers(columnas());
 
             // filas
-            for (Map<String, String> fila : filas) {
-                modeloTabla.addRow(fila.values().toArray());
+            List<T> entidades = dao.todos(condicion);
+            for (T entidad : entidades) {
+                modeloTabla.addRow(fila(entidad));
             }
         } catch (DBException e) {
             JOptionPane.showMessageDialog(this,
