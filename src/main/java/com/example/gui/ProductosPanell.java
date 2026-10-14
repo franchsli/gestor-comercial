@@ -9,7 +9,6 @@ import javax.swing.event.DocumentListener;
 import java.awt.GridLayout;
 
 import com.example.db.DBException;
-import com.example.db.Producto;
 import com.example.db.ProductoDAO;
 import com.example.db.Productoo;
 
@@ -24,6 +23,20 @@ public class ProductosPanell extends Panell<Productoo> {
             public void changedUpdate(DocumentEvent e) {}
         });
         cargarDatos();
+    }
+
+    @Override 
+    protected String[] columnas(){
+        String[] columnas = {"id", "nombre", "precio_unitario", "cantidad"};
+        return columnas;
+    }
+
+    @Override
+    protected Object[] fila(Productoo producto){
+        Object[] fila = {producto.getId(), producto.getNombre(),
+            producto.getPrecioUnitario(), producto.getCantidad()
+        };
+        return fila;
     }
 
     @Override
