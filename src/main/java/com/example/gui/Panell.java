@@ -1,9 +1,12 @@
 package com.example.gui;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -200,14 +203,15 @@ public abstract class Panell<T> extends JPanel {
     }
 
     /**
-     * TODO: Reemplazar esto por fechaDeCampo
-     * para devolver LocalDate de un campoFech (JSpinner)
-     * Devuelve la fecha en el campo dado como String.
-     * @param editorFecha El editor del campo que tiene la fecha.
+     * Devuelve la fecha en el campo dado como LocalDate.
      * @param campoFecha El campo que tiene la fecha.
-     * @return la fecha en el campo dado como String.
+     * @return la fecha en el campo dado como LocalDate.
      */
-    protected String fechaATexto(JSpinner.DateEditor editorFecha, JSpinner campoFecha){
-        return editorFecha.getFormat().format(campoFecha.getValue());
+    protected LocalDate fechaDeCampo(JSpinner campoFecha){
+        Date fechaConTiempo = (Date) campoFecha.getValue();
+        ZoneId zonaActual = ZoneId.systemDefault();
+        LocalDate fecha = fechaConTiempo.toInstant()
+            .atZone(zonaActual).toLocalDate();
+        return fecha;
     }
 }
