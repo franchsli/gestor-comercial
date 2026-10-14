@@ -18,13 +18,10 @@ import javax.swing.table.DefaultTableModel;
 
 import com.example.db.DAO;
 import com.example.db.DBException;
-import com.example.db.Modelo;
 
 // TODO: Reemplazar Panel con esta clase cuando la refactorización acabe.
 public abstract class Panell<T> extends JPanel {
-   Modelo modelo = new Modelo();
    DAO<T> dao;
-   T entidad;
    JTable tabla;
    DefaultTableModel modeloTabla;
    JButton btnNuevo, btnEditar, btnEliminar, btnFiltrar;
