@@ -5,10 +5,12 @@ import java.util.Set;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -150,9 +152,51 @@ public abstract class Panell<T> extends JPanel {
     /**
      * Maneja la edición de datos en la pestaña.
      * Las clases hijas que lo necesiten lo
-     * implementan.
+     * implementan a su modo si es necesario.
      */
-    public void manejarEditar() {
+    public void manejarEditar(){
+        int fila = tabla.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this,
+                "Selecciona una fila primero",
+                "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // construir formulario con los valores actuales
+        int cols = modeloTabla.getColumnCount();
+        JTextField[] campos = new JTextField[cols];
+        JPanel form = new JPanel(new GridLayout(cols, 2, 5, 5));
+
+        for (int i = 0; i < cols; i++) {
+            String nombreColumna = modeloTabla.getColumnName(i);
+            Object valorActual = modeloTabla.getValueAt(fila, i);
+            campos[i] = new JTextField(valorActual != null ? valorActual.toString() : "");
+            campos[i].setName(nombreColumna);
+            form.add(new JLabel(nombreColumna + ":"));
+            form.add(campos[i]);
+        }
+
+        // deshabilitar columna 0 (id o pk)
+        campos[0].setEditable(false);
+
+        int result = JOptionPane.showConfirmDialog(this, form,
+            "Editar registro", JOptionPane.OK_CANCEL_OPTION);
+
+        if (result == JOptionPane.OK_OPTION) {
+            try {
+                String[] datos = new String[cols];
+                for (int i = 0; i < cols; i++) {
+                    datos[i] = campos[i].getText().trim();
+                }
+                aplicarCambios(datos);
+                cargarDatos();
+            } catch (DBException e) {
+                JOptionPane.showMessageDialog(this,
+                    "Error al actualizar: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     /**
@@ -160,6 +204,13 @@ public abstract class Panell<T> extends JPanel {
      * (subclases sobreescriben este método para mostrar su formulario)
      */
     public void mostrarFormularioNuevo() {}
+
+    /**
+     * Aplica los cambios en el formulario de edición al 
+     * registro a editar con los valores dados.
+     * @param valores Los valores en la actualización.
+     */
+    public void aplicarCambios(String[] valores){}
 
     /**
      * Devuelve si un formulario es válido o no.
