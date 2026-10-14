@@ -180,7 +180,8 @@ public abstract class Panell<T> extends JPanel {
      * Un formulario es válido si todos sus campos 
      * (excluyendo la excepcion dada) fueron rellenados.
      * @param form El formulario a validar.
-     * @param excepcion El nombre del campo a ser excluido de la validación.
+     * @param excepciones Los nombres de los campos a ser 
+     * excluidos de la validación.
      * @return Si el formulario es válido o no.
      */
     protected boolean formularioEsValido(JPanel form, Set<String> excepciones) {
@@ -206,6 +207,8 @@ public abstract class Panell<T> extends JPanel {
     }
 
     /**
+     * TODO: Reemplazar esto por fechaDeCampo
+     * para devolver LocalDate de un campoFech (JSpinner)
      * Devuelve la fecha en el campo dado como String.
      * @param editorFecha El editor del campo que tiene la fecha.
      * @param campoFecha El campo que tiene la fecha.
