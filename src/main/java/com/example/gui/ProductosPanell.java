@@ -68,6 +68,16 @@ public class ProductosPanell extends Panell<Productoo> {
         }
     }
 
+    @Override
+    public void aplicarCambios(String[] valores) {
+        Productoo producto = new Productoo(
+        Integer.parseInt(valores[0]),
+        valores[1],
+        Integer.parseInt(valores[2]),
+        Integer.parseInt(valores[3]));
+        dao.actualizar(producto);
+    }
+
     /**
      * Busca en la base de datos los productos cuyo nombre contenga
      * lo escrito en el campoBuscar y lo muestra en la pestaña.
