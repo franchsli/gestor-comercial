@@ -214,4 +214,14 @@ public abstract class Panell<T> extends JPanel {
             .atZone(zonaActual).toLocalDate();
         return fecha;
     }
+
+    /**
+     * Pone la fecha dada dentro del campo dado.
+     * @param campoFecha El campo que deberá contener
+     * la fecha.
+     * @param fecha La fecha a poner en el campo.
+     */
+    protected void ponerFecha(JSpinner campoFecha, LocalDate fecha) {
+        campoFecha.setValue(Date.from(fecha.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+    }
 }
