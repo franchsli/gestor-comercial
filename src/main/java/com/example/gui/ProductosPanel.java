@@ -9,13 +9,13 @@ import javax.swing.event.DocumentListener;
 import java.awt.GridLayout;
 
 import com.example.db.DBException;
-import com.example.db.Producto;
+import com.example.db.ProductoDAO;
+import com.example.db.Productoo;
 
-public class ProductosPanel extends Panel {
-    private Producto productos = new Producto();
+public class ProductosPanel extends Panell<Productoo> {
 
     public ProductosPanel() {
-        this.modelo = productos;
+        this.dao = new ProductoDAO();
         btnNuevo.addActionListener(e -> mostrarFormularioNuevo());
         campoBuscar.getDocument().addDocumentListener(new DocumentListener() {
             public void insertUpdate(DocumentEvent e) { buscarProducto(); }
@@ -23,6 +23,20 @@ public class ProductosPanel extends Panel {
             public void changedUpdate(DocumentEvent e) {}
         });
         cargarDatos();
+    }
+
+    @Override 
+    protected String[] columnas(){
+        String[] columnas = {"id", "nombre", "precio_unitario", "cantidad"};
+        return columnas;
+    }
+
+    @Override
+    protected Object[] fila(Productoo producto){
+        Object[] fila = {producto.getId(), producto.getNombre(),
+            producto.getPrecioUnitario(), producto.getCantidad()
+        };
+        return fila;
     }
 
     @Override
@@ -41,7 +55,10 @@ public class ProductosPanel extends Panel {
 
         if (result == JOptionPane.OK_OPTION && formularioEsValido(form)) {
             try {
-                productos.crear(nombre.getText(), precio.getText(), cantidad.getText());
+                int precioProducto = Integer.parseInt(precio.getText());
+                int cantidadProducto = Integer.parseInt(cantidad.getText());
+                Productoo nuevoProducto = new Productoo(nombre.getText(), precioProducto, cantidadProducto);
+                dao.insertar(nuevoProducto);
                 cargarDatos();
             } catch (DBException e) {
                 JOptionPane.showMessageDialog(this,
@@ -49,6 +66,16 @@ public class ProductosPanel extends Panel {
                     "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+
+    @Override
+    public void aplicarCambios(String[] valores) {
+        Productoo producto = new Productoo(
+        Integer.parseInt(valores[0]),
+        valores[1],
+        Integer.parseInt(valores[2]),
+        Integer.parseInt(valores[3]));
+        dao.actualizar(producto);
     }
 
     /**
