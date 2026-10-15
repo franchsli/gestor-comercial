@@ -12,10 +12,10 @@ import java.awt.GridLayout;
 import java.time.LocalDate;
 
 import com.example.db.DBException;
+import com.example.db.Gasto;
 import com.example.db.GastoDAO;
-import com.example.db.Gastoo;
 
-public class GastosPanel extends Panell<Gastoo> {
+public class GastosPanel extends Panell<Gasto> {
 
     public GastosPanel() {
         this.dao = new GastoDAO();
@@ -33,7 +33,7 @@ public class GastosPanel extends Panell<Gastoo> {
     }
 
     @Override
-    protected Object[] fila(Gastoo gasto){
+    protected Object[] fila(Gasto gasto){
         Object[] fila = {gasto.getId(), gasto.getFechaGasto(),
             gasto.getEstado(), gasto.getValor(), gasto.getFechaPago(),
             gasto.getDescripcion(), gasto.getFechaPresupuesto()
@@ -55,8 +55,8 @@ public class GastosPanel extends Panell<Gastoo> {
         campoFechaGasto.setEditor(editorFechaGasto); 
         JTextField valor = new JTextField();
         JTextField descripcion = new JTextField();
-        Gastoo.Estado[] estados = Gastoo.Estado.values();
-        JComboBox<Gastoo.Estado> estado = new JComboBox<>(estados);
+        Gasto.Estado[] estados = Gasto.Estado.values();
+        JComboBox<Gasto.Estado> estado = new JComboBox<>(estados);
 
         JPanel form = new JPanel(new GridLayout(6, 2, 5, 5));
         form.add(new JLabel("Fecha gasto (YYYY-MM-DD):")); 
@@ -78,12 +78,11 @@ public class GastosPanel extends Panell<Gastoo> {
         if (result == JOptionPane.OK_OPTION && formularioEsValido(form, excepciones)) {
             try {
                 LocalDate fechaGasto = fechaDeCampo(campoFechaGasto);
-                Gastoo.Estado estadoSeleccionado = (Gastoo.Estado) estado.getSelectedItem();
+                Gasto.Estado estadoSeleccionado = (Gasto.Estado) estado.getSelectedItem();
                 LocalDate fechaPago = fechaDeCampo(campoFechaPago);
                 LocalDate fechaPresupuesto = fechaDeCampo(campoFechaPresupuesto);
                 int valorSeleccionado = Integer.parseInt(valor.getText());
-                //gastos.crear(fechaGastoStr, estado.getSelectedItem().toString(), valor.getText(), fechaPago, descripcion.getText(), campoFechaPresupuesto.getText());
-                Gastoo nuevoGasto = new Gastoo(fechaGasto, estadoSeleccionado, valorSeleccionado, fechaPago, 
+                Gasto nuevoGasto = new Gasto(fechaGasto, estadoSeleccionado, valorSeleccionado, fechaPago, 
                                                 descripcion.getText(), fechaPresupuesto);
                 dao.insertar(nuevoGasto);
                 cargarDatos();

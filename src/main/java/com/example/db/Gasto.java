@@ -1,33 +1,57 @@
 package com.example.db;
 
-public class Gasto extends Modelo {
-    
-    public Gasto(){
-        this.columnas = "(fecha_gasto, estado, valor, fecha_pago, descripcion, fecha_presupuesto)";
+import java.time.LocalDate;
+
+public class Gasto {
+    private int id;
+    private LocalDate fechaGasto;
+    public enum Estado {PAGADO, PENDIENTE};
+    private Estado estado;
+    private int valor;
+    private LocalDate fechaPago;
+    private String descripcion;
+    private LocalDate fechaPresupuesto;
+
+    public Gasto(LocalDate fechaGasto, Estado estado, int valor, LocalDate fechaPago, String descripcion,
+            LocalDate fechaPresupuesto) {
+        this.fechaGasto = fechaGasto;
+        if (fechaPago == null) {
+            this.estado = Estado.PENDIENTE;
+        }
+        else this.estado = estado;
+        this.valor = valor;
+        this.fechaPago = fechaPago;
+        this.descripcion = descripcion;
+        this.fechaPresupuesto = fechaPresupuesto;
     }
 
-    /**
-     * Crea un nuevo gasto en la base de datos.
-     * @param fecha_gasto La fecha en la que se contrajo el gasto.
-     * @param estado El estado del gasto
-     * debe ser "PAGADO" o "PENDIENTE".
-     * @param valor El valor del gasto.
-     * @param fecha_pago La fecha en la que se pagó el gasto.
-     * @param descripcion Explicación del gasto.
-     * @param fecha_presupuesto La fecha del presupuesto que se usó para cubrir el gasto (si aplica)
-     */
-    public void crear(String fecha_gasto, String estado, String valor, String fecha_pago, String descripcion, String fecha_presupuesto){
-        if (!fecha_pago.isEmpty()) {
-            estado = "PAGADO";
-        }
-        else {
-            estado = "PENDIENTE";
-        }
-        // si se da un valor vacío para esa columna
-        if (fecha_presupuesto.isEmpty() || fecha_presupuesto == null){
-            fecha_presupuesto = "null";
-        }
-        String[] datos = {fecha_gasto, estado, valor, fecha_pago, descripcion, fecha_presupuesto};
-        insertar(datos);
+    public Gasto(int id, LocalDate fechaGasto, Estado estado, int valor, LocalDate fechaPago, String descripcion,
+            LocalDate fechaPresupuesto){
+        this(fechaGasto, estado, valor, fechaPago, descripcion, fechaPresupuesto);
+        this.id = id;
     }
+    
+    public int getId(){
+        return id;
+    }    
+
+    public LocalDate getFechaGasto() {
+        return fechaGasto;
+    }
+    public Estado getEstado() {
+        return estado;
+    }
+    public int getValor() {
+        return valor;
+    }
+    public LocalDate getFechaPago() {
+        return fechaPago;
+    }
+    public String getDescripcion() {
+        return descripcion;
+    }
+    public LocalDate getFechaPresupuesto() {
+        return fechaPresupuesto;
+    }
+
 }
