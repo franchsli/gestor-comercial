@@ -9,19 +9,36 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 
 import java.awt.GridLayout;
+import java.time.LocalDate;
 
 import com.example.db.DBException;
-import com.example.db.Gasto;
+import com.example.db.GastoDAO;
+import com.example.db.Gastoo;
 
-public class GastosPanel extends Panel {
-    private Gasto gastos = new Gasto();
+public class GastosPanel extends Panell<Gastoo> {
 
     public GastosPanel() {
-        this.modelo = gastos;
+        this.dao = new GastoDAO();
         btnNuevo.setText("+ Nuevo gasto");
         this.campoBuscar.setVisible(false);
         btnNuevo.addActionListener(e -> mostrarFormularioNuevo());
         cargarDatos();
+    }
+
+    @Override 
+    protected String[] columnas(){
+        String[] columnas = {"id", "fecha_gasto", "estado", "valor", 
+        "fecha_pago", "descripcion", "fecha_presupuesto"};
+        return columnas;
+    }
+
+    @Override
+    protected Object[] fila(Gastoo gasto){
+        Object[] fila = {gasto.getId(), gasto.getFechaGasto(),
+            gasto.getEstado(), gasto.getValor(), gasto.getFechaPago(),
+            gasto.getDescripcion(), gasto.getFechaPresupuesto()
+        };
+        return fila;
     }
 
     @Override
@@ -38,8 +55,8 @@ public class GastosPanel extends Panel {
         campoFechaGasto.setEditor(editorFechaGasto); 
         JTextField valor = new JTextField();
         JTextField descripcion = new JTextField();
-        String[] estados = {"PENDIENTE", "PAGADO"};
-        JComboBox<String> estado = new JComboBox<>(estados);
+        Gastoo.Estado[] estados = Gastoo.Estado.values();
+        JComboBox<Gastoo.Estado> estado = new JComboBox<>(estados);
 
         JPanel form = new JPanel(new GridLayout(6, 2, 5, 5));
         form.add(new JLabel("Fecha gasto (YYYY-MM-DD):")); 
@@ -60,9 +77,15 @@ public class GastosPanel extends Panel {
 
         if (result == JOptionPane.OK_OPTION && formularioEsValido(form, excepciones)) {
             try {
-                String fechaGastoStr = fechaATexto(editorFecha, campoFechaGasto);
-                String fechaPagoStr = campoFechaPago.getText();
-                gastos.crear(fechaGastoStr, estado.getSelectedItem().toString(), valor.getText(), fechaPagoStr, descripcion.getText(), campoFechaPresupuesto.getText());
+                LocalDate fechaGasto = fechaDeCampo(campoFechaGasto);
+                Gastoo.Estado estadoSeleccionado = (Gastoo.Estado) estado.getSelectedItem();
+                LocalDate fechaPago = fechaDeCampo(campoFechaPago);
+                LocalDate fechaPresupuesto = fechaDeCampo(campoFechaPresupuesto);
+                int valorSeleccionado = Integer.parseInt(valor.getText());
+                //gastos.crear(fechaGastoStr, estado.getSelectedItem().toString(), valor.getText(), fechaPago, descripcion.getText(), campoFechaPresupuesto.getText());
+                Gastoo nuevoGasto = new Gastoo(fechaGasto, estadoSeleccionado, valorSeleccionado, fechaPago, 
+                                                descripcion.getText(), fechaPresupuesto);
+                dao.insertar(nuevoGasto);
                 cargarDatos();
             } catch (DBException e) {
                 JOptionPane.showMessageDialog(this,
