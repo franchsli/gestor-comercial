@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class Gasto {
     private int id;
     private LocalDate fechaGasto;
-    public enum Estado {PAGADO, PENDIENTE};
+    public enum Estado {PENDIENTE, PAGADO};
     private Estado estado;
     private int valor;
     private LocalDate fechaPago;
