@@ -29,7 +29,11 @@ public class Gastoo {
             LocalDate fechaPresupuesto){
         this(fechaGasto, estado, valor, fechaPago, descripcion, fechaPresupuesto);
         this.id = id;
-            }
+    }
+    
+    public int getId(){
+        return id;
+    }    
 
     public LocalDate getFechaGasto() {
         return fechaGasto;
