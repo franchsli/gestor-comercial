@@ -252,4 +252,16 @@ public abstract class DAO<T> {
         return suma;
 
     }
+
+    /**
+     * Devuelve la fecha de la columna deseada en la tabla.
+     * @param resultSet
+     * @param columna El nombre de la columna.
+     * @return La fecha en LocalDate, null si no hay nada.
+     * @throws SQLException
+     */
+    protected static LocalDate fechaDeColumna(ResultSet resultSet, String columna) throws SQLException {
+        String fecha = resultSet.getString(columna);
+        return fecha == null ? null : LocalDate.parse(fecha);
+    }
 }

@@ -267,6 +267,18 @@ public abstract class Panell<T> extends JPanel {
     }
 
     /**
+     * Devuelve la fecha en el campo de texto como
+     * LocalDate.
+     * @param campoFecha El campo de texto que contiene la fecha.
+     * @return la fecha en el campo dado como LocalDate.
+     */
+    protected LocalDate fechaDeCampo(JTextField campoFecha){
+        String fecha = campoFecha.getText();
+        if (fecha == null || fecha.isBlank()) return null;
+        return LocalDate.parse(fecha.trim());
+    }
+
+    /**
      * Pone la fecha dada dentro del campo dado.
      * @param campoFecha El campo que deberá contener
      * la fecha.
