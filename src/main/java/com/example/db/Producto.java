@@ -1,4 +1,9 @@
 package com.example.db;
+/**
+ * 
+ * @deprecated Productoo debe reemplazar esta clase cuando la migración a DAO se complete.
+ */
+@Deprecated 
 public class Producto extends Modelo {
 
     public Producto(){

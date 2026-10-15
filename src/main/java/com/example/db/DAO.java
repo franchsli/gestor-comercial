@@ -7,32 +7,69 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 public abstract class DAO<T> {
     protected final String nombreTabla;
+    protected final String columnas;
 
-    protected DAO(String nombreTabla){
+    protected DAO(String nombreTabla, String columnas){
         this.nombreTabla = nombreTabla;
+        this.columnas = columnas;
     }
 
     /**
-     * Mapea los datos del resultSet en
+     * Mapea los datos de la fila del resultSet en
      * un objeto y lo devuelve.
+     * No debe llamar a resultSet.next(); el
+     * cursor ya debe estar posicionado.
      * @param resultSet
-     * @return
+     * @return La entidad construida con los datos
+     * en la fila.
+     * @throws SQLException Si falla la lectura
+     * de alguna columna.
      */
-    public abstract T mapear(ResultSet resultSet);
+    public abstract T mapear(ResultSet resultSet) throws SQLException;
 
     /**
-     * Inserta los datos de la entidad dada en la tabla.
+     * Actualiza la fila cuya clave primaria coincida con
+     * la de la entidad. La fila es actualizada
+     * con los datos de la entidad ingresada.
+     */
+    public abstract void actualizar(T entidad);
+
+    /**
+     * Inserta la entidad dada con sus valores en la tabla.
+     * @param entidad La entidad a guardar en la tabla.
      */
     public abstract void insertar(T entidad);
 
     /**
-     * Actualiza los registros que cumplan con la condición dada
-     * con los datos ingresados.
+     * Inserta los parametros dados en una nueva fila
+     * en la tabla y retorna el id generado.
+     * @param valores Los valores que debe tener cada
+     * columna de la tabla.
+     * @return El id generado.
      */
-    public abstract void actualizar(T entidad);
+    public int insertarFila(Object... valores){
+        String sql = "INSERT INTO " + nombreTabla + " " + columnas + " VALUES " + marcadores(valores.length);
+        return insertarYObtenerId(sql, valores);
+    }
+
+    /**
+     * Devuelve una String de la lista de marcadores para
+     * una sentencia INSERT SQL.
+     * Ej: (?, ?, ?)
+     * @param numMarcadores El número de marcadores.
+     * @return La lista de marcadores para la sentencia.
+     */
+    protected String marcadores(int numMarcadores){
+        StringJoiner tupla = new StringJoiner(", ", "(", ")");
+        for (int i = 0; i < numMarcadores; i++) {
+            tupla.add("?");
+        }
+        return tupla.toString();
+    }
 
     /**
      * Ejecuta la sentencia INSERT/UPDATE/DELETE en la base de
@@ -44,7 +81,7 @@ public abstract class DAO<T> {
         Connection conn = DBConnection.get();
         try (PreparedStatement pStatement = conn.prepareStatement(sql)){
             asignar(pStatement, params);
-            pStatement.execute();
+            pStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DBException(e);
         }
@@ -74,12 +111,12 @@ public abstract class DAO<T> {
     /**
      * Asigna los valores dados en la sentencia SQL dada.
      * @param preparedStatement La sentencia SQL.
-     * @param params Los valores a llenar en la sentencia.
+     * @param valores Los valores a llenar en la sentencia.
      * @throws SQLException
      */
-    protected void asignar(PreparedStatement preparedStatement, Object[] params) throws SQLException {
-        for (int i = 0; i < params.length; i++) {
-            Object param = params[i];
+    protected void asignar(PreparedStatement preparedStatement, Object[] valores) throws SQLException {
+        for (int i = 0; i < valores.length; i++) {
+            Object param = valores[i];
             if (param instanceof LocalDate) {
                 param = param.toString();
             }
@@ -91,15 +128,15 @@ public abstract class DAO<T> {
      * Inserta los datos dados en la tabla y
      * devuelve el id generado.
      * @param sql La sentencia SQL.
-     * @param params Los datos a insertar.
+     * @param datos Los datos a insertar.
      * @return El id generado. -1 si no fue
      * generado.
      */
-    public int insertarYObtenerId(String sql, Object... params){
+    public int insertarYObtenerId(String sql, Object... datos){
         Connection conn = DBConnection.get();
         try (PreparedStatement pStatement = conn.prepareStatement(sql)){
-            asignar(pStatement, params);
-            pStatement.execute();
+            asignar(pStatement, datos);
+            pStatement.executeUpdate();
             ResultSet keys = pStatement.getGeneratedKeys();
             if (keys.next()) {
                 return keys.getInt(1);
@@ -122,6 +159,7 @@ public abstract class DAO<T> {
      * Devuelve todos los datos de la tabla que cumplen
      * la condición dada.
      * @param condicion La condición que los datos deben cumplir.
+     * @param params Los parámetros necesarios pra la condicion.
      * @return Los datos que cumplen con la condición.
      */
     public List<T> todos(String condicion, Object... params){
