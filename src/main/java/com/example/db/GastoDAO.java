@@ -17,7 +17,7 @@ public class GastoDAO extends DAO<Gastoo> {
     }
 
     public void insertar(Gastoo gasto){
-        insertarFila(gasto.getId(), gasto.getFechaGasto(), gasto.getEstado(), gasto.getValor(),
+        insertarFila(gasto.getFechaGasto(), gasto.getEstado(), gasto.getValor(),
                         gasto.getFechaPago(), gasto.getDescripcion(), gasto.getFechaPresupuesto());
     }
 
