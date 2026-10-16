@@ -1,18 +1,20 @@
 package com.example.db;
 
-public class Presupuesto extends Modelo {
-    public Presupuesto() {
-        this.nombreTabla = "PRESUPUESTOS";
-        this.columnas = "(fecha, valor)";
+import java.time.LocalDate;
+
+public class Presupuesto {
+    private LocalDate fecha;
+    private int valor;
+
+    public Presupuesto(LocalDate fecha, int valor){
+        this.fecha = fecha;
+        this.valor = valor;
     }
 
-    /**
-     * Crea un presupuesto en la base de datos.
-     * @param fecha La fecha para la que se destina el presupuesto.
-     * @param valor El mnto del presupuesto.
-     */
-    public void crear(String fecha, String valor) {
-        String datos[] = {fecha, valor};
-        insertar(datos);
+    public LocalDate getFecha() {
+        return fecha;
+    }
+    public int getValor() {
+        return valor;
     }
 }

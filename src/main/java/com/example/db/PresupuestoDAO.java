@@ -4,19 +4,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-public class PresupuestoDAO extends DAO<Presupuestoo>{
+public class PresupuestoDAO extends DAO<Presupuesto>{
 
     public PresupuestoDAO(){
         super("PRESUPUESTOS", "(fecha, valor)");
     }
 
     @Override
-    public Presupuestoo mapear(ResultSet resultSet) throws SQLException{
-        return new Presupuestoo(fechaDeColumna(resultSet, "fecha"), resultSet.getInt("valor"));
+    public Presupuesto mapear(ResultSet resultSet) throws SQLException{
+        return new Presupuesto(fechaDeColumna(resultSet, "fecha"), resultSet.getInt("valor"));
     }
 
     @Override
-    public void actualizar(Presupuestoo presupuesto){
+    public void actualizar(Presupuesto presupuesto){
         String sql = "UPDATE " + nombreTabla + " SET valor = ? WHERE fecha = ?";
         LocalDate fecha = presupuesto.getFecha();
         ejecutar(sql, fecha, presupuesto.getValor(), fecha);
@@ -30,13 +30,13 @@ public class PresupuestoDAO extends DAO<Presupuestoo>{
      * @param fechaAnterior La fecha que tenía el presupuesto
      * antes de la actualización.
      */
-    public void actualizar(Presupuestoo presupuesto, LocalDate fechaAnterior){
+    public void actualizar(Presupuesto presupuesto, LocalDate fechaAnterior){
         String sql = "UPDATE " + nombreTabla + " SET fecha = ?, valor = ? WHERE fecha = ?";
         ejecutar(sql, presupuesto.getFecha(), presupuesto.getValor(), fechaAnterior);
     }
 
     @Override
-    public void insertar(Presupuestoo presupuesto){
+    public void insertar(Presupuesto presupuesto){
         insertarFila(presupuesto.getFecha(), presupuesto.getValor());
     }
     
