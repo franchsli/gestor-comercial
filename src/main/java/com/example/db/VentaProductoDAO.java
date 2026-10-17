@@ -23,7 +23,16 @@ public class VentaProductoDAO extends DAO<VentaProductoo> {
 
     @Override
     public void insertar(VentaProductoo ventaProducto){
-        insertarFila(ventaProducto.getIdVenta(), ventaProducto.getIdProducto(), ventaProducto.getCantidadProducto());
+        int numProductosEnVenta = ventaProducto.getCantidadProducto();
+        int idProducto = ventaProducto.getIdProducto();
+
+        ProductoDAO productoDAO = new ProductoDAO();
+        Productoo productoEnVenta = productoDAO.unicoRegistro("id_producto", idProducto);
+        productoEnVenta.reducirCantidad(numProductosEnVenta);
+        productoDAO.actualizar(productoEnVenta);
+
+        insertarFila(ventaProducto.getIdVenta(), idProducto, numProductosEnVenta);
+
     }
     
 }
