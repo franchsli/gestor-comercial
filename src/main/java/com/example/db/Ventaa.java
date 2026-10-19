@@ -19,6 +19,17 @@ public class Ventaa {
         this(fecha, valor, tipo);
         this.id = id;
     }
+
+    /**
+     * Agrega el valor del precio unitario * cantidad
+     * del producto en venta al valor total de la venta.
+     * @param precioUnitario El precio unitario del producto
+     * agregado a la venta.
+     * @param cantidad La cantidad de ese producto en la venta.
+     */
+    public void agregarAlValor(int precioUnitario, int cantidad){
+        this.valor += precioUnitario * cantidad;
+    }
     
     public int getId() {
         return id;
