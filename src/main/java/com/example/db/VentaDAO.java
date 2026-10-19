@@ -11,7 +11,7 @@ public class VentaDAO extends DAO<Ventaa> {
 
     @Override
     public Ventaa mapear(ResultSet resultSet) throws SQLException {
-        return new Ventaa(fechaDeColumna(resultSet, "fecha"), resultSet.getInt("valor"), 
+        return new Ventaa(resultSet.getInt("id"), fechaDeColumna(resultSet, "fecha"), resultSet.getInt("valor"), 
                             Ventaa.Tipo.valueOf(resultSet.getString("tipo")));
     }
 
