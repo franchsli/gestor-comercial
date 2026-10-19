@@ -12,10 +12,8 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.util.List;
-import java.util.Map;
 
 import com.example.db.DBException;
-import com.example.db.Producto;
 import com.example.db.ProductoDAO;
 import com.example.db.Productoo;
 import com.example.db.Venta;
@@ -33,6 +31,19 @@ public class VentasPanell extends Panell<Ventaa> {
         this.campoBuscar.setVisible(false);
         btnNuevo.addActionListener(e -> mostrarFormularioNuevo());
         cargarDatos();
+    }
+
+    @Override 
+    protected String[] columnas(){
+        String[] columnas = {"id", "fecha", "valor", "tipo"};
+        return columnas;
+    }
+
+    @Override
+    protected Object[] fila(Ventaa venta){
+        Object[] fila = {venta.getId(), venta.getFecha(),
+                        venta.getValor(), venta.getTipo()};
+        return fila;
     }
 
     @Override
