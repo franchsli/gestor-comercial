@@ -25,4 +25,22 @@ public class VentaDAO extends DAO<Ventaa> {
     public void insertar(Ventaa venta){
         insertarFila(venta.getFecha(), venta.getValor(), venta.getTipo());
     }
+
+    /**
+     * Asocia el producto con el nombre dado a una venta en VENTAS_PRODUCTOS.
+     * @param venta El objeto de la entidad venta.
+     * @param nombreProducto El nombre del producto.
+     * @param cantidadProducto La cantidad del producto en la venta.
+     */
+    public void vender(Ventaa venta, String nombreProducto, int cantidadProducto){
+        ProductoDAO productoDAO = new ProductoDAO();
+        VentaProductoDAO ventaProductoDAO = new VentaProductoDAO();
+
+        Productoo productoAVender = productoDAO.unicoRegistro("nombre", nombreProducto);
+        VentaProductoo ventaProducto = new VentaProductoo(venta.getId(), productoAVender.getId(), cantidadProducto);
+        ventaProductoDAO.insertar(ventaProducto);
+
+        venta.agregarAlValor(productoAVender.getPrecioUnitario(), cantidadProducto);
+        actualizar(venta);
+    }
 }
