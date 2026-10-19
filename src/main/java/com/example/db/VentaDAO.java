@@ -23,7 +23,7 @@ public class VentaDAO extends DAO<Ventaa> {
 
     @Override
     public void insertar(Ventaa venta){
-        insertarFila(venta.getFecha(), venta.getValor(), venta.getTipo());
+        venta.setId(insertarFila(venta.getFecha(), venta.getValor(), venta.getTipo()));   
     }
 
     /**
