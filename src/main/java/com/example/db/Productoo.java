@@ -32,6 +32,11 @@ public class Productoo {
         }
     }
 
+    @Override
+    public String toString() {
+        return this.nombre;
+    }
+
     public int getId(){
         return this.id;
     }
