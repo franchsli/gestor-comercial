@@ -36,7 +36,7 @@ public class VentaDAO extends DAO<Venta> {
         ProductoDAO productoDAO = new ProductoDAO();
         VentaProductoDAO ventaProductoDAO = new VentaProductoDAO();
 
-        Productoo productoAVender = productoDAO.unicoRegistro("nombre", nombreProducto);
+        Producto productoAVender = productoDAO.unicoRegistro("nombre", nombreProducto);
         VentaProducto ventaProducto = new VentaProducto(venta.getId(), productoAVender.getId(), cantidadProducto);
         ventaProductoDAO.insertar(ventaProducto);
 

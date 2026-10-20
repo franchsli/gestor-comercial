@@ -27,7 +27,7 @@ public class VentaProductoDAO extends DAO<VentaProducto> {
         int idProducto = ventaProducto.getIdProducto();
 
         ProductoDAO productoDAO = new ProductoDAO();
-        Productoo productoEnVenta = productoDAO.unicoRegistro("id", idProducto);
+        Producto productoEnVenta = productoDAO.unicoRegistro("id", idProducto);
         productoEnVenta.reducirCantidad(numProductosEnVenta);
         productoDAO.actualizar(productoEnVenta);
 
