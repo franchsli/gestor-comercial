@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import java.awt.GridLayout;
+import java.time.LocalDate;
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -110,6 +111,16 @@ public class VentasPanell extends Panell<Ventaa> {
                     "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+
+    @Override
+    public void aplicarCambios(String[] valores){
+        int id = Integer.parseInt(valores[0]);
+        LocalDate fecha = LocalDate.parse(valores[1]);
+        int valor = Integer.parseInt(valores[2]);
+        Ventaa.Tipo tipo = Ventaa.Tipo.valueOf(valores[3]);
+        Ventaa venta = new Ventaa(id, fecha, valor, tipo);
+        dao.actualizar(venta);
     }
 
     /**
