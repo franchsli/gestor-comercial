@@ -208,9 +208,13 @@ public abstract class Panell<T> extends JPanel {
     /**
      * Aplica los cambios en el formulario de edición al 
      * registro a editar con los valores dados.
+     * Este método debe implementarse y usarse en los paneles
+     * que no sobreescriban manejarEditar()
      * @param valores Los valores en la actualización.
      */
-    public abstract void aplicarCambios(String[] valores);
+    public void aplicarCambios(String[] valores){
+        throw new UnsupportedOperationException("Este panel no usa la edición genérica; sobrescribe manejarEditar()");
+    }
 
     /**
      * Devuelve si un formulario es válido o no.
