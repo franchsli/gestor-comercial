@@ -1,50 +1,55 @@
 package com.example.db;
-/**
- * 
- * @deprecated Productoo debe reemplazar esta clase cuando la migración a DAO se complete.
- */
-@Deprecated 
-public class Producto extends Modelo {
 
-    public Producto(){
-        this.columnas = "(nombre, precio_unitario, cantidad)";
+public class Producto {
+    private int id;
+    private String nombre;
+    private int precioUnitario;
+    private int cantidad;
+
+    public Producto(String nombre, int precioUnitario, int cantidad){
+        this.nombre = nombre;
+        this.precioUnitario = precioUnitario;
+        this.cantidad = cantidad;
+    }
+
+    public Producto(int id, String nombre, int precioUnitario, int cantidad){
+        this(nombre, precioUnitario, cantidad);
+        this.id = id;
     }
 
     /**
-     * Actualiza el inventario del producto con el id dado.
-     * @param id El id del producto a cambiar la cantidad en stock.
-     * @param nuevoInventario El nuevo inventario del producto.
-     */
-    public void actualizarInventario(String id, String nuevoInventario){
-        actualizar("cantidad", nuevoInventario, "id=" + id);
-    }
-
-    /**
-     * Reduce el inventario del producto con el id dado.
-     * @param id El id del producto.
+     * Reduce la cantidad en inventario del producto.
      * @param numProductosSalientes El número de productos que salen del inventario.
-     * @throws ArithmeticException Lanzada si el inventario se torna menor a 0.
+     * @throws ArithmeticException Lanzada si se calcula que el inventario se torna menor a 0.
      */
-    public void reducirInventario(String id, int numProductosSalientes) throws ArithmeticException{
-        int inventarioActual = intColumna("cantidad", id);
-        int inventarioActualizado = inventarioActual - numProductosSalientes;
+    public void reducirCantidad(int numProductosSalientes) throws ArithmeticException{
+        int inventarioActualizado = this.cantidad - numProductosSalientes;
         if (inventarioActualizado < 0) {
             throw new ArithmeticException("No hay suficientes productos en el inventario para realizar esta operación.");
         } else {
-            String inventarioActualizadoTexto = Integer.toString(inventarioActualizado);
-            actualizarInventario(id, inventarioActualizadoTexto);   
+            this.cantidad -= numProductosSalientes;  
         }
     }
 
-    /**
-     * Crea un nuevo producto.
-     * @param nombre El nombre del producto.
-     * @param precioUnitario El precio unitario del producto.
-     * @param cantidad La cantidad en inventario del producto.
-     */
-    public void crear(String nombre, String precioUnitario, String cantidad){
-        String[] datos = {nombre, precioUnitario, cantidad};
-        insertar(datos);
+    @Override
+    public String toString() {
+        return this.nombre;
+    }
+
+    public int getId(){
+        return this.id;
+    }
+
+    public String getNombre(){
+        return this.nombre;
+    }
+
+    public int getPrecioUnitario(){
+        return this.precioUnitario;
+    }
+
+    public int getCantidad(){
+        return this.cantidad;
     }
 
 }

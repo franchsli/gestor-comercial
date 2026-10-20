@@ -5,6 +5,7 @@ import com.example.db.DBConnection;
 import com.example.gui.CierreDiarioPanel;
 import com.example.gui.GastosPanel;
 import com.example.gui.Panel;
+import com.example.gui.Panell;
 import com.example.gui.PresupuestosPanel;
 import com.example.gui.ProductosPanel;
 import com.example.gui.Ventana;
@@ -26,12 +27,14 @@ public class Main {
         pestañas.addTab("Cierres diarios", pestañaCierresDiarios);
         // se recarga la pestaña seleccionada
         pestañas.addChangeListener(e -> {
-            Panel pestañaSeleccionada = (Panel) pestañas.getSelectedComponent();
+            Panell pestañaSeleccionada = (Panell) pestañas.getSelectedComponent();
             pestañaSeleccionada.cargarDatos();
+            // TODO: Re añadir estos comentario como código cuando
+            // el módulo de cierres diarios esté migrado.
             // si la pestaña es la de Cierres diarios, recarga los totales
-            if (pestañaSeleccionada instanceof CierreDiarioPanel){
-                ((CierreDiarioPanel)pestañaSeleccionada).cargarTotales();
-            }
+            //if (pestañaSeleccionada instanceof CierreDiarioPanel){
+            //    ((CierreDiarioPanel)pestañaSeleccionada).cargarTotales();
+            //}
         });
         Ventana ventana = new Ventana();
         ventana.add(pestañas);

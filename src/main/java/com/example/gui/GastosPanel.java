@@ -93,4 +93,17 @@ public class GastosPanel extends Panell<Gasto> {
             }
         }
     }
+
+    @Override
+    public void aplicarCambios(String[] valores){
+        int id = Integer.parseInt(valores[0]);
+        LocalDate fechaGasto = LocalDate.parse(valores[1]);
+        Gasto.Estado estado = Gasto.Estado.valueOf(valores[2]);
+        int valor = Integer.parseInt(valores[3]);
+        LocalDate fechaPago = LocalDate.parse(valores[4]);
+        LocalDate fechaPresupuesto = LocalDate.parse(valores[6]);
+        Gasto gasto = new Gasto(id, fechaGasto, estado, valor, fechaPago,
+                                    valores[5], fechaPresupuesto);
+        dao.actualizar(gasto);
+    }
 }

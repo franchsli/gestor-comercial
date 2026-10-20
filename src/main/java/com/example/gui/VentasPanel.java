@@ -7,23 +7,25 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import java.awt.GridLayout;
+import java.time.LocalDate;
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.util.List;
-import java.util.Map;
 
 import com.example.db.DBException;
 import com.example.db.Producto;
+import com.example.db.ProductoDAO;
 import com.example.db.Venta;
+import com.example.db.VentaDAO;
 
-public class VentasPanel extends Panel {
-    private Venta ventas = new Venta();
-    private Producto productos = new Producto();
+public class VentasPanel extends Panell<Venta> {
+    private VentaDAO ventaDAO = new VentaDAO();
+    private ProductoDAO productoDAO = new ProductoDAO();
     
     public VentasPanel(){
-        this.modelo = ventas;
+        this.dao = ventaDAO;
         btnNuevo.setText("+ Nueva venta");
         btnEliminar.setText("Anular");
         this.campoBuscar.setVisible(false);
@@ -31,24 +33,33 @@ public class VentasPanel extends Panel {
         cargarDatos();
     }
 
+    @Override 
+    protected String[] columnas(){
+        String[] columnas = {"id", "fecha", "valor", "tipo"};
+        return columnas;
+    }
+
+    @Override
+    protected Object[] fila(Venta venta){
+        Object[] fila = {venta.getId(), venta.getFecha(),
+                        venta.getValor(), venta.getTipo()};
+        return fila;
+    }
+
     @Override
     public void mostrarFormularioNuevo() {
-        String[] tipos = {"EFECTIVO", "CREDITO"};
-        JComboBox<String> tipo = new JComboBox<>(tipos);
-
+        Venta.Tipo[] tipos = Venta.Tipo.values();
+        JComboBox<Venta.Tipo> tipo = new JComboBox<>(tipos);
 
         // panel dinámico de productos
         JPanel panelProductos = new JPanel();
         panelProductos.setLayout(new BoxLayout(panelProductos, BoxLayout.Y_AXIS));
 
-        // cargar nombres de productos
-        List<Map<String, String>> listaProductos = productos.todos();
-        String[] nombresProductos = listaProductos.stream()
-            .map(p -> p.get("nombre"))
-            .toArray(String[]::new);
+        // cargar productos
+        List<Producto> productos = productoDAO.todos();
 
         // primera fila de producto
-        panelProductos.add(crearFilaProducto(nombresProductos, panelProductos));
+        panelProductos.add(crearFilaProducto(productos, panelProductos));
 
         // formulario completo
         JPanel form = new JPanel(new BorderLayout(5, 5));
@@ -69,11 +80,11 @@ public class VentasPanel extends Panel {
         if (result == JOptionPane.OK_OPTION && formularioEsValido(form)) {
             try {
                 // crear la venta primero (valor se calculará en vender())
-                String fechaStr = fechaATexto(editorFecha, campoFecha);
-                ventas.crear(fechaStr, "0", tipo.getSelectedItem().toString());
+                Venta.Tipo tipoSeleccionado = (Venta.Tipo) tipo.getSelectedItem();
 
-                // obtener el id de la venta recién creada
-                String ventaId = ventas.ultimoId();
+                Venta nuevaVenta = new Venta(fechaDeCampo(campoFecha), 0, tipoSeleccionado);
+
+                ventaDAO.insertar(nuevaVenta);
 
                 // iterar filas de productos
                 for (Component c : panelProductos.getComponents()) {
@@ -81,11 +92,11 @@ public class VentasPanel extends Panel {
                     JComboBox<?> combo = (JComboBox<?>) fila.getComponent(0);
                     JTextField campoCantidad = (JTextField) fila.getComponent(1);
 
-                    String nombreProducto = combo.getSelectedItem().toString();
+                    Producto producto = (Producto) combo.getSelectedItem();
                     String cantidadStr = campoCantidad.getText().trim();
                     if (cantidadStr.isEmpty()) continue;
 
-                    ventas.vender(ventaId, nombreProducto, cantidadStr);
+                    ventaDAO.vender(nuevaVenta, producto, Integer.parseInt(cantidadStr));
                 }
 
                 cargarDatos();
@@ -101,21 +112,32 @@ public class VentasPanel extends Panel {
         }
     }
 
+    @Override
+    public void aplicarCambios(String[] valores){
+        int id = Integer.parseInt(valores[0]);
+        LocalDate fecha = LocalDate.parse(valores[1]);
+        int valor = Integer.parseInt(valores[2]);
+        Venta.Tipo tipo = Venta.Tipo.valueOf(valores[3]);
+        Venta venta = new Venta(id, fecha, valor, tipo);
+        dao.actualizar(venta);
+    }
+
     /**
      * Crea una nueva fila de producto para añadir un producto y darle una cantidad.
-     * @param nombres Los nombres de los productos en la base de datos.
+     * @param productos Lista de los productos en la base de datos.
      * @param panelProductos El panel que contiene los productos y su cantidad.
      * @return Un panel con la nueva fila creada.
      */
-    private JPanel crearFilaProducto(String[] nombres, JPanel panelProductos) {
+    private JPanel crearFilaProducto(List<Producto> productos, JPanel panelProductos) {
         JPanel fila = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JComboBox<String> combo = new JComboBox<>(nombres);
+        
+        JComboBox<Producto> combo = new JComboBox<>(productos.toArray(Producto[]::new));
         JTextField cantidad = new JTextField(5);
         cantidad.setToolTipText("Cantidad");
 
         cantidad.addActionListener(e -> {
             // Si se presiona Enter, se añade una fila
-            panelProductos.add(crearFilaProducto(nombres, panelProductos));
+            panelProductos.add(crearFilaProducto(productos, panelProductos));
             panelProductos.revalidate();
             panelProductos.repaint();
         });
