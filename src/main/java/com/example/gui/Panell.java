@@ -210,7 +210,7 @@ public abstract class Panell<T> extends JPanel {
      * registro a editar con los valores dados.
      * @param valores Los valores en la actualización.
      */
-    public void aplicarCambios(String[] valores){}
+    public abstract void aplicarCambios(String[] valores);
 
     /**
      * Devuelve si un formulario es válido o no.
