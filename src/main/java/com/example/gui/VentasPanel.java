@@ -92,11 +92,11 @@ public class VentasPanel extends Panell<Venta> {
                     JComboBox<?> combo = (JComboBox<?>) fila.getComponent(0);
                     JTextField campoCantidad = (JTextField) fila.getComponent(1);
 
-                    String nombreProducto = combo.getSelectedItem().toString();
+                    Producto producto = (Producto) combo.getSelectedItem();
                     String cantidadStr = campoCantidad.getText().trim();
                     if (cantidadStr.isEmpty()) continue;
 
-                    ventaDAO.vender(nuevaVenta, nombreProducto, Integer.parseInt(cantidadStr));
+                    ventaDAO.vender(nuevaVenta, producto, Integer.parseInt(cantidadStr));
                 }
 
                 cargarDatos();
