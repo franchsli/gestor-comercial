@@ -3,26 +3,26 @@ package com.example.db;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class VentaDAO extends DAO<Ventaa> {
+public class VentaDAO extends DAO<Venta> {
     
     public VentaDAO(){
         super("VENTAS", "(fecha, valor, tipo)");
     }
 
     @Override
-    public Ventaa mapear(ResultSet resultSet) throws SQLException {
-        return new Ventaa(resultSet.getInt("id"), fechaDeColumna(resultSet, "fecha"), resultSet.getInt("valor"), 
-                            Ventaa.Tipo.valueOf(resultSet.getString("tipo")));
+    public Venta mapear(ResultSet resultSet) throws SQLException {
+        return new Venta(resultSet.getInt("id"), fechaDeColumna(resultSet, "fecha"), resultSet.getInt("valor"), 
+                            Venta.Tipo.valueOf(resultSet.getString("tipo")));
     }
 
     @Override
-    public void actualizar(Ventaa venta){
+    public void actualizar(Venta venta){
         String sql = "UPDATE " + nombreTabla + " SET fecha = ?, valor = ?, tipo = ? WHERE id = ?";
         ejecutar(sql, venta.getFecha(), venta.getValor(), venta.getTipo(), venta.getId());
     }
 
     @Override
-    public void insertar(Ventaa venta){
+    public void insertar(Venta venta){
         venta.setId(insertarFila(venta.getFecha(), venta.getValor(), venta.getTipo()));   
     }
 
@@ -32,7 +32,7 @@ public class VentaDAO extends DAO<Ventaa> {
      * @param nombreProducto El nombre del producto.
      * @param cantidadProducto La cantidad del producto en la venta.
      */
-    public void vender(Ventaa venta, String nombreProducto, int cantidadProducto){
+    public void vender(Venta venta, String nombreProducto, int cantidadProducto){
         ProductoDAO productoDAO = new ProductoDAO();
         VentaProductoDAO ventaProductoDAO = new VentaProductoDAO();
 
