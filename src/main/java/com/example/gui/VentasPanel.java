@@ -15,8 +15,8 @@ import java.awt.Dimension;
 import java.util.List;
 
 import com.example.db.DBException;
+import com.example.db.Producto;
 import com.example.db.ProductoDAO;
-import com.example.db.Productoo;
 import com.example.db.Venta;
 import com.example.db.VentaDAO;
 
@@ -56,7 +56,7 @@ public class VentasPanel extends Panell<Venta> {
         panelProductos.setLayout(new BoxLayout(panelProductos, BoxLayout.Y_AXIS));
 
         // cargar productos
-        List<Productoo> productos = productoDAO.todos();
+        List<Producto> productos = productoDAO.todos();
 
         // primera fila de producto
         panelProductos.add(crearFilaProducto(productos, panelProductos));
@@ -128,10 +128,10 @@ public class VentasPanel extends Panell<Venta> {
      * @param panelProductos El panel que contiene los productos y su cantidad.
      * @return Un panel con la nueva fila creada.
      */
-    private JPanel crearFilaProducto(List<Productoo> productos, JPanel panelProductos) {
+    private JPanel crearFilaProducto(List<Producto> productos, JPanel panelProductos) {
         JPanel fila = new JPanel(new FlowLayout(FlowLayout.LEFT));
         
-        JComboBox<Productoo> combo = new JComboBox<>(productos.toArray(Productoo[]::new));
+        JComboBox<Producto> combo = new JComboBox<>(productos.toArray(Producto[]::new));
         JTextField cantidad = new JTextField(5);
         cantidad.setToolTipText("Cantidad");
 

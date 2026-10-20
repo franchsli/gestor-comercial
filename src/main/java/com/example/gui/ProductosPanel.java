@@ -9,10 +9,10 @@ import javax.swing.event.DocumentListener;
 import java.awt.GridLayout;
 
 import com.example.db.DBException;
+import com.example.db.Producto;
 import com.example.db.ProductoDAO;
-import com.example.db.Productoo;
 
-public class ProductosPanel extends Panell<Productoo> {
+public class ProductosPanel extends Panell<Producto> {
 
     public ProductosPanel() {
         this.dao = new ProductoDAO();
@@ -32,7 +32,7 @@ public class ProductosPanel extends Panell<Productoo> {
     }
 
     @Override
-    protected Object[] fila(Productoo producto){
+    protected Object[] fila(Producto producto){
         Object[] fila = {producto.getId(), producto.getNombre(),
             producto.getPrecioUnitario(), producto.getCantidad()
         };
@@ -57,7 +57,7 @@ public class ProductosPanel extends Panell<Productoo> {
             try {
                 int precioProducto = Integer.parseInt(precio.getText());
                 int cantidadProducto = Integer.parseInt(cantidad.getText());
-                Productoo nuevoProducto = new Productoo(nombre.getText(), precioProducto, cantidadProducto);
+                Producto nuevoProducto = new Producto(nombre.getText(), precioProducto, cantidadProducto);
                 dao.insertar(nuevoProducto);
                 cargarDatos();
             } catch (DBException e) {
@@ -70,7 +70,7 @@ public class ProductosPanel extends Panell<Productoo> {
 
     @Override
     public void aplicarCambios(String[] valores) {
-        Productoo producto = new Productoo(
+        Producto producto = new Producto(
         Integer.parseInt(valores[0]),
         valores[1],
         Integer.parseInt(valores[2]),
