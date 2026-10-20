@@ -1,0 +1,52 @@
+package com.example.db;
+
+import java.time.LocalDate;
+
+public class CierreDiarioo {
+    private LocalDate fecha;
+    private int ventasEfectivo;
+    private int ventasCredito;
+    private int totalVentas;
+    private int presupuesto;
+    private int cumplimiento;
+    private int gastos;
+
+    public CierreDiarioo(LocalDate fecha, int ventasEfectivo, int ventasCredito, int totalVentas, int presupuesto,
+            int cumplimiento, int gastos){
+        this.fecha = fecha;
+        this.ventasEfectivo = ventasEfectivo;
+        this.ventasCredito = ventasCredito;
+        this.totalVentas = totalVentas;
+        this.presupuesto = presupuesto;
+        this.cumplimiento = cumplimiento;
+        this.gastos = gastos;
+    }
+
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public int getVentasEfectivo() {
+        return ventasEfectivo;
+    }
+
+    public int getVentasCredito() {
+        return ventasCredito;
+    }
+
+    public int getTotalVentas() {
+        return totalVentas;
+    }
+
+    public int getPresupuesto() {
+        return presupuesto;
+    }
+
+    public int getCumplimiento() {
+        return cumplimiento;
+    }
+
+    public int getGastos() {
+        return gastos;
+    }
+}
