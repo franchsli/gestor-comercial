@@ -9,11 +9,11 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
-import com.example.db.DAO;
+import com.example.db.DAOLectura;
 import com.example.db.DBException;
 
 public abstract class PanelLectura<T> extends JPanel {
-    protected DAO<T> dao;
+    protected DAOLectura<T> daoLectura;
     protected JTable tabla;
     protected DefaultTableModel modeloTabla;
 
@@ -63,7 +63,7 @@ public abstract class PanelLectura<T> extends JPanel {
             modeloTabla.setColumnIdentifiers(columnas());
 
             // filas
-            List<T> entidades = dao.todos(condicion);
+            List<T> entidades = daoLectura.todos(condicion);
             for (T entidad : entidades) {
                 modeloTabla.addRow(fila(entidad));
             }

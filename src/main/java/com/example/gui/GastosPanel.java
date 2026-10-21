@@ -19,6 +19,7 @@ public class GastosPanel extends Panell<Gasto> {
 
     public GastosPanel() {
         this.dao = new GastoDAO();
+        this.daoLectura = dao;
         btnNuevo.setText("+ Nuevo gasto");
         this.campoBuscar.setVisible(false);
         btnNuevo.addActionListener(e -> mostrarFormularioNuevo());

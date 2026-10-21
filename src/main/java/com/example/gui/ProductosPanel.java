@@ -16,6 +16,7 @@ public class ProductosPanel extends Panell<Producto> {
 
     public ProductosPanel() {
         this.dao = new ProductoDAO();
+        this.daoLectura = dao;
         btnNuevo.addActionListener(e -> mostrarFormularioNuevo());
         campoBuscar.getDocument().addDocumentListener(new DocumentListener() {
             public void insertUpdate(DocumentEvent e) { buscarProducto(); }
