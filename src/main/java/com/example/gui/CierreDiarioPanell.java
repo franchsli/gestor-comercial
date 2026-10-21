@@ -2,7 +2,6 @@ package com.example.gui;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -48,6 +47,21 @@ public class CierreDiarioPanell extends PanelLectura<CierreDiarioo> {
         add(panelFiltro, java.awt.BorderLayout.SOUTH);
         cargarDatos();
         cargarTotales();
+    }
+
+    @Override
+    protected String[] columnas(){
+        String[] columnas = {"fecha", "ventas_efectivo", "ventas_credito", "total_ventas", 
+                            "presupuesto", "cumplimiento", "gastos"};
+        return columnas;
+    }
+
+    @Override
+    protected Object[] fila(CierreDiarioo cierreDiario){
+        Object[] fila = {cierreDiario.getFecha(), cierreDiario.getVentasEfectivo(), cierreDiario.getVentasCredito(),
+                            cierreDiario.getTotalVentas(), cierreDiario.getPresupuesto(), cierreDiario.getCumplimiento(),
+                            cierreDiario.getGastos()};
+        return fila;
     }
 
     /**
