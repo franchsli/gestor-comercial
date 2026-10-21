@@ -110,7 +110,7 @@ public class CierreDiarioPanell extends PanelLectura<CierreDiarioo> {
                 : cierreDiarioDAO.filtrarPorMes(año, mes);
 
             modeloTabla.setRowCount(0);
-            modeloTabla.setColumnCount(0);
+            modeloTabla.setColumnIdentifiers(columnas());
             if (cierreDiarios.isEmpty()) return;
 
             for (CierreDiarioo cierreDiario : cierreDiarios) {
