@@ -5,6 +5,7 @@ import com.example.db.DBConnection;
 import com.example.gui.CierreDiarioPanel;
 import com.example.gui.GastosPanel;
 import com.example.gui.Panel;
+import com.example.gui.PanelLectura;
 import com.example.gui.Panell;
 import com.example.gui.PresupuestosPanel;
 import com.example.gui.ProductosPanel;
@@ -27,7 +28,7 @@ public class Main {
         pestañas.addTab("Cierres diarios", pestañaCierresDiarios);
         // se recarga la pestaña seleccionada
         pestañas.addChangeListener(e -> {
-            Panell pestañaSeleccionada = (Panell) pestañas.getSelectedComponent();
+            PanelLectura pestañaSeleccionada = (PanelLectura) pestañas.getSelectedComponent();
             pestañaSeleccionada.cargarDatos();
             // TODO: Re añadir estos comentario como código cuando
             // el módulo de cierres diarios esté migrado.
