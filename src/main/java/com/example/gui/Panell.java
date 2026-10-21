@@ -26,13 +26,13 @@ import com.example.db.DBException;
 
 // TODO: Reemplazar Panel con esta clase cuando la refactorización acabe.
 public abstract class Panell<T> extends JPanel {
-   DAO<T> dao;
-   JTable tabla;
-   DefaultTableModel modeloTabla;
-   JButton btnNuevo, btnEditar, btnEliminar, btnFiltrar;
-   JTextField campoBuscar;
-   JSpinner campoFecha;
-   JSpinner.DateEditor editorFecha;
+    DAO<T> dao;
+    JTable tabla;
+    DefaultTableModel modeloTabla;
+    JButton btnNuevo, btnEditar, btnEliminar, btnFiltrar;
+    JTextField campoBuscar;
+    JSpinner campoFecha;
+    JSpinner.DateEditor editorFecha;
 
     public Panell() {
         setLayout(new BorderLayout());
