@@ -1,6 +1,5 @@
 package com.example.gui;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -13,29 +12,20 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
-import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerDateModel;
-import javax.swing.table.DefaultTableModel;
 
-import com.example.db.DAO;
 import com.example.db.DBException;
 
 // TODO: Reemplazar Panel con esta clase cuando la refactorización acabe.
-public abstract class Panell<T> extends JPanel {
-    DAO<T> dao;
-    JTable tabla;
-    DefaultTableModel modeloTabla;
+public abstract class Panell<T> extends PanelLectura<T> {
     JButton btnNuevo, btnEditar, btnEliminar, btnFiltrar;
     JTextField campoBuscar;
     JSpinner campoFecha;
     JSpinner.DateEditor editorFecha;
 
     public Panell() {
-        setLayout(new BorderLayout());
         // barra de botones
         JPanel barraBotones = new JPanel(new FlowLayout(FlowLayout.LEFT));
         btnNuevo = new JButton("+ Nuevo");
@@ -54,70 +44,11 @@ public abstract class Panell<T> extends JPanel {
         barraBotones.add(btnEliminar);
         barraBotones.add(campoBuscar);
 
-        // tabla
-        modeloTabla = new DefaultTableModel() {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false; // no editable directamente
-            }
-        };
-        tabla = new JTable(modeloTabla);
-        tabla.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-
         add(barraBotones, BorderLayout.NORTH);
-        add(new JScrollPane(tabla), BorderLayout.CENTER);
 
         // listeners compartidos
         btnEliminar.addActionListener(e -> manejarEliminar());
         btnEditar.addActionListener(e -> manejarEditar());
-    }
-
-    /**
-     * Devuelve el nombre de las columnas
-     * del DAO de la entidad referenciada en Panel.
-     * @return El nombre de las columnas.
-     */
-    protected abstract String[] columnas();
-
-    /**
-     * Devuelve un Array de los valores
-     * en fila de la entidad dada, en el mismo
-     * orden en el que se visualizan en las
-     * columnas.
-     * @param entidad La entidad que contiene
-     * los valores.
-     * @return Un arreglo de los valores en fila. 
-     */
-    protected abstract Object[] fila(T entidad);
-
-    /**
-     * Carga los datos del modelo de la clase que cumplan la condicion dada en la pestaña.
-     * @param condicion La condición que deben cumplir los datos del modelo de la clase.
-     */
-    public void cargarDatos(String condicion) {
-        modeloTabla.setRowCount(0);
-
-        try {
-            // columnas
-            modeloTabla.setColumnIdentifiers(columnas());
-
-            // filas
-            List<T> entidades = dao.todos(condicion);
-            for (T entidad : entidades) {
-                modeloTabla.addRow(fila(entidad));
-            }
-        } catch (DBException e) {
-            JOptionPane.showMessageDialog(this,
-                "Error en la base de datos: " + e.getMessage(),
-                "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    /**
-     * Carga todos los datos del modelo de la clase en la pestaña.
-     */
-    public void cargarDatos() {
-        cargarDatos("");
     }
 
     /**
