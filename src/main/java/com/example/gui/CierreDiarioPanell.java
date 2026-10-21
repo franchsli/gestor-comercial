@@ -105,7 +105,8 @@ public class CierreDiarioPanell extends PanelLectura<CierreDiarioo> {
      */
     private void aplicarFiltro(int mes, int año) {
         try {
-            List<CierreDiarioo> cierreDiarios = mes == 0
+            boolean seFiltraPorAñoSolamente = mes == 0;
+            List<CierreDiarioo> cierreDiarios = seFiltraPorAñoSolamente
                 ? cierreDiarioDAO.filtrarPorAño(año)
                 : cierreDiarioDAO.filtrarPorMes(año, mes);
 
@@ -117,8 +118,9 @@ public class CierreDiarioPanell extends PanelLectura<CierreDiarioo> {
                 modeloTabla.addRow(fila(cierreDiario));
             }
             String condicion = "fecha >= ? AND fecha < ?";
-            LocalDate inicio = LocalDate.of(año, mes == 0 ? 1 : mes, 1);
-            LocalDate fin = inicio.plusMonths(1);
+            
+            LocalDate inicio = LocalDate.of(año, seFiltraPorAñoSolamente ? 1 : mes, 1);
+            LocalDate fin = seFiltraPorAñoSolamente ? inicio.plusYears(1) : inicio.plusMonths(1);
             
             cargarTotales(condicion, inicio, fin);
         } catch (DBException e) {
