@@ -2,7 +2,7 @@ package com.example;
 import javax.swing.JTabbedPane;
 
 import com.example.db.DBConnection;
-import com.example.gui.CierreDiarioPanel;
+import com.example.gui.CierresDiariosPanel;
 import com.example.gui.GastosPanel;
 import com.example.gui.PanelLectura;
 import com.example.gui.PresupuestosPanel;
@@ -17,7 +17,7 @@ public class Main {
         GastosPanel pestañaGastos = new GastosPanel();
         VentasPanel pestañaVentas = new VentasPanel();
         PresupuestosPanel pestañaPresupuestos = new PresupuestosPanel();
-        CierreDiarioPanel pestañaCierresDiarios = new CierreDiarioPanel();
+        CierresDiariosPanel pestañaCierresDiarios = new CierresDiariosPanel();
         // se añaden las pestañas
         pestañas.addTab("Productos", pestañaProductos);
         pestañas.addTab("Ventas", pestañaVentas);
@@ -30,8 +30,8 @@ public class Main {
             pestañaSeleccionada.cargarDatos();
             // el módulo de cierres diarios esté migrado.
             // si la pestaña es la de Cierres diarios, recarga los totales
-            if (pestañaSeleccionada instanceof CierreDiarioPanel){
-                ((CierreDiarioPanel)pestañaSeleccionada).cargarTotales();
+            if (pestañaSeleccionada instanceof CierresDiariosPanel){
+                ((CierresDiariosPanel)pestañaSeleccionada).cargarTotales();
             }
         });
         Ventana ventana = new Ventana();

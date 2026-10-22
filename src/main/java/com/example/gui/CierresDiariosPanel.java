@@ -13,10 +13,10 @@ import com.example.db.CierreDiario;
 import com.example.db.CierreDiarioDAO;
 import com.example.db.DBException;
 
-public class CierreDiarioPanel extends PanelLectura<CierreDiario> {
+public class CierresDiariosPanel extends PanelLectura<CierreDiario> {
     private CierreDiarioDAO cierreDiarioDAO = new CierreDiarioDAO();
 
-    public CierreDiarioPanel() {
+    public CierresDiariosPanel() {
         this.daoLectura = cierreDiarioDAO;
 
         // controles de filtro
