@@ -18,8 +18,7 @@ public class PresupuestoDAO extends DAOCrud<Presupuesto>{
     @Override
     public void actualizar(Presupuesto presupuesto){
         String sql = "UPDATE " + nombreTabla + " SET valor = ? WHERE fecha = ?";
-        LocalDate fecha = presupuesto.getFecha();
-        ejecutar(sql, fecha, presupuesto.getValor(), fecha);
+        ejecutar(sql, presupuesto.getValor(), presupuesto.getFecha());
     }
 
     /**
