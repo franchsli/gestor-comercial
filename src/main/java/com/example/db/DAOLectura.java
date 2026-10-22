@@ -150,7 +150,7 @@ public abstract class DAOLectura<T> {
             sql += " WHERE " + condicion;
         }
         // Implementa leer() del Lector para que devuelva entero
-        int suma = consultarUno(sql, resultSet -> resultSet.getInt(1));
+        int suma = consultarUno(sql, resultSet -> resultSet.getInt(1), params);
         return suma;
 
     }
