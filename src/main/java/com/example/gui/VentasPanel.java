@@ -26,6 +26,7 @@ public class VentasPanel extends PanelCrud<Venta> {
     
     public VentasPanel(){
         this.dao = ventaDAO;
+        this.daoLectura = dao;
         btnNuevo.setText("+ Nueva venta");
         btnEliminar.setText("Anular");
         this.campoBuscar.setVisible(false);
