@@ -15,7 +15,7 @@ import com.example.db.DBException;
 import com.example.db.Gasto;
 import com.example.db.GastoDAO;
 
-public class GastosPanel extends Panell<Gasto> {
+public class GastosPanel extends Panel<Gasto> {
 
     public GastosPanel() {
         this.dao = new GastoDAO();

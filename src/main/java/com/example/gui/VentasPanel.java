@@ -20,13 +20,12 @@ import com.example.db.ProductoDAO;
 import com.example.db.Venta;
 import com.example.db.VentaDAO;
 
-public class VentasPanel extends Panell<Venta> {
+public class VentasPanel extends Panel<Venta> {
     private VentaDAO ventaDAO = new VentaDAO();
     private ProductoDAO productoDAO = new ProductoDAO();
     
     public VentasPanel(){
         this.dao = ventaDAO;
-        this.daoLectura = dao;
         btnNuevo.setText("+ Nueva venta");
         btnEliminar.setText("Anular");
         this.campoBuscar.setVisible(false);

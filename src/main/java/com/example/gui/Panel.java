@@ -1,39 +1,32 @@
 package com.example.gui;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Date;
 import java.util.Set;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
-import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerDateModel;
-import javax.swing.table.DefaultTableModel;
 
+import com.example.db.DAO;
 import com.example.db.DBException;
-import com.example.db.Modelo;
 
-public class Panel extends JPanel {
-   Modelo modelo = new Modelo();
-   JTable tabla;
-   DefaultTableModel modeloTabla;
-   JButton btnNuevo, btnEditar, btnEliminar, btnFiltrar;
-   JTextField campoBuscar;
-   JSpinner campoFecha;
-   JSpinner.DateEditor editorFecha;
+public abstract class Panel<T> extends PanelLectura<T> {
+    DAO<T> dao;
+    JButton btnNuevo, btnEditar, btnEliminar, btnFiltrar;
+    JTextField campoBuscar;
+    JSpinner campoFecha;
+    JSpinner.DateEditor editorFecha;
 
     public Panel() {
-        setLayout(new BorderLayout());
         // barra de botones
         JPanel barraBotones = new JPanel(new FlowLayout(FlowLayout.LEFT));
         btnNuevo = new JButton("+ Nuevo");
@@ -52,55 +45,11 @@ public class Panel extends JPanel {
         barraBotones.add(btnEliminar);
         barraBotones.add(campoBuscar);
 
-        // tabla
-        modeloTabla = new DefaultTableModel() {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false; // no editable directamente
-            }
-        };
-        tabla = new JTable(modeloTabla);
-        tabla.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-
         add(barraBotones, BorderLayout.NORTH);
-        add(new JScrollPane(tabla), BorderLayout.CENTER);
 
         // listeners compartidos
         btnEliminar.addActionListener(e -> manejarEliminar());
         btnEditar.addActionListener(e -> manejarEditar());
-    }
-
-    /**
-     * Carga los datos del modelo de la clase que cumplan la condicion dada en la pestaña.
-     * @param condicion La condición que deben cumplir los datos del modelo de la clase.
-     */
-    public void cargarDatos(String condicion) {
-        modeloTabla.setRowCount(0);
-        modeloTabla.setColumnCount(0);
-
-        try {
-            List<Map<String, String>> filas = modelo.todos(condicion);
-            if (filas.isEmpty()) return;
-
-            // columnas desde la primera fila
-            filas.get(0).keySet().forEach(modeloTabla::addColumn);
-
-            // filas
-            for (Map<String, String> fila : filas) {
-                modeloTabla.addRow(fila.values().toArray());
-            }
-        } catch (DBException e) {
-            JOptionPane.showMessageDialog(this,
-                "Error en la base de datos: " + e.getMessage(),
-                "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    /**
-     * Carga todos los datos del modelo de la clase en la pestaña.
-     */
-    public void cargarDatos() {
-        cargarDatos("");
     }
 
     /**
@@ -120,8 +69,8 @@ public class Panel extends JPanel {
         if (confirmacion == JOptionPane.YES_OPTION) {
             try {
                 for (int i = filasSeleccionadas.length - 1; i >= 0; i--) {
-                    String id = modeloTabla.getValueAt(filasSeleccionadas[i], 0).toString();
-                    modelo.borrarTodos("id=" + id);
+                    String pk = modeloTabla.getValueAt(filasSeleccionadas[i], 0).toString();
+                    dao.borrarTodos(columnas()[0] + " = ?", pk);
                 }
                 cargarDatos();
             } catch (DBException e) {
@@ -134,8 +83,10 @@ public class Panel extends JPanel {
 
     /**
      * Maneja la edición de datos en la pestaña.
+     * Las clases hijas que lo necesiten lo
+     * implementan a su modo si es necesario.
      */
-    public void manejarEditar() {
+    public void manejarEditar(){
         int fila = tabla.getSelectedRow();
         if (fila == -1) {
             JOptionPane.showMessageDialog(this,
@@ -166,13 +117,11 @@ public class Panel extends JPanel {
 
         if (result == JOptionPane.OK_OPTION) {
             try {
-                LinkedHashMap<String, String> datos = new LinkedHashMap<>();
-                for (int i = 1; i < cols; i++) { // ignora la pk
-                    datos.put(modeloTabla.getColumnName(i), campos[i].getText().trim());
+                String[] datos = new String[cols];
+                for (int i = 0; i < cols; i++) {
+                    datos[i] = campos[i].getText().trim();
                 }
-                String pk = modeloTabla.getColumnName(0);
-                String pkValor = campos[0].getText();
-                modelo.actualizar(datos, pk + "='" + pkValor + "'");
+                aplicarCambios(datos);
                 cargarDatos();
             } catch (DBException e) {
                 JOptionPane.showMessageDialog(this,
@@ -189,6 +138,17 @@ public class Panel extends JPanel {
     public void mostrarFormularioNuevo() {}
 
     /**
+     * Aplica los cambios en el formulario de edición al 
+     * registro a editar con los valores dados.
+     * Este método debe implementarse y usarse en los paneles
+     * que no sobreescriban manejarEditar()
+     * @param valores Los valores en la actualización.
+     */
+    public void aplicarCambios(String[] valores){
+        throw new UnsupportedOperationException("Este panel no usa la edición genérica; sobrescribe manejarEditar()");
+    }
+
+    /**
      * Devuelve si un formulario es válido o no.
      * Un formulario es válido si todos sus campos fueron rellenados.
      * @param form El formulario a validar.
@@ -203,7 +163,8 @@ public class Panel extends JPanel {
      * Un formulario es válido si todos sus campos 
      * (excluyendo la excepcion dada) fueron rellenados.
      * @param form El formulario a validar.
-     * @param excepcion El nombre del campo a ser excluido de la validación.
+     * @param excepciones Los nombres de los campos a ser 
+     * excluidos de la validación.
      * @return Si el formulario es válido o no.
      */
     protected boolean formularioEsValido(JPanel form, Set<String> excepciones) {
@@ -229,12 +190,37 @@ public class Panel extends JPanel {
     }
 
     /**
-     * Devuelve la fecha en el campo dado como String.
-     * @param editorFecha El editor del campo que tiene la fecha.
+     * Devuelve la fecha en el campo dado como LocalDate.
      * @param campoFecha El campo que tiene la fecha.
-     * @return la fecha en el campo dado como String.
+     * @return la fecha en el campo dado como LocalDate.
      */
-    protected String fechaATexto(JSpinner.DateEditor editorFecha, JSpinner campoFecha){
-        return editorFecha.getFormat().format(campoFecha.getValue());
+    protected LocalDate fechaDeCampo(JSpinner campoFecha){
+        Date fechaConTiempo = (Date) campoFecha.getValue();
+        ZoneId zonaActual = ZoneId.systemDefault();
+        LocalDate fecha = fechaConTiempo.toInstant()
+            .atZone(zonaActual).toLocalDate();
+        return fecha;
+    }
+
+    /**
+     * Devuelve la fecha en el campo de texto como
+     * LocalDate.
+     * @param campoFecha El campo de texto que contiene la fecha.
+     * @return la fecha en el campo dado como LocalDate.
+     */
+    protected LocalDate fechaDeCampo(JTextField campoFecha){
+        String fecha = campoFecha.getText();
+        if (fecha == null || fecha.isBlank()) return null;
+        return LocalDate.parse(fecha.trim());
+    }
+
+    /**
+     * Pone la fecha dada dentro del campo dado.
+     * @param campoFecha El campo que deberá contener
+     * la fecha.
+     * @param fecha La fecha a poner en el campo.
+     */
+    protected void ponerFecha(JSpinner campoFecha, LocalDate fecha) {
+        campoFecha.setValue(Date.from(fecha.atStartOfDay(ZoneId.systemDefault()).toInstant()));
     }
 }
