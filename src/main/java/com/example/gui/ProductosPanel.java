@@ -85,8 +85,8 @@ public class ProductosPanel extends PanelCrud<Producto> {
      */
     private void buscarProducto(){
         String nombreProducto = campoBuscar.getText().strip();
-        String condicion = "nombre LIKE '%" + nombreProducto + "%'";
-        cargarDatos(condicion);
+        String condicion = "nombre LIKE '%' || ? || '%'";
+        cargarDatos(condicion, nombreProducto);
     }
 
 }
