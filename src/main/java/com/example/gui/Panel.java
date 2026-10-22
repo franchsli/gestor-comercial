@@ -16,11 +16,11 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 
-import com.example.db.DAO;
+import com.example.db.DAOCrud;
 import com.example.db.DBException;
 
 public abstract class Panel<T> extends PanelLectura<T> {
-    DAO<T> dao;
+    DAOCrud<T> dao;
     JButton btnNuevo, btnEditar, btnEliminar, btnFiltrar;
     JTextField campoBuscar;
     JSpinner campoFecha;

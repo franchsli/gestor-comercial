@@ -6,10 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.StringJoiner;
 
-public abstract class DAO<T> extends DAOLectura<T> {
+public abstract class DAOCrud<T> extends DAOLectura<T> {
     protected final String columnas;
 
-    protected DAO(String nombreTabla, String columnas){
+    protected DAOCrud(String nombreTabla, String columnas){
         super(nombreTabla);
         this.columnas = columnas;
     }

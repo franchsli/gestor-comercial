@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-public class PresupuestoDAO extends DAO<Presupuesto>{
+public class PresupuestoDAO extends DAOCrud<Presupuesto>{
 
     public PresupuestoDAO(){
         super("PRESUPUESTOS", "(fecha, valor)");

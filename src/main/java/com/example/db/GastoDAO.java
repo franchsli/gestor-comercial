@@ -3,7 +3,7 @@ package com.example.db;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class GastoDAO extends DAO<Gasto> {
+public class GastoDAO extends DAOCrud<Gasto> {
 
     public GastoDAO(){
         super("GASTOS", "(fecha_gasto, estado, valor, fecha_pago, descripcion, fecha_presupuesto)");
