@@ -4,9 +4,7 @@ import javax.swing.JTabbedPane;
 import com.example.db.DBConnection;
 import com.example.gui.CierreDiarioPanel;
 import com.example.gui.GastosPanel;
-import com.example.gui.Panel;
 import com.example.gui.PanelLectura;
-import com.example.gui.Panell;
 import com.example.gui.PresupuestosPanel;
 import com.example.gui.ProductosPanel;
 import com.example.gui.Ventana;
@@ -28,7 +26,7 @@ public class Main {
         pestañas.addTab("Cierres diarios", pestañaCierresDiarios);
         // se recarga la pestaña seleccionada
         pestañas.addChangeListener(e -> {
-            PanelLectura pestañaSeleccionada = (PanelLectura) pestañas.getSelectedComponent();
+            PanelLectura<?> pestañaSeleccionada = (PanelLectura<?>) pestañas.getSelectedComponent();
             pestañaSeleccionada.cargarDatos();
             // el módulo de cierres diarios esté migrado.
             // si la pestaña es la de Cierres diarios, recarga los totales
