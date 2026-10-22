@@ -19,6 +19,7 @@ public class PresupuestosPanel extends Panell<Presupuesto>{
 
     public PresupuestosPanel(){
         this.dao = new PresupuestoDAO();
+        this.daoLectura = dao;
         btnNuevo.setText("+ Nuevo presupuesto");
         this.campoBuscar.setVisible(false);
         btnNuevo.addActionListener(e -> mostrarFormularioNuevo());
