@@ -145,7 +145,7 @@ public abstract class DAOLectura<T> {
      * @return El valor total de sumar todos los registros que cumplen la condicion en la columna.
      */
     public int sumarColumna(String columna, String condicion, Object... params) {
-        String sql = "SELECT SUM(" + columna + ") FROM " + nombreTabla;
+        String sql = "SELECT COALESCE(SUM(" + columna + "), 0) FROM " + nombreTabla;
         if (condicion != null && !condicion.isBlank()) {
             sql += " WHERE " + condicion;
         }
