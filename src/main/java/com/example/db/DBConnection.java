@@ -2,7 +2,6 @@ package com.example.db;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DBConnection {
@@ -25,43 +24,6 @@ public class DBConnection {
             throw new DBException(e);
         }
 
-    }
-    
-    /**
-     * Ejecuta la sentencia INSERT/UPDATE/DELETE en la base de
-     * datos
-     * @deprecated Se elimina cuando se migre a DAO
-     * por completo, usar DAO.ejecutar()
-     * @param sql La sentencia INSERT/UPDATE/DELETE de SQL
-     */
-    @Deprecated
-    public static void ejecutar(String sql) {
-        try {
-            Connection conn = DBConnection.get();
-            PreparedStatement pStatement = conn.prepareStatement(sql);
-            pStatement.execute();
-        } catch (SQLException e) {
-            throw new DBException(e);
-        }
-    }
-
-    /**
-     * Consulta a la base de datos mediante una sentencia SELECT
-     * y devuelve lo hallado
-     * @deprecated Se elimina cuando se migre a DAO
-     * por completo, usar DAO.ejecutar()
-     * @param sql La sentencia SELECT de SQL
-     * @return El resultado de la consulta
-     */
-    @Deprecated 
-    public static ResultSet consultar(String sql) {
-        try {
-            Connection conn = DBConnection.get();
-            PreparedStatement pStatement = conn.prepareStatement(sql);
-            return pStatement.executeQuery();
-        } catch (SQLException e) {
-            throw new DBException(e);
-        }
     }
 
     /** Cierra la conexión a la base de datos 
