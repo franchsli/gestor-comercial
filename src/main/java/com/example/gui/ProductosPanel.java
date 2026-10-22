@@ -12,7 +12,7 @@ import com.example.db.DBException;
 import com.example.db.Producto;
 import com.example.db.ProductoDAO;
 
-public class ProductosPanel extends Panel<Producto> {
+public class ProductosPanel extends PanelCrud<Producto> {
 
     public ProductosPanel() {
         this.dao = new ProductoDAO();

@@ -13,7 +13,7 @@ import com.example.db.DBException;
 import com.example.db.Presupuesto;
 import com.example.db.PresupuestoDAO;
 
-public class PresupuestosPanel extends Panel<Presupuesto>{
+public class PresupuestosPanel extends PanelCrud<Presupuesto>{
 
     private final PresupuestoDAO presupuestoDAO = new PresupuestoDAO();
 

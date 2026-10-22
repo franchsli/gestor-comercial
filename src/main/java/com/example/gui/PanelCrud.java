@@ -19,14 +19,14 @@ import javax.swing.SpinnerDateModel;
 import com.example.db.DAOCrud;
 import com.example.db.DBException;
 
-public abstract class Panel<T> extends PanelLectura<T> {
+public abstract class PanelCrud<T> extends PanelLectura<T> {
     DAOCrud<T> dao;
     JButton btnNuevo, btnEditar, btnEliminar, btnFiltrar;
     JTextField campoBuscar;
     JSpinner campoFecha;
     JSpinner.DateEditor editorFecha;
 
-    public Panel() {
+    public PanelCrud() {
         // barra de botones
         JPanel barraBotones = new JPanel(new FlowLayout(FlowLayout.LEFT));
         btnNuevo = new JButton("+ Nuevo");
