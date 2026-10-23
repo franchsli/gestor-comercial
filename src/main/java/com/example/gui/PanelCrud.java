@@ -210,6 +210,16 @@ public abstract class PanelCrud<T> extends PanelLectura<T> {
      */
     protected LocalDate fechaDeCampo(JTextField campoFecha){
         String fecha = campoFecha.getText();
+        return fechaDeTexto(fecha);
+    }
+
+    /**
+     * Retorna la fecha en LocalDate del texto dado.
+     * @param fecha La fecha en String.
+     * @return La fecha en LocalDate, null si el texto está
+     * vacío o es nulo. 
+     */
+    protected LocalDate fechaDeTexto(String fecha){
         if (fecha == null || fecha.isBlank()) return null;
         return LocalDate.parse(fecha.trim());
     }
