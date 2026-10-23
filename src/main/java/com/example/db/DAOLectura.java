@@ -55,7 +55,7 @@ public abstract class DAOLectura<T> {
      * @param valores Los valores a llenar en la sentencia.
      * @throws SQLException
      */
-    protected void asignar(PreparedStatement preparedStatement, Object[] valores) throws SQLException {
+    protected static void asignar(PreparedStatement preparedStatement, Object[] valores) throws SQLException {
         for (int i = 0; i < valores.length; i++) {
             Object param = valores[i];
             if (param instanceof LocalDate) {
