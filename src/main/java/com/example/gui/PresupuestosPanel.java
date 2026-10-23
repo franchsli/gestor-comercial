@@ -18,8 +18,8 @@ public class PresupuestosPanel extends PanelCrud<Presupuesto>{
     private final PresupuestoDAO presupuestoDAO = new PresupuestoDAO();
 
     public PresupuestosPanel(){
-        this.dao = new PresupuestoDAO();
-        this.daoLectura = dao;
+        this.daoCrud = new PresupuestoDAO();
+        this.daoLectura = daoCrud;
         btnNuevo.setText("+ Nuevo presupuesto");
         this.campoBuscar.setVisible(false);
         btnNuevo.addActionListener(e -> mostrarFormularioNuevo());
@@ -56,7 +56,7 @@ public class PresupuestosPanel extends PanelCrud<Presupuesto>{
                 LocalDate fechaPresupuesto = fechaDeCampo(campoFechaPresupuesto);
                 int valorPresupuesto = Integer.parseInt(valor.getText()); 
                 Presupuesto presupuesto = new Presupuesto(fechaPresupuesto, valorPresupuesto);
-                dao.insertar(presupuesto);
+                daoCrud.insertar(presupuesto);
                 cargarDatos();
             } catch (DBException e) {
                 JOptionPane.showMessageDialog(this,

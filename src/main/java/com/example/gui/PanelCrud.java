@@ -20,7 +20,7 @@ import com.example.db.DAOCrud;
 import com.example.db.DBException;
 
 public abstract class PanelCrud<T> extends PanelLectura<T> {
-    DAOCrud<T> dao;
+    DAOCrud<T> daoCrud;
     JButton btnNuevo, btnEditar, btnEliminar, btnFiltrar;
     JTextField campoBuscar;
     JSpinner campoFecha;
@@ -70,7 +70,7 @@ public abstract class PanelCrud<T> extends PanelLectura<T> {
             try {
                 for (int i = filasSeleccionadas.length - 1; i >= 0; i--) {
                     String pk = modeloTabla.getValueAt(filasSeleccionadas[i], 0).toString();
-                    dao.borrarTodos(columnas()[0] + " = ?", pk);
+                    daoCrud.borrarTodos(columnas()[0] + " = ?", pk);
                 }
                 cargarDatos();
             } catch (DBException e) {

@@ -25,8 +25,8 @@ public class VentasPanel extends PanelCrud<Venta> {
     private ProductoDAO productoDAO = new ProductoDAO();
     
     public VentasPanel(){
-        this.dao = ventaDAO;
-        this.daoLectura = dao;
+        this.daoCrud = ventaDAO;
+        this.daoLectura = daoCrud;
         btnNuevo.setText("+ Nueva venta");
         btnEliminar.setText("Anular");
         this.campoBuscar.setVisible(false);
@@ -120,7 +120,7 @@ public class VentasPanel extends PanelCrud<Venta> {
         int valor = Integer.parseInt(valores[2]);
         Venta.Tipo tipo = Venta.Tipo.valueOf(valores[3]);
         Venta venta = new Venta(id, fecha, valor, tipo);
-        dao.actualizar(venta);
+        daoCrud.actualizar(venta);
     }
 
     /**

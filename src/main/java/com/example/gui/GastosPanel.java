@@ -18,8 +18,8 @@ import com.example.db.GastoDAO;
 public class GastosPanel extends PanelCrud<Gasto> {
 
     public GastosPanel() {
-        this.dao = new GastoDAO();
-        this.daoLectura = dao;
+        this.daoCrud = new GastoDAO();
+        this.daoLectura = daoCrud;
         btnNuevo.setText("+ Nuevo gasto");
         this.campoBuscar.setVisible(false);
         btnNuevo.addActionListener(e -> mostrarFormularioNuevo());
@@ -85,7 +85,7 @@ public class GastosPanel extends PanelCrud<Gasto> {
                 int valorSeleccionado = Integer.parseInt(valor.getText());
                 Gasto nuevoGasto = new Gasto(fechaGasto, estadoSeleccionado, valorSeleccionado, fechaPago, 
                                                 descripcion.getText(), fechaPresupuesto);
-                dao.insertar(nuevoGasto);
+                daoCrud.insertar(nuevoGasto);
                 cargarDatos();
             } catch (DBException e) {
                 JOptionPane.showMessageDialog(this,
@@ -105,6 +105,6 @@ public class GastosPanel extends PanelCrud<Gasto> {
         LocalDate fechaPresupuesto = fechaDeTexto(valores[6]);
         Gasto gasto = new Gasto(id, fechaGasto, estado, valor, fechaPago,
                                     valores[5], fechaPresupuesto);
-        dao.actualizar(gasto);
+        daoCrud.actualizar(gasto);
     }
 }
