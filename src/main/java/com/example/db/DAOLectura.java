@@ -61,6 +61,9 @@ public abstract class DAOLectura<T> {
             if (param instanceof LocalDate) {
                 param = param.toString();
             }
+            else if(param instanceof Enum<?>){
+                param = ((Enum<?>)param).name();
+            }
             preparedStatement.setObject(i + 1, param);
         }
     }
