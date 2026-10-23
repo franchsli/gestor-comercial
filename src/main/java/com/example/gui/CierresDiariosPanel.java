@@ -78,8 +78,8 @@ public class CierresDiariosPanel extends PanelLectura<CierreDiario> {
                 filaTotal[i] = cierreDiarioDAO.sumarColumna(columnas[i - 1], condicion, params);
             }
             // cumplimiento va en índice 5, se calcula aparte
-            int totalVentas = cierreDiarioDAO.sumarColumna("total_ventas", condicion, params);
-            int totalPresupuesto = cierreDiarioDAO.sumarColumna("presupuesto", condicion, params);
+            long totalVentas = cierreDiarioDAO.sumarColumna("total_ventas", condicion, params);
+            long totalPresupuesto = cierreDiarioDAO.sumarColumna("presupuesto", condicion, params);
             filaTotal[5] = totalPresupuesto == 0 ? "0%" : Math.round((totalVentas * 100.0) / totalPresupuesto) + "%";
 
             modeloTabla.addRow(filaTotal);

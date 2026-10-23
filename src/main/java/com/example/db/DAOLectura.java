@@ -144,13 +144,13 @@ public abstract class DAOLectura<T> {
      * @param params Los parametros que rellenarán la condicion.
      * @return El valor total de sumar todos los registros que cumplen la condicion en la columna.
      */
-    public int sumarColumna(String columna, String condicion, Object... params) {
+    public long sumarColumna(String columna, String condicion, Object... params) {
         String sql = "SELECT COALESCE(SUM(" + columna + "), 0) FROM " + nombreTabla;
         if (condicion != null && !condicion.isBlank()) {
             sql += " WHERE " + condicion;
         }
         // Implementa leer() del Lector para que devuelva entero
-        int suma = consultarUno(sql, resultSet -> resultSet.getInt(1), params);
+        long suma = consultarUno(sql, resultSet -> resultSet.getLong(1), params);
         return suma;
 
     }
