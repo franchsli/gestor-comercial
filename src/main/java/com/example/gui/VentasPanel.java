@@ -116,7 +116,7 @@ public class VentasPanel extends PanelCrud<Venta> {
     @Override
     public void aplicarCambios(String[] valores){
         int id = Integer.parseInt(valores[0]);
-        LocalDate fecha = LocalDate.parse(valores[1]);
+        LocalDate fecha = fechaDeTexto(valores[1]);
         int valor = Integer.parseInt(valores[2]);
         Venta.Tipo tipo = Venta.Tipo.valueOf(valores[3]);
         Venta venta = new Venta(id, fecha, valor, tipo);
