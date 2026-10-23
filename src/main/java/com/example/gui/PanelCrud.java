@@ -28,6 +28,7 @@ public abstract class PanelCrud<T> extends PanelLectura<T> {
 
     public PanelCrud(DAOCrud<T> daoCrud) {
         super(daoCrud);
+        this.daoCrud = daoCrud;
         // barra de botones
         JPanel barraBotones = new JPanel(new FlowLayout(FlowLayout.LEFT));
         btnNuevo = new JButton("+ Nuevo");
