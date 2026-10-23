@@ -17,7 +17,8 @@ public abstract class PanelLectura<T> extends JPanel {
     protected JTable tabla;
     protected DefaultTableModel modeloTabla;
 
-    public PanelLectura() {
+    public PanelLectura(DAOLectura<T> daoLectura) {
+        this.daoLectura = daoLectura;
         setLayout(new BorderLayout());
 
         // tabla

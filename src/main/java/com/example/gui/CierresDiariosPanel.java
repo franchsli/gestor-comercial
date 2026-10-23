@@ -14,10 +14,15 @@ import com.example.db.CierreDiarioDAO;
 import com.example.db.DBException;
 
 public class CierresDiariosPanel extends PanelLectura<CierreDiario> {
-    private CierreDiarioDAO cierreDiarioDAO = new CierreDiarioDAO();
+    private final CierreDiarioDAO cierreDiarioDAO;
 
     public CierresDiariosPanel() {
-        this.daoLectura = cierreDiarioDAO;
+        this(new CierreDiarioDAO());
+    }
+
+    private CierresDiariosPanel(CierreDiarioDAO cierreDiarioDAO) {
+        super(cierreDiarioDAO);
+        this.cierreDiarioDAO = cierreDiarioDAO;
 
         // controles de filtro
         String[] meses = {"Todos", "Enero", "Febrero", "Marzo", "Abril", "Mayo",
