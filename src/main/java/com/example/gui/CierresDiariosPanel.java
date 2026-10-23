@@ -13,11 +13,16 @@ import com.example.db.CierreDiario;
 import com.example.db.CierreDiarioDAO;
 import com.example.db.DBException;
 
-public class CierreDiarioPanel extends PanelLectura<CierreDiario> {
-    private CierreDiarioDAO cierreDiarioDAO = new CierreDiarioDAO();
+public class CierresDiariosPanel extends PanelLectura<CierreDiario> {
+    private final CierreDiarioDAO cierreDiarioDAO;
 
-    public CierreDiarioPanel() {
-        this.daoLectura = cierreDiarioDAO;
+    public CierresDiariosPanel() {
+        this(new CierreDiarioDAO());
+    }
+
+    private CierresDiariosPanel(CierreDiarioDAO cierreDiarioDAO) {
+        super(cierreDiarioDAO);
+        this.cierreDiarioDAO = cierreDiarioDAO;
 
         // controles de filtro
         String[] meses = {"Todos", "Enero", "Febrero", "Marzo", "Abril", "Mayo",
@@ -78,8 +83,8 @@ public class CierreDiarioPanel extends PanelLectura<CierreDiario> {
                 filaTotal[i] = cierreDiarioDAO.sumarColumna(columnas[i - 1], condicion, params);
             }
             // cumplimiento va en índice 5, se calcula aparte
-            int totalVentas = cierreDiarioDAO.sumarColumna("total_ventas", condicion, params);
-            int totalPresupuesto = cierreDiarioDAO.sumarColumna("presupuesto", condicion, params);
+            long totalVentas = cierreDiarioDAO.sumarColumna("total_ventas", condicion, params);
+            long totalPresupuesto = cierreDiarioDAO.sumarColumna("presupuesto", condicion, params);
             filaTotal[5] = totalPresupuesto == 0 ? "0%" : Math.round((totalVentas * 100.0) / totalPresupuesto) + "%";
 
             modeloTabla.addRow(filaTotal);

@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 public class CierreDiario {
     private LocalDate fecha;
+    // totales diarios como int ya que no se han visto
+    // valores que se acerquen al límite de int individualmente
     private int ventasEfectivo;
     private int ventasCredito;
     private int totalVentas;

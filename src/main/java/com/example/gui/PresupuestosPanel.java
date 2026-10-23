@@ -13,13 +13,17 @@ import com.example.db.DBException;
 import com.example.db.Presupuesto;
 import com.example.db.PresupuestoDAO;
 
-public class PresupuestosPanel extends Panell<Presupuesto>{
+public class PresupuestosPanel extends PanelCrud<Presupuesto>{
 
-    private final PresupuestoDAO presupuestoDAO = new PresupuestoDAO();
+    private final PresupuestoDAO presupuestoDAO;
 
     public PresupuestosPanel(){
-        this.dao = new PresupuestoDAO();
-        this.daoLectura = dao;
+        this(new PresupuestoDAO());
+    }
+
+    private PresupuestosPanel(PresupuestoDAO presupuestoDAO){
+        super(presupuestoDAO);
+        this.presupuestoDAO = presupuestoDAO;
         btnNuevo.setText("+ Nuevo presupuesto");
         this.campoBuscar.setVisible(false);
         btnNuevo.addActionListener(e -> mostrarFormularioNuevo());
@@ -56,7 +60,7 @@ public class PresupuestosPanel extends Panell<Presupuesto>{
                 LocalDate fechaPresupuesto = fechaDeCampo(campoFechaPresupuesto);
                 int valorPresupuesto = Integer.parseInt(valor.getText()); 
                 Presupuesto presupuesto = new Presupuesto(fechaPresupuesto, valorPresupuesto);
-                dao.insertar(presupuesto);
+                daoCrud.insertar(presupuesto);
                 cargarDatos();
             } catch (DBException e) {
                 JOptionPane.showMessageDialog(this,

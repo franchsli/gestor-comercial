@@ -3,7 +3,7 @@ package com.example.db;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class GastoDAO extends DAO<Gasto> {
+public class GastoDAO extends DAOCrud<Gasto> {
 
     public GastoDAO(){
         super("GASTOS", "(fecha_gasto, estado, valor, fecha_pago, descripcion, fecha_presupuesto)");
@@ -25,7 +25,7 @@ public class GastoDAO extends DAO<Gasto> {
 
     @Override
     public void actualizar(Gasto gasto){
-        String sql = "UPDATE " + nombreTabla + " SET fecha_gasto = ?, estado = ?, valor = ? fecha_pago = ? descripcion = ? fecha_presupuesto = ? WHERE id = ?";
+        String sql = "UPDATE " + nombreTabla + " SET fecha_gasto = ?, estado = ?, valor = ?, fecha_pago = ?, descripcion = ?, fecha_presupuesto = ? WHERE id = ?";
         ejecutar(sql, gasto.getFechaGasto(), gasto.getEstado(), gasto.getValor(), gasto.getFechaPago(), 
                     gasto.getDescripcion(), gasto.getFechaPresupuesto(), gasto.getId());
     }

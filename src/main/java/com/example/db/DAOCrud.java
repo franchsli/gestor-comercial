@@ -6,10 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.StringJoiner;
 
-public abstract class DAO<T> extends DAOLectura<T> {
+public abstract class DAOCrud<T> extends DAOLectura<T> {
     protected final String columnas;
 
-    protected DAO(String nombreTabla, String columnas){
+    protected DAOCrud(String nombreTabla, String columnas){
         super(nombreTabla);
         this.columnas = columnas;
     }
@@ -46,7 +46,7 @@ public abstract class DAO<T> extends DAOLectura<T> {
      * @param numMarcadores El número de marcadores.
      * @return La lista de marcadores para la sentencia.
      */
-    protected String marcadores(int numMarcadores){
+    protected static String marcadores(int numMarcadores){
         StringJoiner tupla = new StringJoiner(", ", "(", ")");
         for (int i = 0; i < numMarcadores; i++) {
             tupla.add("?");

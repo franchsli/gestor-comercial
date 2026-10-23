@@ -3,7 +3,7 @@ package com.example.db;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class VentaProductoDAO extends DAO<VentaProducto> {
+public class VentaProductoDAO extends DAOCrud<VentaProducto> {
 
     public VentaProductoDAO(){
         super("VENTAS_PRODUCTOS", "(id_venta, id_producto, cantidad_producto)");

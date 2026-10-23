@@ -12,11 +12,10 @@ import com.example.db.DBException;
 import com.example.db.Producto;
 import com.example.db.ProductoDAO;
 
-public class ProductosPanel extends Panell<Producto> {
+public class ProductosPanel extends PanelCrud<Producto> {
 
     public ProductosPanel() {
-        this.dao = new ProductoDAO();
-        this.daoLectura = dao;
+        super(new ProductoDAO());
         btnNuevo.addActionListener(e -> mostrarFormularioNuevo());
         campoBuscar.getDocument().addDocumentListener(new DocumentListener() {
             public void insertUpdate(DocumentEvent e) { buscarProducto(); }
@@ -59,7 +58,7 @@ public class ProductosPanel extends Panell<Producto> {
                 int precioProducto = Integer.parseInt(precio.getText());
                 int cantidadProducto = Integer.parseInt(cantidad.getText());
                 Producto nuevoProducto = new Producto(nombre.getText(), precioProducto, cantidadProducto);
-                dao.insertar(nuevoProducto);
+                daoCrud.insertar(nuevoProducto);
                 cargarDatos();
             } catch (DBException e) {
                 JOptionPane.showMessageDialog(this,
@@ -76,7 +75,7 @@ public class ProductosPanel extends Panell<Producto> {
         valores[1],
         Integer.parseInt(valores[2]),
         Integer.parseInt(valores[3]));
-        dao.actualizar(producto);
+        daoCrud.actualizar(producto);
     }
 
     /**
@@ -85,8 +84,8 @@ public class ProductosPanel extends Panell<Producto> {
      */
     private void buscarProducto(){
         String nombreProducto = campoBuscar.getText().strip();
-        String condicion = "nombre LIKE '%" + nombreProducto + "%'";
-        cargarDatos(condicion);
+        String condicion = "nombre LIKE '%' || ? || '%'";
+        cargarDatos(condicion, nombreProducto);
     }
 
 }

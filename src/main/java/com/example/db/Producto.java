@@ -20,12 +20,12 @@ public class Producto {
     /**
      * Reduce la cantidad en inventario del producto.
      * @param numProductosSalientes El número de productos que salen del inventario.
-     * @throws ArithmeticException Lanzada si se calcula que el inventario se torna menor a 0.
+     * @throws IllegalArgumentException Lanzada si se calcula que el inventario se torna menor a 0.
      */
-    public void reducirCantidad(int numProductosSalientes) throws ArithmeticException{
+    public void reducirCantidad(int numProductosSalientes) throws IllegalArgumentException{
         int inventarioActualizado = this.cantidad - numProductosSalientes;
         if (inventarioActualizado < 0) {
-            throw new ArithmeticException("No hay suficientes productos en el inventario para realizar esta operación.");
+            throw new IllegalArgumentException("No hay suficientes productos en el inventario para realizar esta operación.");
         } else {
             this.cantidad -= numProductosSalientes;  
         }

@@ -13,11 +13,12 @@ import com.example.db.DAOLectura;
 import com.example.db.DBException;
 
 public abstract class PanelLectura<T> extends JPanel {
-    protected DAOLectura<T> daoLectura;
-    protected JTable tabla;
-    protected DefaultTableModel modeloTabla;
+    private DAOLectura<T> daoLectura;
+    JTable tabla;
+    DefaultTableModel modeloTabla;
 
-    public PanelLectura() {
+    public PanelLectura(DAOLectura<T> daoLectura) {
+        this.daoLectura = daoLectura;
         setLayout(new BorderLayout());
 
         // tabla
@@ -54,8 +55,9 @@ public abstract class PanelLectura<T> extends JPanel {
     /**
      * Carga los datos del modelo de la clase que cumplan la condicion dada en la pestaña.
      * @param condicion La condición que deben cumplir los datos del modelo de la clase.
+     * @param params Los parámetros necesarios para rellenar la condición.
      */
-    public void cargarDatos(String condicion) {
+    public void cargarDatos(String condicion, Object... params) {
         modeloTabla.setRowCount(0);
 
         try {
@@ -63,7 +65,7 @@ public abstract class PanelLectura<T> extends JPanel {
             modeloTabla.setColumnIdentifiers(columnas());
 
             // filas
-            List<T> entidades = daoLectura.todos(condicion);
+            List<T> entidades = daoLectura.todos(condicion, params);
             for (T entidad : entidades) {
                 modeloTabla.addRow(fila(entidad));
             }

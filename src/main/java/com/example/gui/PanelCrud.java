@@ -16,18 +16,19 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 
-import com.example.db.DAO;
+import com.example.db.DAOCrud;
 import com.example.db.DBException;
 
-// TODO: Reemplazar Panel con esta clase cuando la refactorización acabe.
-public abstract class Panell<T> extends PanelLectura<T> {
-    DAO<T> dao;
+public abstract class PanelCrud<T> extends PanelLectura<T> {
+    DAOCrud<T> daoCrud;
     JButton btnNuevo, btnEditar, btnEliminar, btnFiltrar;
     JTextField campoBuscar;
     JSpinner campoFecha;
     JSpinner.DateEditor editorFecha;
 
-    public Panell() {
+    public PanelCrud(DAOCrud<T> daoCrud) {
+        super(daoCrud);
+        this.daoCrud = daoCrud;
         // barra de botones
         JPanel barraBotones = new JPanel(new FlowLayout(FlowLayout.LEFT));
         btnNuevo = new JButton("+ Nuevo");
@@ -71,7 +72,7 @@ public abstract class Panell<T> extends PanelLectura<T> {
             try {
                 for (int i = filasSeleccionadas.length - 1; i >= 0; i--) {
                     String pk = modeloTabla.getValueAt(filasSeleccionadas[i], 0).toString();
-                    dao.borrarTodos(columnas()[0] + " = ?", pk);
+                    daoCrud.borrarTodos(columnas()[0] + " = ?", pk);
                 }
                 cargarDatos();
             } catch (DBException e) {
@@ -211,6 +212,16 @@ public abstract class Panell<T> extends PanelLectura<T> {
      */
     protected LocalDate fechaDeCampo(JTextField campoFecha){
         String fecha = campoFecha.getText();
+        return fechaDeTexto(fecha);
+    }
+
+    /**
+     * Retorna la fecha en LocalDate del texto dado.
+     * @param fecha La fecha en String.
+     * @return La fecha en LocalDate, null si el texto está
+     * vacío o es nulo. 
+     */
+    protected LocalDate fechaDeTexto(String fecha){
         if (fecha == null || fecha.isBlank()) return null;
         return LocalDate.parse(fecha.trim());
     }

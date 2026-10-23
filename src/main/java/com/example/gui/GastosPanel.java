@@ -15,11 +15,10 @@ import com.example.db.DBException;
 import com.example.db.Gasto;
 import com.example.db.GastoDAO;
 
-public class GastosPanel extends Panell<Gasto> {
+public class GastosPanel extends PanelCrud<Gasto> {
 
     public GastosPanel() {
-        this.dao = new GastoDAO();
-        this.daoLectura = dao;
+        super(new GastoDAO());
         btnNuevo.setText("+ Nuevo gasto");
         this.campoBuscar.setVisible(false);
         btnNuevo.addActionListener(e -> mostrarFormularioNuevo());
@@ -85,7 +84,7 @@ public class GastosPanel extends Panell<Gasto> {
                 int valorSeleccionado = Integer.parseInt(valor.getText());
                 Gasto nuevoGasto = new Gasto(fechaGasto, estadoSeleccionado, valorSeleccionado, fechaPago, 
                                                 descripcion.getText(), fechaPresupuesto);
-                dao.insertar(nuevoGasto);
+                daoCrud.insertar(nuevoGasto);
                 cargarDatos();
             } catch (DBException e) {
                 JOptionPane.showMessageDialog(this,
@@ -98,13 +97,13 @@ public class GastosPanel extends Panell<Gasto> {
     @Override
     public void aplicarCambios(String[] valores){
         int id = Integer.parseInt(valores[0]);
-        LocalDate fechaGasto = LocalDate.parse(valores[1]);
+        LocalDate fechaGasto = fechaDeTexto(valores[1]);
         Gasto.Estado estado = Gasto.Estado.valueOf(valores[2]);
         int valor = Integer.parseInt(valores[3]);
-        LocalDate fechaPago = LocalDate.parse(valores[4]);
-        LocalDate fechaPresupuesto = LocalDate.parse(valores[6]);
+        LocalDate fechaPago = fechaDeTexto(valores[4]);
+        LocalDate fechaPresupuesto = fechaDeTexto(valores[6]);
         Gasto gasto = new Gasto(id, fechaGasto, estado, valor, fechaPago,
                                     valores[5], fechaPresupuesto);
-        dao.actualizar(gasto);
+        daoCrud.actualizar(gasto);
     }
 }

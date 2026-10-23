@@ -20,13 +20,18 @@ import com.example.db.ProductoDAO;
 import com.example.db.Venta;
 import com.example.db.VentaDAO;
 
-public class VentasPanel extends Panell<Venta> {
-    private VentaDAO ventaDAO = new VentaDAO();
-    private ProductoDAO productoDAO = new ProductoDAO();
+public class VentasPanel extends PanelCrud<Venta> {
+    private final VentaDAO ventaDAO;
+    private final ProductoDAO productoDAO;
     
     public VentasPanel(){
-        this.dao = ventaDAO;
-        this.daoLectura = dao;
+        this(new VentaDAO(), new ProductoDAO());
+    }
+
+    private VentasPanel(VentaDAO ventaDAO, ProductoDAO productoDAO){
+        super(ventaDAO);
+        this.ventaDAO = ventaDAO;
+        this.productoDAO = productoDAO;
         btnNuevo.setText("+ Nueva venta");
         btnEliminar.setText("Anular");
         this.campoBuscar.setVisible(false);
@@ -105,7 +110,7 @@ public class VentasPanel extends Panell<Venta> {
                 JOptionPane.showMessageDialog(this,
                     "Error al guardar venta: " + e.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
-            } catch (ArithmeticException e) {
+            } catch (IllegalArgumentException e) {
                 JOptionPane.showMessageDialog(this,
                     e.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
@@ -116,11 +121,11 @@ public class VentasPanel extends Panell<Venta> {
     @Override
     public void aplicarCambios(String[] valores){
         int id = Integer.parseInt(valores[0]);
-        LocalDate fecha = LocalDate.parse(valores[1]);
+        LocalDate fecha = fechaDeTexto(valores[1]);
         int valor = Integer.parseInt(valores[2]);
         Venta.Tipo tipo = Venta.Tipo.valueOf(valores[3]);
         Venta venta = new Venta(id, fecha, valor, tipo);
-        dao.actualizar(venta);
+        daoCrud.actualizar(venta);
     }
 
     /**
