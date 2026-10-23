@@ -105,7 +105,7 @@ public class VentasPanel extends PanelCrud<Venta> {
                 JOptionPane.showMessageDialog(this,
                     "Error al guardar venta: " + e.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
-            } catch (ArithmeticException e) {
+            } catch (IllegalArgumentException e) {
                 JOptionPane.showMessageDialog(this,
                     e.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
