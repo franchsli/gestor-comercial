@@ -25,7 +25,7 @@ public class GastoDAO extends DAOCrud<Gasto> {
 
     @Override
     public void actualizar(Gasto gasto){
-        String sql = "UPDATE " + nombreTabla + " SET fecha_gasto = ?, estado = ?, valor = ? fecha_pago = ? descripcion = ? fecha_presupuesto = ? WHERE id = ?";
+        String sql = "UPDATE " + nombreTabla + " SET fecha_gasto = ?, estado = ?, valor = ?, fecha_pago = ?, descripcion = ?, fecha_presupuesto = ? WHERE id = ?";
         ejecutar(sql, gasto.getFechaGasto(), gasto.getEstado(), gasto.getValor(), gasto.getFechaPago(), 
                     gasto.getDescripcion(), gasto.getFechaPresupuesto(), gasto.getId());
     }
