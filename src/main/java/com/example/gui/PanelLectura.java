@@ -13,9 +13,9 @@ import com.example.db.DAOLectura;
 import com.example.db.DBException;
 
 public abstract class PanelLectura<T> extends JPanel {
-    protected DAOLectura<T> daoLectura;
-    protected JTable tabla;
-    protected DefaultTableModel modeloTabla;
+    private DAOLectura<T> daoLectura;
+    JTable tabla;
+    DefaultTableModel modeloTabla;
 
     public PanelLectura(DAOLectura<T> daoLectura) {
         this.daoLectura = daoLectura;
