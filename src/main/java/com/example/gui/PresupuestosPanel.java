@@ -15,11 +15,15 @@ import com.example.db.PresupuestoDAO;
 
 public class PresupuestosPanel extends PanelCrud<Presupuesto>{
 
-    private final PresupuestoDAO presupuestoDAO = new PresupuestoDAO();
+    private final PresupuestoDAO presupuestoDAO;
 
     public PresupuestosPanel(){
-        this.daoCrud = new PresupuestoDAO();
-        this.daoLectura = daoCrud;
+        this(new PresupuestoDAO());
+    }
+
+    private PresupuestosPanel(PresupuestoDAO presupuestoDAO){
+        super(presupuestoDAO);
+        this.presupuestoDAO = presupuestoDAO;
         btnNuevo.setText("+ Nuevo presupuesto");
         this.campoBuscar.setVisible(false);
         btnNuevo.addActionListener(e -> mostrarFormularioNuevo());

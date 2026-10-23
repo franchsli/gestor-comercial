@@ -15,8 +15,7 @@ import com.example.db.ProductoDAO;
 public class ProductosPanel extends PanelCrud<Producto> {
 
     public ProductosPanel() {
-        this.daoCrud = new ProductoDAO();
-        this.daoLectura = daoCrud;
+        super(new ProductoDAO());
         btnNuevo.addActionListener(e -> mostrarFormularioNuevo());
         campoBuscar.getDocument().addDocumentListener(new DocumentListener() {
             public void insertUpdate(DocumentEvent e) { buscarProducto(); }

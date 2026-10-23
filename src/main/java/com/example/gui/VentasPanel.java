@@ -21,12 +21,17 @@ import com.example.db.Venta;
 import com.example.db.VentaDAO;
 
 public class VentasPanel extends PanelCrud<Venta> {
-    private VentaDAO ventaDAO = new VentaDAO();
-    private ProductoDAO productoDAO = new ProductoDAO();
+    private final VentaDAO ventaDAO;
+    private final ProductoDAO productoDAO;
     
     public VentasPanel(){
-        this.daoCrud = ventaDAO;
-        this.daoLectura = daoCrud;
+        this(new VentaDAO(), new ProductoDAO());
+    }
+
+    private VentasPanel(VentaDAO ventaDAO, ProductoDAO productoDAO){
+        super(ventaDAO);
+        this.ventaDAO = ventaDAO;
+        this.productoDAO = productoDAO;
         btnNuevo.setText("+ Nueva venta");
         btnEliminar.setText("Anular");
         this.campoBuscar.setVisible(false);

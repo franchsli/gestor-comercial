@@ -18,8 +18,7 @@ import com.example.db.GastoDAO;
 public class GastosPanel extends PanelCrud<Gasto> {
 
     public GastosPanel() {
-        this.daoCrud = new GastoDAO();
-        this.daoLectura = daoCrud;
+        super(new GastoDAO());
         btnNuevo.setText("+ Nuevo gasto");
         this.campoBuscar.setVisible(false);
         btnNuevo.addActionListener(e -> mostrarFormularioNuevo());
