@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.example.model.CierreDiario;
+
 public class CierreDiarioDAO extends DAOLectura<CierreDiario> {
 
     public CierreDiarioDAO(){

@@ -3,6 +3,8 @@ package com.example.db;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.example.model.Producto;
+
 public class ProductoDAO extends DAOCrud<Producto> {
 
     public ProductoDAO(){

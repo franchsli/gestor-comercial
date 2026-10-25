@@ -3,6 +3,9 @@ package com.example.db;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.example.model.Producto;
+import com.example.model.VentaProducto;
+
 public class VentaProductoDAO extends DAOCrud<VentaProducto> {
 
     public VentaProductoDAO(){

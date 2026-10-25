@@ -9,9 +9,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import com.example.db.CierreDiario;
 import com.example.db.CierreDiarioDAO;
 import com.example.db.DBException;
+import com.example.model.CierreDiario;
 
 public class CierresDiariosPanel extends PanelLectura<CierreDiario> {
     private final CierreDiarioDAO cierreDiarioDAO;

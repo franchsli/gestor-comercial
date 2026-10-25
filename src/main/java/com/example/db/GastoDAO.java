@@ -3,6 +3,8 @@ package com.example.db;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.example.model.Gasto;
+
 public class GastoDAO extends DAOCrud<Gasto> {
 
     public GastoDAO(){

@@ -9,8 +9,8 @@ import javax.swing.event.DocumentListener;
 import java.awt.GridLayout;
 
 import com.example.db.DBException;
-import com.example.db.Producto;
 import com.example.db.ProductoDAO;
+import com.example.model.Producto;
 
 public class ProductosPanel extends PanelCrud<Producto> {
 
