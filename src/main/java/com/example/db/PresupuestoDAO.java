@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+import com.example.model.Presupuesto;
+
 public class PresupuestoDAO extends DAOCrud<Presupuesto>{
 
     public PresupuestoDAO(){

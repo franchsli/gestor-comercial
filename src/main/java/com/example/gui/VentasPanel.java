@@ -15,10 +15,10 @@ import java.awt.Dimension;
 import java.util.List;
 
 import com.example.db.DBException;
-import com.example.db.Producto;
 import com.example.db.ProductoDAO;
-import com.example.db.Venta;
 import com.example.db.VentaDAO;
+import com.example.model.Producto;
+import com.example.model.Venta;
 
 public class VentasPanel extends PanelCrud<Venta> {
     private final VentaDAO ventaDAO;

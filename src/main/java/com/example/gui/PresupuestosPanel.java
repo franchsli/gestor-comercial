@@ -10,8 +10,8 @@ import java.awt.GridLayout;
 import java.time.LocalDate;
 
 import com.example.db.DBException;
-import com.example.db.Presupuesto;
 import com.example.db.PresupuestoDAO;
+import com.example.model.Presupuesto;
 
 public class PresupuestosPanel extends PanelCrud<Presupuesto>{
 

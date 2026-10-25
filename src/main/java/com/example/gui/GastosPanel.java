@@ -12,8 +12,8 @@ import java.awt.GridLayout;
 import java.time.LocalDate;
 
 import com.example.db.DBException;
-import com.example.db.Gasto;
 import com.example.db.GastoDAO;
+import com.example.model.Gasto;
 
 public class GastosPanel extends PanelCrud<Gasto> {
 

@@ -1,4 +1,4 @@
-package com.example.db;
+package com.example.model;
 
 public class Producto {
     private int id;
