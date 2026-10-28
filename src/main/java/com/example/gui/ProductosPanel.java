@@ -8,14 +8,14 @@ import javax.swing.event.DocumentListener;
 
 import java.awt.GridLayout;
 
+import com.example.controller.ProductosControlador;
 import com.example.db.DBException;
-import com.example.db.ProductoDAO;
 import com.example.model.Producto;
 
 public class ProductosPanel extends PanelCrud<Producto> {
 
     public ProductosPanel() {
-        super(new ProductoDAO());
+        super(new ProductosControlador());
         btnNuevo.addActionListener(e -> mostrarFormularioNuevo());
         campoBuscar.getDocument().addDocumentListener(new DocumentListener() {
             public void insertUpdate(DocumentEvent e) { buscarProducto(); }
@@ -58,7 +58,7 @@ public class ProductosPanel extends PanelCrud<Producto> {
                 int precioProducto = Integer.parseInt(precio.getText());
                 int cantidadProducto = Integer.parseInt(cantidad.getText());
                 Producto nuevoProducto = new Producto(nombre.getText(), precioProducto, cantidadProducto);
-                daoCrud.insertar(nuevoProducto);
+                controladorCrud.insertar(nuevoProducto);
                 cargarDatos();
             } catch (DBException e) {
                 JOptionPane.showMessageDialog(this,
@@ -75,7 +75,7 @@ public class ProductosPanel extends PanelCrud<Producto> {
         valores[1],
         Integer.parseInt(valores[2]),
         Integer.parseInt(valores[3]));
-        daoCrud.actualizar(producto);
+        controladorCrud.actualizar(producto);
     }
 
     /**
