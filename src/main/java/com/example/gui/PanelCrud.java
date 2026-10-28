@@ -16,19 +16,19 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 
-import com.example.db.DAOCrud;
+import com.example.controller.ControladorCrud;
 import com.example.db.DBException;
 
 public abstract class PanelCrud<T> extends PanelLectura<T> {
-    DAOCrud<T> daoCrud;
+    ControladorCrud<T> controladorCrud;
     JButton btnNuevo, btnEditar, btnEliminar, btnFiltrar;
     JTextField campoBuscar;
     JSpinner campoFecha;
     JSpinner.DateEditor editorFecha;
 
-    public PanelCrud(DAOCrud<T> daoCrud) {
-        super(daoCrud);
-        this.daoCrud = daoCrud;
+    public PanelCrud(ControladorCrud<T> controladorCrud) {
+        super(controladorCrud);
+        this.controladorCrud = controladorCrud;
         // barra de botones
         JPanel barraBotones = new JPanel(new FlowLayout(FlowLayout.LEFT));
         btnNuevo = new JButton("+ Nuevo");
@@ -72,7 +72,7 @@ public abstract class PanelCrud<T> extends PanelLectura<T> {
             try {
                 for (int i = filasSeleccionadas.length - 1; i >= 0; i--) {
                     String pk = modeloTabla.getValueAt(filasSeleccionadas[i], 0).toString();
-                    daoCrud.borrarTodos(columnas()[0] + " = ?", pk);
+                    controladorCrud.borrarTodos(columnas()[0] + " = ?", pk);
                 }
                 cargarDatos();
             } catch (DBException e) {
