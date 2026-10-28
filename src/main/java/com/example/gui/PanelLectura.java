@@ -60,18 +60,12 @@ public abstract class PanelLectura<T> extends JPanel {
     public void cargarDatos(List<T> entidades) {
         modeloTabla.setRowCount(0);
 
-        try {
-            // columnas
-            modeloTabla.setColumnIdentifiers(columnas());
+        // columnas
+        modeloTabla.setColumnIdentifiers(columnas());
 
-            // filas
-            for (T entidad : entidades) {
-                modeloTabla.addRow(fila(entidad));
-            }
-        } catch (DBException e) {
-            JOptionPane.showMessageDialog(this,
-                "Error en la base de datos: " + e.getMessage(),
-                "Error", JOptionPane.ERROR_MESSAGE);
+        // filas
+        for (T entidad : entidades) {
+            modeloTabla.addRow(fila(entidad));
         }
     }
 
@@ -80,5 +74,16 @@ public abstract class PanelLectura<T> extends JPanel {
      */
     public void cargarDatos() {
         cargarDatos(controladorLectura.todos());
+    }
+
+
+    /**
+     * Muestra el error lanzado por la base de datos.
+     * @param e La excepción lanzada por la DB.
+     */
+    protected void mostrarErrorDB(DBException e) {
+        JOptionPane.showMessageDialog(this,
+            "Error en la base de datos: " + e.getMessage(),
+            "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
