@@ -37,4 +37,16 @@ public class CierresDiariosControlador extends ControladorLectura<CierreDiario> 
     public List<CierreDiario> filtrarPorAño(int año) {
         return this.cierreDiarioDAO.filtrarPorAño(año);
     }
+
+    /**
+     * Retorna la suma de los registros en la columna que cumplen la condicion dada.
+     * @param columna El nombre de la columna a sumar.
+     * @param condicion La condicion que deben cumplir los registros.
+     * @param params Los parametros que rellenarán la condicion.
+     * @return El valor total de sumar todos los registros que cumplen la condicion en la columna.
+     */
+    public long sumarColumna(String columna, String condicion, Object... params) {
+        return this.cierreDiarioDAO.sumarColumna(columna, condicion, params);
+
+    }
 }
