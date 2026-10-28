@@ -9,20 +9,20 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import com.example.db.CierreDiarioDAO;
+import com.example.controller.CierresDiariosControlador;
 import com.example.db.DBException;
 import com.example.model.CierreDiario;
 
 public class CierresDiariosPanel extends PanelLectura<CierreDiario> {
-    private final CierreDiarioDAO cierreDiarioDAO;
+    private final CierresDiariosControlador cierresDiariosControlador;
 
     public CierresDiariosPanel() {
-        this(new CierreDiarioDAO());
+        this(new CierresDiariosControlador());
     }
 
-    private CierresDiariosPanel(CierreDiarioDAO cierreDiarioDAO) {
-        super(cierreDiarioDAO);
-        this.cierreDiarioDAO = cierreDiarioDAO;
+    private CierresDiariosPanel(CierresDiariosControlador cierresDiariosControlador) {
+        super(cierresDiariosControlador);
+        this.cierresDiariosControlador = cierresDiariosControlador;
 
         // controles de filtro
         String[] meses = {"Todos", "Enero", "Febrero", "Marzo", "Abril", "Mayo",
@@ -80,11 +80,11 @@ public class CierresDiariosPanel extends PanelLectura<CierreDiario> {
             
             filaTotal[0] = "TOTAL";
             for (int i = 1; i < columnas.length + 1; i++) {
-                filaTotal[i] = cierreDiarioDAO.sumarColumna(columnas[i - 1], condicion, params);
+                filaTotal[i] = cierresDiariosControlador.sumarColumna(columnas[i - 1], condicion, params);
             }
             // cumplimiento va en índice 5, se calcula aparte
-            long totalVentas = cierreDiarioDAO.sumarColumna("total_ventas", condicion, params);
-            long totalPresupuesto = cierreDiarioDAO.sumarColumna("presupuesto", condicion, params);
+            long totalVentas = cierresDiariosControlador.sumarColumna("total_ventas", condicion, params);
+            long totalPresupuesto = cierresDiariosControlador.sumarColumna("presupuesto", condicion, params);
             filaTotal[5] = totalPresupuesto == 0 ? "0%" : Math.round((totalVentas * 100.0) / totalPresupuesto) + "%";
 
             modeloTabla.addRow(filaTotal);
@@ -111,8 +111,8 @@ public class CierresDiariosPanel extends PanelLectura<CierreDiario> {
         try {
             boolean seFiltraPorAñoSolamente = mes == 0;
             List<CierreDiario> cierreDiarios = seFiltraPorAñoSolamente
-                ? cierreDiarioDAO.filtrarPorAño(año)
-                : cierreDiarioDAO.filtrarPorMes(año, mes);
+                ? cierresDiariosControlador.filtrarPorAño(año)
+                : cierresDiariosControlador.filtrarPorMes(año, mes);
 
             modeloTabla.setRowCount(0);
             modeloTabla.setColumnIdentifiers(columnas());
