@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.example.db.DAOLectura;
 
-public class ControladorLectura<T> {
+public abstract class ControladorLectura<T> {
     private DAOLectura<T> daoLectura;
 
     public ControladorLectura(DAOLectura<T> daoLectura) {
