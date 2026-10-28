@@ -20,4 +20,12 @@ public class ControladorLectura<T> {
     public List<T> todos(String condicion, Object... params){
         return daoLectura.todos(condicion, params);
     }
+
+    /**
+     * Devuelve todos los datos de la tabla.
+     * @return Todos los datos de la tabla.
+     */
+    public List<T> todos(){
+        return daoLectura.todos();
+    }
 }
