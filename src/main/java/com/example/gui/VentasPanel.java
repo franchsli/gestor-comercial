@@ -14,24 +14,24 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.util.List;
 
+import com.example.controller.ProductosControlador;
+import com.example.controller.VentasControlador;
 import com.example.db.DBException;
-import com.example.db.ProductoDAO;
-import com.example.db.VentaDAO;
 import com.example.model.Producto;
 import com.example.model.Venta;
 
 public class VentasPanel extends PanelCrud<Venta> {
-    private final VentaDAO ventaDAO;
-    private final ProductoDAO productoDAO;
+    private final VentasControlador ventasControlador;
+    private final ProductosControlador productosControlador;
     
     public VentasPanel(){
-        this(new VentaDAO(), new ProductoDAO());
+        this(new VentasControlador(), new ProductosControlador());
     }
 
-    private VentasPanel(VentaDAO ventaDAO, ProductoDAO productoDAO){
-        super(ventaDAO);
-        this.ventaDAO = ventaDAO;
-        this.productoDAO = productoDAO;
+    private VentasPanel(VentasControlador ventasControlador, ProductosControlador productosControlador){
+        super(ventasControlador);
+        this.ventasControlador = ventasControlador;
+        this.productosControlador = productosControlador;
         btnNuevo.setText("+ Nueva venta");
         btnEliminar.setText("Anular");
         this.campoBuscar.setVisible(false);
@@ -62,7 +62,7 @@ public class VentasPanel extends PanelCrud<Venta> {
         panelProductos.setLayout(new BoxLayout(panelProductos, BoxLayout.Y_AXIS));
 
         // cargar productos
-        List<Producto> productos = productoDAO.todos();
+        List<Producto> productos = productosControlador.todos();
 
         // primera fila de producto
         panelProductos.add(crearFilaProducto(productos, panelProductos));
@@ -90,7 +90,7 @@ public class VentasPanel extends PanelCrud<Venta> {
 
                 Venta nuevaVenta = new Venta(fechaDeCampo(campoFecha), 0, tipoSeleccionado);
 
-                ventaDAO.insertar(nuevaVenta);
+                ventasControlador.insertar(nuevaVenta);
 
                 // iterar filas de productos
                 for (Component c : panelProductos.getComponents()) {
@@ -102,7 +102,7 @@ public class VentasPanel extends PanelCrud<Venta> {
                     String cantidadStr = campoCantidad.getText().trim();
                     if (cantidadStr.isEmpty()) continue;
 
-                    ventaDAO.vender(nuevaVenta, producto, Integer.parseInt(cantidadStr));
+                    ventasControlador.vender(nuevaVenta, producto, Integer.parseInt(cantidadStr));
                 }
 
                 cargarDatos();
@@ -125,7 +125,7 @@ public class VentasPanel extends PanelCrud<Venta> {
         int valor = Integer.parseInt(valores[2]);
         Venta.Tipo tipo = Venta.Tipo.valueOf(valores[3]);
         Venta venta = new Venta(id, fecha, valor, tipo);
-        daoCrud.actualizar(venta);
+        controladorCrud.actualizar(venta);
     }
 
     /**

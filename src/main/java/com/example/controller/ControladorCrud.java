@@ -2,7 +2,7 @@ package com.example.controller;
 
 import com.example.db.DAOCrud;
 
-public class ControladorCrud<T> extends ControladorLectura<T> {
+public abstract class ControladorCrud<T> extends ControladorLectura<T> {
     private DAOCrud<T> daoCrud;
 
     public ControladorCrud(DAOCrud<T> daoCrud) {

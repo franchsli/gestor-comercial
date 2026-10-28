@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.example.db.DAOLectura;
 
-public class ControladorLectura<T> {
+public abstract class ControladorLectura<T> {
     private DAOLectura<T> daoLectura;
 
     public ControladorLectura(DAOLectura<T> daoLectura) {
@@ -19,5 +19,13 @@ public class ControladorLectura<T> {
      */
     public List<T> todos(String condicion, Object... params){
         return daoLectura.todos(condicion, params);
+    }
+
+    /**
+     * Devuelve todos los datos de la tabla.
+     * @return Todos los datos de la tabla.
+     */
+    public List<T> todos(){
+        return daoLectura.todos();
     }
 }

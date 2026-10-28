@@ -9,21 +9,21 @@ import javax.swing.JTextField;
 import java.awt.GridLayout;
 import java.time.LocalDate;
 
+import com.example.controller.PresupuestosControlador;
 import com.example.db.DBException;
-import com.example.db.PresupuestoDAO;
 import com.example.model.Presupuesto;
 
 public class PresupuestosPanel extends PanelCrud<Presupuesto>{
 
-    private final PresupuestoDAO presupuestoDAO;
+    private final PresupuestosControlador presupuestosControlador;
 
     public PresupuestosPanel(){
-        this(new PresupuestoDAO());
+        this(new PresupuestosControlador());
     }
 
-    private PresupuestosPanel(PresupuestoDAO presupuestoDAO){
-        super(presupuestoDAO);
-        this.presupuestoDAO = presupuestoDAO;
+    private PresupuestosPanel(PresupuestosControlador presupuestosControlador){
+        super(presupuestosControlador);
+        this.presupuestosControlador = presupuestosControlador;
         btnNuevo.setText("+ Nuevo presupuesto");
         this.campoBuscar.setVisible(false);
         btnNuevo.addActionListener(e -> mostrarFormularioNuevo());
@@ -60,7 +60,7 @@ public class PresupuestosPanel extends PanelCrud<Presupuesto>{
                 LocalDate fechaPresupuesto = fechaDeCampo(campoFechaPresupuesto);
                 int valorPresupuesto = Integer.parseInt(valor.getText()); 
                 Presupuesto presupuesto = new Presupuesto(fechaPresupuesto, valorPresupuesto);
-                daoCrud.insertar(presupuesto);
+                controladorCrud.insertar(presupuesto);
                 cargarDatos();
             } catch (DBException e) {
                 JOptionPane.showMessageDialog(this,
@@ -94,7 +94,7 @@ public class PresupuestosPanel extends PanelCrud<Presupuesto>{
                 LocalDate fechaNueva = fechaDeCampo(campoFecha);
                 int valorNuevo = Integer.parseInt(campoValor.getText());
                 Presupuesto presupuesto = new Presupuesto(fechaNueva, valorNuevo);
-                presupuestoDAO.actualizar(presupuesto, fechaActual);
+                presupuestosControlador.actualizar(presupuesto, fechaActual);
                 cargarDatos();
             } catch (DBException e) {
                 JOptionPane.showMessageDialog(this,

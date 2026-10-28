@@ -11,14 +11,14 @@ import javax.swing.JTextField;
 import java.awt.GridLayout;
 import java.time.LocalDate;
 
+import com.example.controller.GastosControlador;
 import com.example.db.DBException;
-import com.example.db.GastoDAO;
 import com.example.model.Gasto;
 
 public class GastosPanel extends PanelCrud<Gasto> {
 
     public GastosPanel() {
-        super(new GastoDAO());
+        super(new GastosControlador());
         btnNuevo.setText("+ Nuevo gasto");
         this.campoBuscar.setVisible(false);
         btnNuevo.addActionListener(e -> mostrarFormularioNuevo());
@@ -84,7 +84,7 @@ public class GastosPanel extends PanelCrud<Gasto> {
                 int valorSeleccionado = Integer.parseInt(valor.getText());
                 Gasto nuevoGasto = new Gasto(fechaGasto, estadoSeleccionado, valorSeleccionado, fechaPago, 
                                                 descripcion.getText(), fechaPresupuesto);
-                daoCrud.insertar(nuevoGasto);
+                controladorCrud.insertar(nuevoGasto);
                 cargarDatos();
             } catch (DBException e) {
                 JOptionPane.showMessageDialog(this,
@@ -104,6 +104,6 @@ public class GastosPanel extends PanelCrud<Gasto> {
         LocalDate fechaPresupuesto = fechaDeTexto(valores[6]);
         Gasto gasto = new Gasto(id, fechaGasto, estado, valor, fechaPago,
                                     valores[5], fechaPresupuesto);
-        daoCrud.actualizar(gasto);
+        controladorCrud.actualizar(gasto);
     }
 }

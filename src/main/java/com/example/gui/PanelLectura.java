@@ -9,16 +9,16 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
-import com.example.db.DAOLectura;
+import com.example.controller.ControladorLectura;
 import com.example.db.DBException;
 
 public abstract class PanelLectura<T> extends JPanel {
-    private DAOLectura<T> daoLectura;
+    private ControladorLectura<T> controladorLectura;
     JTable tabla;
     DefaultTableModel modeloTabla;
 
-    public PanelLectura(DAOLectura<T> daoLectura) {
-        this.daoLectura = daoLectura;
+    public PanelLectura(ControladorLectura<T> controladorLectura) {
+        this.controladorLectura = controladorLectura;
         setLayout(new BorderLayout());
 
         // tabla
@@ -53,26 +53,19 @@ public abstract class PanelLectura<T> extends JPanel {
     protected abstract Object[] fila(T entidad);
 
     /**
-     * Carga los datos del modelo de la clase que cumplan la condicion dada en la pestaña.
-     * @param condicion La condición que deben cumplir los datos del modelo de la clase.
-     * @param params Los parámetros necesarios para rellenar la condición.
+     * Carga los datos dados en la pestaña.
+     * @param entidades Una lista de las entidades con los datos
+     * a ser cargados.
      */
-    public void cargarDatos(String condicion, Object... params) {
+    public void cargarDatos(List<T> entidades) {
         modeloTabla.setRowCount(0);
 
-        try {
-            // columnas
-            modeloTabla.setColumnIdentifiers(columnas());
+        // columnas
+        modeloTabla.setColumnIdentifiers(columnas());
 
-            // filas
-            List<T> entidades = daoLectura.todos(condicion, params);
-            for (T entidad : entidades) {
-                modeloTabla.addRow(fila(entidad));
-            }
-        } catch (DBException e) {
-            JOptionPane.showMessageDialog(this,
-                "Error en la base de datos: " + e.getMessage(),
-                "Error", JOptionPane.ERROR_MESSAGE);
+        // filas
+        for (T entidad : entidades) {
+            modeloTabla.addRow(fila(entidad));
         }
     }
 
@@ -80,6 +73,21 @@ public abstract class PanelLectura<T> extends JPanel {
      * Carga todos los datos del modelo de la clase en la pestaña.
      */
     public void cargarDatos() {
-        cargarDatos("");
+        try {
+            cargarDatos(controladorLectura.todos());
+        } catch (DBException e) {
+            mostrarErrorDB(e);
+        }
+    }
+
+
+    /**
+     * Muestra el error lanzado por la base de datos.
+     * @param e La excepción lanzada por la DB.
+     */
+    protected void mostrarErrorDB(DBException e) {
+        JOptionPane.showMessageDialog(this,
+            "Error en la base de datos: " + e.getMessage(),
+            "Error", JOptionPane.ERROR_MESSAGE);
     }
 }

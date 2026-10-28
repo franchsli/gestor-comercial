@@ -7,15 +7,22 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import java.awt.GridLayout;
+import java.util.List;
 
+import com.example.controller.ProductosControlador;
 import com.example.db.DBException;
-import com.example.db.ProductoDAO;
 import com.example.model.Producto;
 
 public class ProductosPanel extends PanelCrud<Producto> {
+    private final ProductosControlador productosControlador;
 
-    public ProductosPanel() {
-        super(new ProductoDAO());
+    public ProductosPanel(){
+        this(new ProductosControlador());
+    }
+
+    private ProductosPanel(ProductosControlador productosControlador) {
+        super(productosControlador);
+        this.productosControlador = productosControlador;
         btnNuevo.addActionListener(e -> mostrarFormularioNuevo());
         campoBuscar.getDocument().addDocumentListener(new DocumentListener() {
             public void insertUpdate(DocumentEvent e) { buscarProducto(); }
@@ -58,7 +65,7 @@ public class ProductosPanel extends PanelCrud<Producto> {
                 int precioProducto = Integer.parseInt(precio.getText());
                 int cantidadProducto = Integer.parseInt(cantidad.getText());
                 Producto nuevoProducto = new Producto(nombre.getText(), precioProducto, cantidadProducto);
-                daoCrud.insertar(nuevoProducto);
+                controladorCrud.insertar(nuevoProducto);
                 cargarDatos();
             } catch (DBException e) {
                 JOptionPane.showMessageDialog(this,
@@ -75,7 +82,7 @@ public class ProductosPanel extends PanelCrud<Producto> {
         valores[1],
         Integer.parseInt(valores[2]),
         Integer.parseInt(valores[3]));
-        daoCrud.actualizar(producto);
+        controladorCrud.actualizar(producto);
     }
 
     /**
@@ -84,8 +91,12 @@ public class ProductosPanel extends PanelCrud<Producto> {
      */
     private void buscarProducto(){
         String nombreProducto = campoBuscar.getText().strip();
-        String condicion = "nombre LIKE '%' || ? || '%'";
-        cargarDatos(condicion, nombreProducto);
+        try {
+            List<Producto> productosCoincidentes = productosControlador.buscarPorNombre(nombreProducto);
+            cargarDatos(productosCoincidentes);
+        } catch (DBException e) {
+            mostrarErrorDB(e);
+        }
     }
 
 }
