@@ -7,15 +7,22 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import java.awt.GridLayout;
+import java.util.List;
 
 import com.example.controller.ProductosControlador;
 import com.example.db.DBException;
 import com.example.model.Producto;
 
 public class ProductosPanel extends PanelCrud<Producto> {
+    private final ProductosControlador productosControlador;
 
-    public ProductosPanel() {
-        super(new ProductosControlador());
+    public ProductosPanel(){
+        this(new ProductosControlador());
+    }
+
+    private ProductosPanel(ProductosControlador productosControlador) {
+        super(productosControlador);
+        this.productosControlador = productosControlador;
         btnNuevo.addActionListener(e -> mostrarFormularioNuevo());
         campoBuscar.getDocument().addDocumentListener(new DocumentListener() {
             public void insertUpdate(DocumentEvent e) { buscarProducto(); }
@@ -84,8 +91,8 @@ public class ProductosPanel extends PanelCrud<Producto> {
      */
     private void buscarProducto(){
         String nombreProducto = campoBuscar.getText().strip();
-        String condicion = "nombre LIKE '%' || ? || '%'";
-        cargarDatos(condicion, nombreProducto);
+        List<Producto> productosCoincidentes = productosControlador.buscarPorNombre(nombreProducto);
+        cargarDatos(productosCoincidentes);
     }
 
 }

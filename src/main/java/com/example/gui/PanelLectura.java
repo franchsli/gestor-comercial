@@ -53,11 +53,11 @@ public abstract class PanelLectura<T> extends JPanel {
     protected abstract Object[] fila(T entidad);
 
     /**
-     * Carga los datos del modelo de la clase que cumplan la condicion dada en la pestaña.
-     * @param condicion La condición que deben cumplir los datos del modelo de la clase.
-     * @param params Los parámetros necesarios para rellenar la condición.
+     * Carga los datos dados en la pestaña.
+     * @param entidades Una lista de las entidades con los datos
+     * a ser cargados.
      */
-    public void cargarDatos(String condicion, Object... params) {
+    public void cargarDatos(List<T> entidades) {
         modeloTabla.setRowCount(0);
 
         try {
@@ -65,7 +65,6 @@ public abstract class PanelLectura<T> extends JPanel {
             modeloTabla.setColumnIdentifiers(columnas());
 
             // filas
-            List<T> entidades = controladorLectura.todos(condicion, params);
             for (T entidad : entidades) {
                 modeloTabla.addRow(fila(entidad));
             }
@@ -80,6 +79,6 @@ public abstract class PanelLectura<T> extends JPanel {
      * Carga todos los datos del modelo de la clase en la pestaña.
      */
     public void cargarDatos() {
-        cargarDatos("");
+        cargarDatos(controladorLectura.todos());
     }
 }
