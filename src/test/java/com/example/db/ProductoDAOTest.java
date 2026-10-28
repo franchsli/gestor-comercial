@@ -1,6 +1,7 @@
 package com.example.db;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -55,5 +56,20 @@ class ProductoDAOTest {
         assertEquals("Platón grande", actualizado.getNombre());
         assertEquals(3500, actualizado.getPrecioUnitario());
         assertEquals(25, actualizado.getCantidad());
+    }
+
+    @Test
+    @DisplayName("buscarPorNombre() retorna los productos cuyo nombre coincide con el texto dado")
+    void buscarPorNombreRetornaProductosConNombreSimilar() {
+        productoDAO.insertar(new Producto(0, "Gancho plástico", 1500, 40));
+        productoDAO.insertar(new Producto(0, "Plato plástico", 2000, 10));
+        productoDAO.insertar(new Producto(0, "Vaso de vidrio", 1200, 15));
+
+        List<Producto> productos = productoDAO.buscarPorNombre("plástico");
+
+        assertEquals(2, productos.size());
+        for (Producto producto : productos) {
+            assertTrue(producto.getNombre().contains("plástico"));
+        }
     }
 }
