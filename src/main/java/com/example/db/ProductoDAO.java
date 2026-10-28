@@ -1,5 +1,6 @@
 package com.example.db;
 
+import java.util.List;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -26,6 +27,17 @@ public class ProductoDAO extends DAOCrud<Producto> {
     @Override 
     public void insertar(Producto producto){
         insertarFila(producto.getNombre(), producto.getPrecioUnitario(), producto.getCantidad());
+    }
+
+    /**
+     * Retorna todos los productos cuyos nombres
+     * sean parecidos al nombre proporcionado.
+     * @param nombre El nombre a usar en la busqueda.
+     * @return Los productos con un nombre parecido.
+     */
+    public List<Producto> buscarPorNombre(String nombre){
+        String condicion = "nombre LIKE '%' || ? || '%'";
+        return todos(condicion, nombre);
     }
     
 }
