@@ -73,7 +73,11 @@ public abstract class PanelLectura<T> extends JPanel {
      * Carga todos los datos del modelo de la clase en la pestaña.
      */
     public void cargarDatos() {
-        cargarDatos(controladorLectura.todos());
+        try {
+            cargarDatos(controladorLectura.todos());
+        } catch (DBException e) {
+            mostrarErrorDB(e);
+        }
     }
 
 

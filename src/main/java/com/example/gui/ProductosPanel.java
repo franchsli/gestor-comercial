@@ -91,8 +91,12 @@ public class ProductosPanel extends PanelCrud<Producto> {
      */
     private void buscarProducto(){
         String nombreProducto = campoBuscar.getText().strip();
-        List<Producto> productosCoincidentes = productosControlador.buscarPorNombre(nombreProducto);
-        cargarDatos(productosCoincidentes);
+        try {
+            List<Producto> productosCoincidentes = productosControlador.buscarPorNombre(nombreProducto);
+            cargarDatos(productosCoincidentes);
+        } catch (DBException e) {
+            mostrarErrorDB(e);
+        }
     }
 
 }
