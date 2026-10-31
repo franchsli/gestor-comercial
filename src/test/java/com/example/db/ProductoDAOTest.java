@@ -1,8 +1,13 @@
 package com.example.db;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -11,6 +16,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.example.model.Producto;
+import com.example.model.VentaProducto;
 
 class ProductoDAOTest {
     private ProductoDAO productoDAO;
@@ -71,5 +77,47 @@ class ProductoDAOTest {
         for (Producto producto : productos) {
             assertTrue(producto.getNombre().contains("plástico"));
         }
+    }
+
+    @Test
+    @DisplayName("tieneVentas() devuelve true si el producto tiene ventas asociadas")
+    void tieneVentasDevuelveTrueSiElProductoTieneVentasAsociadas() {
+        int idProducto = productoDAO.insertarFila("Libreta", 4000, 20);
+
+        VentaDAO ventaDAO = new VentaDAO();
+        int idVenta = ventaDAO.insertarFila(LocalDate.of(2025, 3, 10), 12000, "EFECTIVO");
+
+        VentaProductoDAO ventaProductoDAO = new VentaProductoDAO();
+        ventaProductoDAO.insertar(new VentaProducto(idVenta, idProducto, 3));
+
+        assertTrue(productoDAO.tieneVentas(String.valueOf(idProducto)));
+    }
+
+    @Test
+    @DisplayName("tieneVentas() devuelve false si no tiene ventas asociadas")
+    void tieneVentasDevuelveFalseSiNoTieneVentasAsociadas() {
+        int idProducto = productoDAO.insertarFila("Libreta", 4000, 20);
+
+        assertFalse(productoDAO.tieneVentas(String.valueOf(idProducto)));
+    }
+
+    @Test
+    @DisplayName("borrarTodos() solo borra productos sin ventas")
+    void borrarTodosSoloBorraProductosSinVentas() {
+        int idConVentas = productoDAO.insertarFila("Libreta", 4000, 20);
+        int idSinVentas = productoDAO.insertarFila("Borrador", 800, 15);
+
+        VentaDAO ventaDAO = new VentaDAO();
+        int idVenta = ventaDAO.insertarFila(LocalDate.of(2025, 3, 10), 12000, "EFECTIVO");
+
+        VentaProductoDAO ventaProductoDAO = new VentaProductoDAO();
+        ventaProductoDAO.insertar(new VentaProducto(idVenta, idConVentas, 3));
+
+        assertThrows(IllegalStateException.class,
+                () -> productoDAO.borrarTodos("id = ?", String.valueOf(idConVentas)));
+        assertNotNull(productoDAO.unicoRegistro("id", idConVentas));
+
+        productoDAO.borrarTodos("id = ?", String.valueOf(idSinVentas));
+        assertNull(productoDAO.unicoRegistro("id", idSinVentas));
     }
 }
