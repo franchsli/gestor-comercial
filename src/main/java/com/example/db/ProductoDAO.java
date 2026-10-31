@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.example.model.Producto;
+import com.example.model.VentaProducto;
 
 public class ProductoDAO extends DAOCrud<Producto> {
 
@@ -38,6 +39,27 @@ public class ProductoDAO extends DAOCrud<Producto> {
     public List<Producto> buscarPorNombre(String nombre){
         String condicion = "nombre LIKE '%' || ? || '%'";
         return todos(condicion, nombre);
+    }
+
+    /**
+     * Devuelve si el producto con el id dado tiene ventas.
+     * @param id El id del producto.
+     * @return Si tiene ventas o no.
+     */
+    public boolean tieneVentas(String id){
+        VentaProductoDAO ventaProductoDAO = new VentaProductoDAO();
+        List<VentaProducto> ventas = ventaProductoDAO.todos("id_producto = ?", id);
+        return !ventas.isEmpty();
+
+    }
+
+    @Override
+    public void borrarTodos(String condicion, Object... params){
+        String idProducto = (String) params[0];
+        if (tieneVentas(idProducto)){
+            throw new IllegalStateException("No se puede borrar el producto al tener ventas asociadas.");
+        }
+        else borrarTodos(condicion, params);
     }
     
 }
