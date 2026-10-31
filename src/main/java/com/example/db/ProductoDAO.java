@@ -59,7 +59,7 @@ public class ProductoDAO extends DAOCrud<Producto> {
         if (tieneVentas(idProducto)){
             throw new IllegalStateException("No se puede borrar el producto al tener ventas asociadas.");
         }
-        else borrarTodos(condicion, params);
+        else super.borrarTodos(condicion, params);
     }
     
 }
