@@ -80,6 +80,11 @@ public abstract class PanelCrud<T> extends PanelLectura<T> {
                     "Error al eliminar: " + e.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
             }
+             catch (IllegalStateException e){
+                JOptionPane.showMessageDialog(this,
+                    e.getMessage(),
+                    "Aviso", JOptionPane.WARNING_MESSAGE);
+             }
         }
     }
 
