@@ -89,8 +89,8 @@ class VentaProductoDAOTest {
     }
 
     @Test
-    @DisplayName("Eliminar un producto elimina sus filas en VENTAS_PRODUCTOS (ON DELETE CASCADE).")
-    void eliminarUnProductoEliminaSusFilasEnVentasProductos() {
+    @DisplayName("Eliminar un producto con filas en VENTAS_PRODUCTOS lanza DBException")
+    void eliminarUnProductoConFilasEnVentasProductosLanzaDBException() {
         ProductoDAO productoDAO = new ProductoDAO();
         int idProducto = productoDAO.insertarFila("Borrador", 800, 15);
 
@@ -100,10 +100,7 @@ class VentaProductoDAOTest {
         ventaProductoDAO.insertar(new VentaProducto(idVenta, idProducto, 2));
         assertEquals(1, ventaProductoDAO.todos("id_producto = ?", idProducto).size());
 
-        productoDAO.borrarTodos("id = ?", idProducto);
-
-        assertNull(productoDAO.unicoRegistro("id", idProducto));
-        List<VentaProducto> filas = ventaProductoDAO.todos("id_producto = ?", idProducto);
-        assertTrue(filas.isEmpty());
+        assertThrows(DBException.class,
+                () -> productoDAO.ejecutar("DELETE FROM PRODUCTOS WHERE id = ?", idProducto));
     }
 }
