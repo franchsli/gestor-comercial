@@ -33,7 +33,6 @@ public class VentasPanel extends PanelCrud<Venta> {
         this.ventasControlador = ventasControlador;
         this.productosControlador = productosControlador;
         btnNuevo.setText("+ Nueva venta");
-        btnEliminar.setText("Anular");
         this.campoBuscar.setVisible(false);
         btnNuevo.addActionListener(e -> mostrarFormularioNuevo());
         cargarDatos();
