@@ -109,7 +109,7 @@ public abstract class PanelLectura<T> extends JPanel {
      * Muestra una ventana de confirmación al usuario con el mensaje dado.  
      * @param mensaje El mensaje que se le quiere dar de confirmación al usuario.
      */
-    protected boolean confirmar(String mensaje) {
+    protected boolean pedirConfirmacion(String mensaje) {
         return JOptionPane.showConfirmDialog(this, mensaje, "Confirmar",
                 JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
     }

@@ -63,10 +63,8 @@ public abstract class PanelCrud<T> extends PanelLectura<T> {
             mostrarAviso("Selecciona filas primero");
             return;
         }
-        int confirmacion = JOptionPane.showConfirmDialog(this,
-            "Confirma el borrado de los registros",
-            "Confirmar", JOptionPane.YES_NO_OPTION);
-        if (confirmacion == JOptionPane.YES_OPTION) {
+        boolean confirmado = pedirConfirmacion("Confirma el borrado de los registros");
+        if (confirmado) {
             try {
                 for (int i = filasSeleccionadas.length - 1; i >= 0; i--) {
                     String pk = modeloTabla.getValueAt(filasSeleccionadas[i], 0).toString();
