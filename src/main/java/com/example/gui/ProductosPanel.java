@@ -68,9 +68,7 @@ public class ProductosPanel extends PanelCrud<Producto> {
                 controladorCrud.insertar(nuevoProducto);
                 cargarDatos();
             } catch (DBException e) {
-                JOptionPane.showMessageDialog(this,
-                    "Error al guardar: " + e.getMessage(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
+                mostrarError("Error al guardar: " + e.getMessage());
             }
         }
     }

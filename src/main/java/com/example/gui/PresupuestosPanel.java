@@ -63,9 +63,7 @@ public class PresupuestosPanel extends PanelCrud<Presupuesto>{
                 controladorCrud.insertar(presupuesto);
                 cargarDatos();
             } catch (DBException e) {
-                JOptionPane.showMessageDialog(this,
-                    "Error al guardar: " + e.getMessage(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
+                mostrarError("Error al guardar: " + e.getMessage());
             }
         }
     }
@@ -74,7 +72,7 @@ public class PresupuestosPanel extends PanelCrud<Presupuesto>{
     public void manejarEditar() {
         int fila = tabla.getSelectedRow();
         if (fila == -1) {
-            JOptionPane.showMessageDialog(this, "Selecciona una fila primero", "Aviso", JOptionPane.WARNING_MESSAGE);
+            mostrarAviso("Selecciona una fila primero");
             return;
         }
         LocalDate fechaActual = (LocalDate) modeloTabla.getValueAt(fila, 0);
@@ -97,9 +95,7 @@ public class PresupuestosPanel extends PanelCrud<Presupuesto>{
                 presupuestosControlador.actualizar(presupuesto, fechaActual);
                 cargarDatos();
             } catch (DBException e) {
-                JOptionPane.showMessageDialog(this,
-                    "Error al actualizar: " + e.getMessage(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
+                mostrarError("Error al actualizar: " + e.getMessage());
             }
         }
 
