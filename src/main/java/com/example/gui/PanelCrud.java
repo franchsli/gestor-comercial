@@ -60,9 +60,7 @@ public abstract class PanelCrud<T> extends PanelLectura<T> {
     public void manejarEliminar(){
         int[] filasSeleccionadas = tabla.getSelectedRows();
         if (filasSeleccionadas.length == 0) {
-            JOptionPane.showMessageDialog(this,
-                "Selecciona filas primero",
-                "Aviso", JOptionPane.WARNING_MESSAGE);
+            mostrarAviso("Selecciona filas primero");
             return;
         }
         int confirmacion = JOptionPane.showConfirmDialog(this,
@@ -81,9 +79,7 @@ public abstract class PanelCrud<T> extends PanelLectura<T> {
                     "Error", JOptionPane.ERROR_MESSAGE);
             }
              catch (IllegalStateException e){
-                JOptionPane.showMessageDialog(this,
-                    e.getMessage(),
-                    "Aviso", JOptionPane.WARNING_MESSAGE);
+                mostrarAviso(e.getMessage());
              }
         }
     }
@@ -96,9 +92,7 @@ public abstract class PanelCrud<T> extends PanelLectura<T> {
     public void manejarEditar(){
         int fila = tabla.getSelectedRow();
         if (fila == -1) {
-            JOptionPane.showMessageDialog(this,
-                "Selecciona una fila primero",
-                "Aviso", JOptionPane.WARNING_MESSAGE);
+            mostrarAviso("Selecciona una fila primero");
             return;
         }
 

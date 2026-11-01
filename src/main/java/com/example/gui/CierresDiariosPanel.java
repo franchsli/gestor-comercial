@@ -117,9 +117,7 @@ public class CierresDiariosPanel extends PanelLectura<CierreDiario> {
             modeloTabla.setRowCount(0);
             modeloTabla.setColumnIdentifiers(columnas());
             if (cierreDiarios.isEmpty()) {
-                JOptionPane.showMessageDialog(this,
-                    "No hay cierres diarios en el periodo seleccionado.",
-                    "Aviso", JOptionPane.WARNING_MESSAGE);
+                mostrarAviso("No hay cierres diarios en el periodo seleccionado.");
                 return;
             }
 
