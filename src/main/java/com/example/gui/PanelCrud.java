@@ -74,9 +74,7 @@ public abstract class PanelCrud<T> extends PanelLectura<T> {
                 }
                 cargarDatos();
             } catch (DBException e) {
-                JOptionPane.showMessageDialog(this,
-                    "Error al eliminar: " + e.getMessage(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
+                mostrarError("Error al eliminar: " + e.getMessage());
             }
              catch (IllegalStateException e){
                 mostrarAviso(e.getMessage());
@@ -125,9 +123,7 @@ public abstract class PanelCrud<T> extends PanelLectura<T> {
                 aplicarCambios(datos);
                 cargarDatos();
             } catch (DBException e) {
-                JOptionPane.showMessageDialog(this,
-                    "Error al actualizar: " + e.getMessage(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
+                mostrarError("Error al actualizar: " + e.getMessage());
             }
         }
     }

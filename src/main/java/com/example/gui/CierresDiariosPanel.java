@@ -6,7 +6,6 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.example.controller.CierresDiariosControlador;
@@ -89,9 +88,7 @@ public class CierresDiariosPanel extends PanelLectura<CierreDiario> {
 
             modeloTabla.addRow(filaTotal);
         } catch (DBException e) {
-            JOptionPane.showMessageDialog(this,
-                "Error al calcular totales: " + e.getMessage(),
-                "Error", JOptionPane.ERROR_MESSAGE);
+            mostrarError("Error al calcular totales: " + e.getMessage());
         }
     }
 
@@ -131,9 +128,7 @@ public class CierresDiariosPanel extends PanelLectura<CierreDiario> {
             
             cargarTotales(condicion, inicio, fin);
         } catch (DBException e) {
-            JOptionPane.showMessageDialog(this,
-                "Error al filtrar cierres: " + e.getMessage(),
-                "Error", JOptionPane.ERROR_MESSAGE);
+            mostrarError("Error al filtrar cierres: " + e.getMessage());
         }
     }
 }

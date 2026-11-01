@@ -107,13 +107,9 @@ public class VentasPanel extends PanelCrud<Venta> {
 
                 cargarDatos();
             } catch (DBException e) {
-                JOptionPane.showMessageDialog(this,
-                    "Error al guardar venta: " + e.getMessage(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
+                mostrarError("Error al guardar venta: " + e.getMessage());
             } catch (IllegalArgumentException e) {
-                JOptionPane.showMessageDialog(this,
-                    e.getMessage(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
+                mostrarError(e.getMessage());
             }
         }
     }

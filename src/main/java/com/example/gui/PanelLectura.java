@@ -86,9 +86,7 @@ public abstract class PanelLectura<T> extends JPanel {
      * @param e La excepción lanzada por la DB.
      */
     protected void mostrarErrorDB(DBException e) {
-        JOptionPane.showMessageDialog(this,
-            "Error en la base de datos: " + e.getMessage(),
-            "Error", JOptionPane.ERROR_MESSAGE);
+        mostrarError("Error en la base de datos: " + e.getMessage());
     }
 
     /**
