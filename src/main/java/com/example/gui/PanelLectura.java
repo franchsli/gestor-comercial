@@ -90,4 +90,37 @@ public abstract class PanelLectura<T> extends JPanel {
             "Error en la base de datos: " + e.getMessage(),
             "Error", JOptionPane.ERROR_MESSAGE);
     }
+
+    /**
+     * Muestra una ventana de aviso al usuario con el mensaje dado.  
+     * @param mensaje El mensaje que se le quiere dar de aviso al usuario.
+     */
+    protected void mostrarAviso(String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje, "Aviso", JOptionPane.WARNING_MESSAGE);
+    }
+
+    /**
+     * Muestra una ventana de error al usuario con el mensaje dado.  
+     * @param mensaje El mensaje que se le quiere dar de error al usuario.
+     */
+    protected void mostrarError(String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    /**
+     * Muestra una ventana de información al usuario con el mensaje dado.  
+     * @param mensaje El mensaje que se le quiere dar de información al usuario.
+     */
+    protected void mostrarInfo(String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje, "Información", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    /**
+     * Muestra una ventana de confirmación al usuario con el mensaje dado.  
+     * @param mensaje El mensaje que se le quiere dar de confirmación al usuario.
+     */
+    protected boolean confirmar(String mensaje) {
+        return JOptionPane.showConfirmDialog(this, mensaje, "Confirmar",
+                JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
+    }
 }
