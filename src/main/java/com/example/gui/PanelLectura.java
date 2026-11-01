@@ -106,14 +106,6 @@ public abstract class PanelLectura<T> extends JPanel {
     }
 
     /**
-     * Muestra una ventana de información al usuario con el mensaje dado.  
-     * @param mensaje El mensaje que se le quiere dar de información al usuario.
-     */
-    protected void mostrarInfo(String mensaje) {
-        JOptionPane.showMessageDialog(this, mensaje, "Información", JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    /**
      * Muestra una ventana de confirmación al usuario con el mensaje dado.  
      * @param mensaje El mensaje que se le quiere dar de confirmación al usuario.
      */
