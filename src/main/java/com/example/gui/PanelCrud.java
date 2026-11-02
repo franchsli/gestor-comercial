@@ -171,6 +171,12 @@ public abstract class PanelCrud<T> extends PanelLectura<T> {
                 valor = ((JTextField) c).getText().trim();
             } else if (c instanceof JSpinner) {
                 valor = ((JSpinner) c).getValue().toString().trim();
+            } else if (c instanceof JPanel) {
+                JPanel formAnidado = (JPanel) c;
+                boolean formAnidadoEsValido = formularioEsValido(formAnidado, excepciones);
+                if (!formAnidadoEsValido) {
+                    return false;
+                }
             }
 
             if (valor != null && valor.isEmpty()) {
