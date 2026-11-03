@@ -176,21 +176,66 @@ class CierreDiarioDAOTest {
     }
 
     @Test
-    @DisplayName("Un día sin ventas no aparece.")
-    void unDiaSinVentasNoAparece() {
-        LocalDate fechaSinVentas = LocalDate.of(2025, 3, 10);
-        LocalDate fechaConVentas = LocalDate.of(2025, 3, 11);
+    @DisplayName("Un día con solo ventas aparece.")
+    void unDiaConSoloVentasAparece() {
+        LocalDate fecha = LocalDate.of(2025, 3, 10);
+        ventaDAO.insertar(new Venta(fecha, 5000, Venta.Tipo.EFECTIVO));
 
-        presupuestoDAO.insertar(new Presupuesto(fechaSinVentas, 50000));
-        gastoDAO.insertar(new Gasto(fechaSinVentas, Gasto.Estado.PENDIENTE, 10000, null, "Gasto", null));
+        CierreDiario cierre = cierreDiarioDAO.unicoRegistro("fecha", fecha);
 
-        ventaDAO.insertar(new Venta(fechaConVentas, 20000, Venta.Tipo.EFECTIVO));
-
-        CierreDiario cierreSinVentas = cierreDiarioDAO.unicoRegistro("fecha", fechaSinVentas);
-        assertNull(cierreSinVentas);
+        assertNotNull(cierre);
+        assertEquals(fecha, cierre.getFecha());
 
         List<CierreDiario> todos = cierreDiarioDAO.todos();
         assertEquals(1, todos.size());
-        assertEquals(fechaConVentas, todos.get(0).getFecha());
+        assertEquals(fecha, todos.get(0).getFecha());
+    }
+
+    @Test
+    @DisplayName("Un día con solo gastos aparece.")
+    void unDiaConSoloGastosAparece() {
+        LocalDate fecha = LocalDate.of(2025, 3, 10);
+        gastoDAO.insertar(new Gasto(fecha, Gasto.Estado.PENDIENTE, 3000, null, "Gasto", null));
+
+        CierreDiario cierre = cierreDiarioDAO.unicoRegistro("fecha", fecha);
+
+        assertNotNull(cierre);
+        assertEquals(fecha, cierre.getFecha());
+
+        List<CierreDiario> todos = cierreDiarioDAO.todos();
+        assertEquals(1, todos.size());
+        assertEquals(fecha, todos.get(0).getFecha());
+    }
+
+    @Test
+    @DisplayName("Un día con solo presupuestos aparece.")
+    void unDiaConSoloPresupuestosAparece() {
+        LocalDate fecha = LocalDate.of(2025, 3, 10);
+        presupuestoDAO.insertar(new Presupuesto(fecha, 10000));
+
+        CierreDiario cierre = cierreDiarioDAO.unicoRegistro("fecha", fecha);
+
+        assertNotNull(cierre);
+        assertEquals(fecha, cierre.getFecha());
+
+        List<CierreDiario> todos = cierreDiarioDAO.todos();
+        assertEquals(1, todos.size());
+        assertEquals(fecha, todos.get(0).getFecha());
+    }
+
+    @Test
+    @DisplayName("Un día sin ventas, gastos ni presupuestos no aparece.")
+    void unDiaSinVentasGastosNiPresupuestosNoAparece() {
+        LocalDate fechaSinDatos = LocalDate.of(2025, 3, 10);
+        LocalDate fechaConDatos = LocalDate.of(2025, 3, 11);
+
+        ventaDAO.insertar(new Venta(fechaConDatos, 20000, Venta.Tipo.EFECTIVO));
+
+        CierreDiario cierreSinDatos = cierreDiarioDAO.unicoRegistro("fecha", fechaSinDatos);
+        assertNull(cierreSinDatos);
+
+        List<CierreDiario> todos = cierreDiarioDAO.todos();
+        assertEquals(1, todos.size());
+        assertEquals(fechaConDatos, todos.get(0).getFecha());
     }
 }
