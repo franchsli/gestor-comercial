@@ -17,7 +17,7 @@ Una aplicación en Java que gestiona los productos, ventas y gastos de una empre
 
 ## Diagrama de Datos Actual
 
-<img width="855" height="684" alt="DIAGRAMA_DE_DATOS" src="https://github.com/user-attachments/assets/d8cefaf6-991a-489a-ac08-efcd858ec4a9" />
+<img width="912" height="684" alt="DIAGRAMA_DE_DATOS" src="https://github.com/user-attachments/assets/4a92af21-b38f-47c1-8d47-ac4604ea3484" />
 
 Este diagrama muestra los tipos de datos que se usan para almacenar los datos en la base de datos
 y también muestra las siguientes relaciones:
@@ -56,7 +56,7 @@ Esta ventana muestra los gastos registrados y permite crear, editar o eliminar g
 
 Esta ventana muestra los presupuestos registrados y permite crear, editar o eliminar presupuestos.
 
-<img width="1600" height="869" alt="PRESUPUESTOS (D)" src="https://github.com/user-attachments/assets/09a67c34-77a9-41e2-a09e-a83218a987f5" />
+<img width="1600" height="856" alt="PRESUPUESTOS (D)" src="https://github.com/user-attachments/assets/d0d1fe4b-bf70-43e6-b9dc-2db3ba6b7d9e" />
 
 ### Cierres diarios
 
