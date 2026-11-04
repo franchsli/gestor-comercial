@@ -1,6 +1,9 @@
 CREATE TABLE PRESUPUESTOS (
-  fecha DATE PRIMARY KEY,
-  valor INTEGER NOT NULL
+  id INTEGER PRIMARY KEY,
+  fecha DATE NOT NULL,
+  tipo VARCHAR NOT NULL CHECK (tipo IN ('INGRESO', 'EGRESO')),
+  valor INTEGER NOT NULL,
+  UNIQUE (fecha, tipo)
 );
 
 CREATE TABLE GASTOS (
@@ -10,7 +13,7 @@ CREATE TABLE GASTOS (
   valor INTEGER NOT NULL,
   fecha_pago DATE,
   descripcion VARCHAR NOT NULL,
-  fecha_presupuesto DATE REFERENCES PRESUPUESTOS (fecha)
+  id_presupuesto INTEGER REFERENCES PRESUPUESTOS (id) ON DELETE SET NULL
 );
 
 CREATE TABLE PRODUCTOS (
@@ -53,7 +56,7 @@ fechas AS (
   UNION
   SELECT fecha FROM gastos_dia
   UNION
-  SELECT fecha FROM PRESUPUESTOS
+  SELECT fecha FROM PRESUPUESTOS WHERE tipo = 'INGRESO'
 )
 SELECT
   f.fecha,
@@ -69,5 +72,5 @@ SELECT
 FROM fechas f
 LEFT JOIN ventas_dia  vd ON vd.fecha = f.fecha
 LEFT JOIN gastos_dia  gd ON gd.fecha = f.fecha
-LEFT JOIN PRESUPUESTOS p ON p.fecha  = f.fecha
+LEFT JOIN PRESUPUESTOS p ON p.fecha  = f.fecha AND p.tipo = 'INGRESO'
 ORDER BY f.fecha;
