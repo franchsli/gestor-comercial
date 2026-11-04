@@ -60,57 +60,24 @@ class PresupuestoDAOTest {
     }
 
     @Test
-    @DisplayName("actualizar(presupuesto, fechaAnterior) modifica el valor del registro correcto.")
-    void actualizarConFechaAnteriorModificaElValorDelRegistroCorrecto() {
-        LocalDate fecha1 = LocalDate.of(2025, 3, 1);
-        LocalDate fecha2 = LocalDate.of(2025, 4, 1);
-        presupuestoDAO.insertar(new Presupuesto(fecha1, Presupuesto.Tipo.INGRESO, 50000));
-        presupuestoDAO.insertar(new Presupuesto(fecha2, Presupuesto.Tipo.INGRESO, 75000));
-
-        Presupuesto modificado = new Presupuesto(fecha1, Presupuesto.Tipo.INGRESO, 65000);
-        presupuestoDAO.actualizar(modificado, fecha1);
-
-        Presupuesto recuperado1 = presupuestoDAO.unicoRegistro("fecha", fecha1);
-        assertNotNull(recuperado1);
-        assertEquals(65000, recuperado1.getValor());
-
-        Presupuesto recuperado2 = presupuestoDAO.unicoRegistro("fecha", fecha2);
-        assertNotNull(recuperado2);
-        assertEquals(75000, recuperado2.getValor());
-    }
-
-    @Test
-    @DisplayName("actualizar(presupuesto, fechaAnterior) cambia la fecha (PK) del registro sin duplicarlo.")
-    void actualizarConFechaAnteriorCambiaLaFechaSinDuplicarlo() {
+    @DisplayName("actualizar(presupuesto) cambia la fecha, tipo y valor.")
+    void actualizarCambiaLaFechaElTipoYElValor() {
         LocalDate fechaAnterior = LocalDate.of(2025, 3, 1);
         LocalDate fechaNueva = LocalDate.of(2025, 3, 15);
         presupuestoDAO.insertar(new Presupuesto(fechaAnterior, Presupuesto.Tipo.INGRESO, 50000));
 
-        Presupuesto actualizado = new Presupuesto(fechaNueva, Presupuesto.Tipo.INGRESO, 55000);
-        presupuestoDAO.actualizar(actualizado, fechaAnterior);
+        int id = presupuestoDAO.unicoRegistro("fecha", fechaAnterior).getId();
+        Presupuesto actualizado = new Presupuesto(id, fechaNueva, Presupuesto.Tipo.EGRESO, 80000);
+        presupuestoDAO.actualizar(actualizado);
 
         assertEquals(1, presupuestoDAO.todos().size());
         assertNull(presupuestoDAO.unicoRegistro("fecha", fechaAnterior));
 
-        Presupuesto recuperado = presupuestoDAO.unicoRegistro("fecha", fechaNueva);
+        Presupuesto recuperado = presupuestoDAO.unicoRegistro("id", id);
         assertNotNull(recuperado);
+        assertEquals(id, recuperado.getId());
         assertEquals(fechaNueva, recuperado.getFecha());
-        assertEquals(55000, recuperado.getValor());
-    }
-
-    @Test
-    @DisplayName("actualizar(presupuesto) solo cambia el valor del presupuesto.")
-    void actualizarSoloCambiaElValorDelPresupuesto() {
-        LocalDate fecha = LocalDate.of(2025, 3, 1);
-        presupuestoDAO.insertar(new Presupuesto(fecha, Presupuesto.Tipo.INGRESO, 50000));
-
-        Presupuesto actualizado = new Presupuesto(fecha, Presupuesto.Tipo.INGRESO, 80000);
-        presupuestoDAO.actualizar(actualizado);
-
-        Presupuesto recuperado = presupuestoDAO.unicoRegistro("fecha", fecha);
-        assertNotNull(recuperado);
-        assertEquals(fecha, recuperado.getFecha());
+        assertEquals(Presupuesto.Tipo.EGRESO, recuperado.getTipo());
         assertEquals(80000, recuperado.getValor());
-        assertEquals(1, presupuestoDAO.todos().size());
     }
 }
