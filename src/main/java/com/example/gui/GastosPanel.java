@@ -28,7 +28,7 @@ public class GastosPanel extends PanelCrud<Gasto> {
     @Override 
     protected String[] columnas(){
         String[] columnas = {"id", "fecha_gasto", "estado", "valor", 
-        "fecha_pago", "descripcion", "fecha_presupuesto"};
+        "fecha_pago", "descripcion", "id_presupuesto"};
         return columnas;
     }
 
@@ -36,7 +36,7 @@ public class GastosPanel extends PanelCrud<Gasto> {
     protected Object[] fila(Gasto gasto){
         Object[] fila = {gasto.getId(), gasto.getFechaGasto(),
             gasto.getEstado(), gasto.getValor(), gasto.getFechaPago(),
-            gasto.getDescripcion(), gasto.getFechaPresupuesto()
+            gasto.getDescripcion(), gasto.getIdPresupuesto()
         };
         return fila;
     }
@@ -44,12 +44,12 @@ public class GastosPanel extends PanelCrud<Gasto> {
     @Override
     public void mostrarFormularioNuevo() {
         JTextField campoFechaPago = new JTextField();
-        JTextField campoFechaPresupuesto = new JTextField();
+        JTextField campoIdPresupuesto = new JTextField();
         campoFechaPago.setName("fecha_pago");
-        campoFechaPresupuesto.setName("fecha_presupuesto");
+        campoIdPresupuesto.setName("id_presupuesto");
         Set<String> excepciones = new HashSet<>();
         excepciones.add("fecha_pago");
-        excepciones.add("fecha_presupuesto");
+        excepciones.add("id_presupuesto");
         JSpinner campoFechaGasto = campoFecha; 
         JSpinner.DateEditor editorFechaGasto = new JSpinner.DateEditor(campoFechaGasto, "yyyy-MM-dd"); 
         campoFechaGasto.setEditor(editorFechaGasto); 
@@ -69,8 +69,8 @@ public class GastosPanel extends PanelCrud<Gasto> {
         form.add(campoFechaPago);
         form.add(new JLabel("Descripción:")); 
         form.add(descripcion);
-        form.add(new JLabel("Fecha presupuesto: (YYYY-MM-DD):"));
-        form.add(campoFechaPresupuesto);
+        form.add(new JLabel("ID Presupuesto:"));
+        form.add(campoIdPresupuesto);
 
         int result = JOptionPane.showConfirmDialog(this, form,
             "Nuevo gasto", JOptionPane.OK_CANCEL_OPTION);
@@ -80,14 +80,17 @@ public class GastosPanel extends PanelCrud<Gasto> {
                 LocalDate fechaGasto = fechaDeCampo(campoFechaGasto);
                 Gasto.Estado estadoSeleccionado = (Gasto.Estado) estado.getSelectedItem();
                 LocalDate fechaPago = fechaDeCampo(campoFechaPago);
-                LocalDate fechaPresupuesto = fechaDeCampo(campoFechaPresupuesto);
-                int valorSeleccionado = Integer.parseInt(valor.getText());
+                String textoIdPresupuesto = campoIdPresupuesto.getText().trim();
+                Integer idPresupuesto = textoIdPresupuesto.isEmpty() ? null : Integer.parseInt(textoIdPresupuesto);
+                int valorSeleccionado = Integer.parseInt(valor.getText().trim());
                 Gasto nuevoGasto = new Gasto(fechaGasto, estadoSeleccionado, valorSeleccionado, fechaPago, 
-                                                descripcion.getText(), fechaPresupuesto);
+                                                descripcion.getText(), idPresupuesto);
                 controladorCrud.insertar(nuevoGasto);
                 cargarDatos();
             } catch (DBException e) {
                 mostrarError("Error al guardar: " + e.getMessage());
+            } catch (NumberFormatException e) {
+                mostrarError("Valor o ID de presupuesto numérico inválido");
             }
         }
     }
@@ -99,9 +102,9 @@ public class GastosPanel extends PanelCrud<Gasto> {
         Gasto.Estado estado = Gasto.Estado.valueOf(valores[2]);
         int valor = Integer.parseInt(valores[3]);
         LocalDate fechaPago = fechaDeTexto(valores[4]);
-        LocalDate fechaPresupuesto = fechaDeTexto(valores[6]);
+        Integer idPresupuesto = (valores[6] == null || valores[6].isBlank()) ? null : Integer.parseInt(valores[6].trim());
         Gasto gasto = new Gasto(id, fechaGasto, estado, valor, fechaPago,
-                                    valores[5], fechaPresupuesto);
+                                    valores[5], idPresupuesto);
         controladorCrud.actualizar(gasto);
     }
 }
