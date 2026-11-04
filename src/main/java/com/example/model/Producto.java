@@ -40,6 +40,11 @@ public class Producto {
         return this.id;
     }
 
+    public void setId(int id){
+        if (this.id != 0) throw new IllegalStateException("El id ya fue asignado");
+        this.id = id;
+    }
+
     public String getNombre(){
         return this.nombre;
     }
