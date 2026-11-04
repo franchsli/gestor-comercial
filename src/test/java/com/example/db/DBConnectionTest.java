@@ -67,7 +67,7 @@ class DBConnectionTest {
         // Se deja un dato en la base de datos original
         Connection original = DBConnection.get();
         try (Statement st = original.createStatement()) {
-            st.executeUpdate("INSERT INTO PRESUPUESTOS (fecha, valor) VALUES ('2026-01-01', 1000)");
+            st.executeUpdate("INSERT INTO PRESUPUESTOS (fecha, tipo, valor) VALUES ('2026-01-01', 'INGRESO', 1000)");
         }
 
         // Se cambia a una segunda base de datos, vacía
