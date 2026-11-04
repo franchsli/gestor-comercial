@@ -31,8 +31,8 @@ class PresupuestoDAOTest {
     }
 
     @Test
-    @DisplayName("insertar() guarda el presupuesto con su fecha y valor.")
-    void insertarGuardaPresupuestoConSuFechaYValor() {
+    @DisplayName("insertar() guarda el presupuesto con su fecha, tipo y valor.")
+    void insertarGuardaPresupuestoConSuFechaTipoYValor() {
         LocalDate fecha = LocalDate.of(2025, 3, 1);
         Presupuesto presupuesto = new Presupuesto(fecha, Presupuesto.Tipo.INGRESO, 50000);
 
