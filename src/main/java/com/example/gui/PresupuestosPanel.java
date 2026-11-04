@@ -1,5 +1,6 @@
 package com.example.gui;
 
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -32,13 +33,13 @@ public class PresupuestosPanel extends PanelCrud<Presupuesto>{
 
     @Override 
     protected String[] columnas(){
-        String[] columnas = {"fecha", "valor"};
+        String[] columnas = {"id", "fecha", "tipo", "valor"};
         return columnas;
     }
 
     @Override
     protected Object[] fila(Presupuesto presupuesto){
-        Object[] fila = {presupuesto.getFecha(), presupuesto.getValor()};
+        Object[] fila = {presupuesto.getId(), presupuesto.getFecha(), presupuesto.getTipo(), presupuesto.getValor()};
         return fila;
     }
 
@@ -46,10 +47,12 @@ public class PresupuestosPanel extends PanelCrud<Presupuesto>{
     public void mostrarFormularioNuevo() {
         JSpinner campoFechaPresupuesto = campoFecha; 
         campoFechaPresupuesto.setEditor(editorFecha); 
+        JComboBox<Presupuesto.Tipo> campoTipo = new JComboBox<>(Presupuesto.Tipo.values());
         JTextField valor = new JTextField();
 
-        JPanel form = new JPanel(new GridLayout(5, 2, 5, 5));
+        JPanel form = new JPanel(new GridLayout(3, 2, 5, 5));
         form.add(new JLabel("Fecha presupuesto (YYYY-MM-DD):")); form.add(campoFechaPresupuesto);
+        form.add(new JLabel("Tipo:")); form.add(campoTipo);
         form.add(new JLabel("Valor:")); form.add(valor);
 
         int result = JOptionPane.showConfirmDialog(this, form,
@@ -58,12 +61,15 @@ public class PresupuestosPanel extends PanelCrud<Presupuesto>{
         if (result == JOptionPane.OK_OPTION && formularioEsValido(form)) {
             try {
                 LocalDate fechaPresupuesto = fechaDeCampo(campoFechaPresupuesto);
-                int valorPresupuesto = Integer.parseInt(valor.getText()); 
-                Presupuesto presupuesto = new Presupuesto(fechaPresupuesto, valorPresupuesto);
+                Presupuesto.Tipo tipoPresupuesto = (Presupuesto.Tipo) campoTipo.getSelectedItem();
+                int valorPresupuesto = Integer.parseInt(valor.getText().trim()); 
+                Presupuesto presupuesto = new Presupuesto(fechaPresupuesto, tipoPresupuesto, valorPresupuesto);
                 controladorCrud.insertar(presupuesto);
                 cargarDatos();
             } catch (DBException e) {
                 mostrarError("Error al guardar: " + e.getMessage());
+            } catch (NumberFormatException e) {
+                mostrarError("Valor inválido");
             }
         }
     }
@@ -75,14 +81,20 @@ public class PresupuestosPanel extends PanelCrud<Presupuesto>{
             mostrarAviso("Selecciona una fila primero");
             return;
         }
-        LocalDate fechaActual = (LocalDate) modeloTabla.getValueAt(fila, 0);
-        JTextField campoValor = new JTextField(modeloTabla.getValueAt(fila, 1).toString());
+        int id = Integer.parseInt(modeloTabla.getValueAt(fila, 0).toString());
+        LocalDate fechaActual = (LocalDate) modeloTabla.getValueAt(fila, 1);
+        Presupuesto.Tipo tipoActual = (Presupuesto.Tipo) modeloTabla.getValueAt(fila, 2);
+        JTextField campoValor = new JTextField(modeloTabla.getValueAt(fila, 3).toString());
         campoFecha.setEditor(editorFecha);
         ponerFecha(campoFecha, fechaActual);
+        JComboBox<Presupuesto.Tipo> campoTipo = new JComboBox<>(Presupuesto.Tipo.values());
+        campoTipo.setSelectedItem(tipoActual);
 
-        JPanel form = new JPanel(new GridLayout(1, 2, 5, 5));
+        JPanel form = new JPanel(new GridLayout(3, 2, 5, 5));
         form.add(new JLabel("Fecha:"));
         form.add(campoFecha);
+        form.add(new JLabel("Tipo:"));
+        form.add(campoTipo);
         form.add(new JLabel("Valor:"));
         form.add(campoValor);
 
@@ -90,12 +102,15 @@ public class PresupuestosPanel extends PanelCrud<Presupuesto>{
         if (result == JOptionPane.OK_OPTION) {
             try {
                 LocalDate fechaNueva = fechaDeCampo(campoFecha);
-                int valorNuevo = Integer.parseInt(campoValor.getText());
-                Presupuesto presupuesto = new Presupuesto(fechaNueva, valorNuevo);
-                presupuestosControlador.actualizar(presupuesto, fechaActual);
+                Presupuesto.Tipo tipoNuevo = (Presupuesto.Tipo) campoTipo.getSelectedItem();
+                int valorNuevo = Integer.parseInt(campoValor.getText().trim());
+                Presupuesto presupuesto = new Presupuesto(id, fechaNueva, tipoNuevo, valorNuevo);
+                presupuestosControlador.actualizar(presupuesto);
                 cargarDatos();
             } catch (DBException e) {
                 mostrarError("Error al actualizar: " + e.getMessage());
+            } catch (NumberFormatException e) {
+                mostrarError("Valor inválido");
             }
         }
 
