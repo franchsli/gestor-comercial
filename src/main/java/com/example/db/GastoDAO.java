@@ -23,8 +23,8 @@ public class GastoDAO extends DAOCrud<Gasto> {
 
     @Override
     public void insertar(Gasto gasto){
-        insertarFila(gasto.getFechaGasto(), gasto.getEstado(), gasto.getValor(),
-                        gasto.getFechaPago(), gasto.getDescripcion(), gasto.getIdPresupuesto());
+        gasto.setId(insertarFila(gasto.getFechaGasto(), gasto.getEstado(), gasto.getValor(),
+                        gasto.getFechaPago(), gasto.getDescripcion(), gasto.getIdPresupuesto()));
     }
 
     @Override

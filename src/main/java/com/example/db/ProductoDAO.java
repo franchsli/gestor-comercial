@@ -27,7 +27,7 @@ public class ProductoDAO extends DAOCrud<Producto> {
 
     @Override 
     public void insertar(Producto producto){
-        insertarFila(producto.getNombre(), producto.getPrecioUnitario(), producto.getCantidad());
+        producto.setId(insertarFila(producto.getNombre(), producto.getPrecioUnitario(), producto.getCantidad()));
     }
 
     /**

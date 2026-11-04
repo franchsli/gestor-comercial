@@ -25,7 +25,7 @@ public class PresupuestoDAO extends DAOCrud<Presupuesto>{
 
     @Override
     public void insertar(Presupuesto presupuesto){
-        insertarFila(presupuesto.getFecha(), presupuesto.getTipo(), presupuesto.getValor());
+        presupuesto.setId(insertarFila(presupuesto.getFecha(), presupuesto.getTipo(), presupuesto.getValor()));
     }
     
 }
