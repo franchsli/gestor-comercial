@@ -39,14 +39,14 @@ class GastoDAOTest {
     @DisplayName("insertar() guarda el gasto con su estado (PENDIENTE/PAGADO) y fechas.")
     void insertarGuardaGastoConSuEstadoYFechas() {
         LocalDate fechaPresupuesto = LocalDate.of(2025, 3, 1);
-        gastoDAO.ejecutar("INSERT INTO PRESUPUESTOS (fecha, valor) VALUES (?, ?)", fechaPresupuesto, 50000);
+        int idPresupuesto = gastoDAO.insertarYObtenerId("INSERT INTO PRESUPUESTOS (fecha, tipo, valor) VALUES (?, ?, ?)", fechaPresupuesto, "EGRESO", 50000);
 
         LocalDate fechaGasto1 = LocalDate.of(2025, 3, 5);
         LocalDate fechaPago1 = LocalDate.of(2025, 3, 6);
-        Gasto gastoPagado = new Gasto(fechaGasto1, Gasto.Estado.PAGADO, 12000, fechaPago1, "Compra papelería", fechaPresupuesto);
+        Gasto gastoPagado = new Gasto(fechaGasto1, Gasto.Estado.PAGADO, 12000, fechaPago1, "Compra papelería", idPresupuesto);
 
         LocalDate fechaGasto2 = LocalDate.of(2025, 3, 7);
-        Gasto gastoPendiente = new Gasto(fechaGasto2, Gasto.Estado.PENDIENTE, 8000, null, "Servicio internet", fechaPresupuesto);
+        Gasto gastoPendiente = new Gasto(fechaGasto2, Gasto.Estado.PENDIENTE, 8000, null, "Servicio internet", idPresupuesto);
 
         gastoDAO.insertar(gastoPagado);
         gastoDAO.insertar(gastoPendiente);
@@ -60,7 +60,7 @@ class GastoDAOTest {
         assertEquals(12000, guardado1.getValor());
         assertEquals(fechaPago1, guardado1.getFechaPago());
         assertEquals("Compra papelería", guardado1.getDescripcion());
-        assertEquals(fechaPresupuesto, guardado1.getFechaPresupuesto());
+        assertEquals(idPresupuesto, guardado1.getIdPresupuesto());
 
         Gasto guardado2 = gastos.get(1);
         assertEquals(fechaGasto2, guardado2.getFechaGasto());
@@ -68,12 +68,12 @@ class GastoDAOTest {
         assertEquals(8000, guardado2.getValor());
         assertNull(guardado2.getFechaPago());
         assertEquals("Servicio internet", guardado2.getDescripcion());
-        assertEquals(fechaPresupuesto, guardado2.getFechaPresupuesto());
+        assertEquals(idPresupuesto, guardado2.getIdPresupuesto());
     }
 
     @Test
-    @DisplayName("insertar() acepta fechaPago y fechaPresupuesto nulas en la entidad.")
-    void insertarAceptaFechaPagoYFechaPresupuestoNulasEnLaEntidad() {
+    @DisplayName("insertar() acepta fechaPago y idPresupuesto nulas en la entidad.")
+    void insertarAceptaFechaPagoYIdPresupuestoNulasEnLaEntidad() {
         LocalDate fechaGasto = LocalDate.of(2025, 3, 10);
         Gasto gasto = new Gasto(fechaGasto, Gasto.Estado.PENDIENTE, 5000, null, "Gasto sin fechas opcionales", null);
 
@@ -83,7 +83,7 @@ class GastoDAOTest {
         assertEquals(1, gastos.size());
         Gasto guardado = gastos.get(0);
         assertNull(guardado.getFechaPago());
-        assertNull(guardado.getFechaPresupuesto());
+        assertNull(guardado.getIdPresupuesto());
         assertEquals(fechaGasto, guardado.getFechaGasto());
         assertEquals(5000, guardado.getValor());
         assertEquals("Gasto sin fechas opcionales", guardado.getDescripcion());
@@ -112,10 +112,10 @@ class GastoDAOTest {
     }
 
     @Test
-    @DisplayName("Insertar un gasto con fechaPresupuesto inexistente en PRESUPUESTOS lanza excepción (llave foránea).")
-    void insertarGastoConFechaPresupuestoInexistenteEnPresupuestosLanzaExcepcionLlaveForanea() {
-        LocalDate fechaPresupuestoInexistente = LocalDate.of(2025, 9, 30);
-        Gasto gasto = new Gasto(LocalDate.of(2025, 3, 10), Gasto.Estado.PENDIENTE, 20000, null, "Gasto con presupuesto inexistente", fechaPresupuestoInexistente);
+    @DisplayName("Insertar un gasto con idPresupuesto inexistente en PRESUPUESTOS lanza excepción (llave foránea).")
+    void insertarGastoConIdPresupuestoInexistenteEnPresupuestosLanzaExcepcionLlaveForanea() {
+        int idPresupuestoInexistente = 99999;
+        Gasto gasto = new Gasto(LocalDate.of(2025, 3, 10), Gasto.Estado.PENDIENTE, 20000, null, "Gasto con presupuesto inexistente", idPresupuestoInexistente);
 
         assertThrows(DBException.class, () -> gastoDAO.insertar(gasto));
     }
@@ -148,8 +148,8 @@ class GastoDAOTest {
     }
 
     @Test
-    @DisplayName("mapear() convierte fechaPago y fechaPresupuesto nulas en null (no lanza excepción).")
-    void mapearConvierteFechaPagoYFechaPresupuestoNulasEnNull() throws SQLException {
+    @DisplayName("mapear() convierte fechaPago e idPresupuesto nulas en null (no lanza excepción).")
+    void mapearConvierteFechaPagoEIdPresupuestoNulasEnNull() throws SQLException {
         gastoDAO.insertarFila(LocalDate.of(2025, 3, 10), Gasto.Estado.PENDIENTE, 5000, null, "Sin fechas opcionales", null);
 
         Connection conn = DBConnection.get();
@@ -159,7 +159,7 @@ class GastoDAOTest {
             Gasto gasto = gastoDAO.mapear(rs);
             assertNotNull(gasto);
             assertNull(gasto.getFechaPago());
-            assertNull(gasto.getFechaPresupuesto());
+            assertNull(gasto.getIdPresupuesto());
         }
     }
 
@@ -182,4 +182,3 @@ class GastoDAOTest {
         }
     }
 }
-

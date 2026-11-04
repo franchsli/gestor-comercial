@@ -99,9 +99,10 @@ class CierreDiarioDAOTest {
     @DisplayName("mapear() asigna correctamente todas las columnas de la vista.")
     void mapearAsignaCorrectamenteTodasLasColumnasDeLaVista() throws SQLException {
         LocalDate fecha = LocalDate.of(2025, 3, 10);
-        presupuestoDAO.insertar(new Presupuesto(fecha, 10000));
+        Presupuesto presupuesto = new Presupuesto(fecha, Presupuesto.Tipo.INGRESO, 10000);
+        presupuestoDAO.insertar(presupuesto);
         ventaDAO.insertar(new Venta(fecha, 8000, Venta.Tipo.EFECTIVO));
-        gastoDAO.insertar(new Gasto(fecha, Gasto.Estado.PAGADO, 2000, fecha, "Insumos", fecha));
+        gastoDAO.insertar(new Gasto(fecha, Gasto.Estado.PAGADO, 2000, fecha, "Insumos", presupuesto.getId()));
 
         Connection conn = DBConnection.get();
         try (Statement st = conn.createStatement();
@@ -152,7 +153,7 @@ class CierreDiarioDAOTest {
     @DisplayName("cumplimiento se calcula correctamente respecto al presupuesto del día.")
     void cumplimientoSeCalculaCorrectamenteRespectoAlPresupuestoDelDia() {
         LocalDate fecha = LocalDate.of(2025, 3, 10);
-        presupuestoDAO.insertar(new Presupuesto(fecha, 20000));
+        presupuestoDAO.insertar(new Presupuesto(fecha, Presupuesto.Tipo.INGRESO, 20000));
         ventaDAO.insertar(new Venta(fecha, 15000, Venta.Tipo.EFECTIVO));
 
         CierreDiario cierre = cierreDiarioDAO.unicoRegistro("fecha", fecha);
@@ -211,7 +212,7 @@ class CierreDiarioDAOTest {
     @DisplayName("Un día con solo presupuestos aparece.")
     void unDiaConSoloPresupuestosAparece() {
         LocalDate fecha = LocalDate.of(2025, 3, 10);
-        presupuestoDAO.insertar(new Presupuesto(fecha, 10000));
+        presupuestoDAO.insertar(new Presupuesto(fecha, Presupuesto.Tipo.INGRESO, 10000));
 
         CierreDiario cierre = cierreDiarioDAO.unicoRegistro("fecha", fecha);
 
@@ -237,5 +238,27 @@ class CierreDiarioDAOTest {
         List<CierreDiario> todos = cierreDiarioDAO.todos();
         assertEquals(1, todos.size());
         assertEquals(fechaConDatos, todos.get(0).getFecha());
+    }
+
+    @Test
+    @DisplayName("Solo presupuestos de tipo INGRESO son tenidos en cuenta en la vista.")
+    void soloPresupuestosDeTipoIngresoSonTenidosEnCuentaEnLaVista() {
+        LocalDate fechaIngreso = LocalDate.of(2025, 3, 10);
+        LocalDate fechaEgreso = LocalDate.of(2025, 3, 11);
+
+        presupuestoDAO.insertar(new Presupuesto(fechaIngreso, Presupuesto.Tipo.INGRESO, 20000));
+        presupuestoDAO.insertar(new Presupuesto(fechaIngreso, Presupuesto.Tipo.EGRESO, 5000));
+        presupuestoDAO.insertar(new Presupuesto(fechaEgreso, Presupuesto.Tipo.EGRESO, 15000));
+
+        CierreDiario cierreEgreso = cierreDiarioDAO.unicoRegistro("fecha", fechaEgreso);
+        assertNull(cierreEgreso);
+
+        CierreDiario cierreIngreso = cierreDiarioDAO.unicoRegistro("fecha", fechaIngreso);
+        assertNotNull(cierreIngreso);
+        assertEquals(20000, cierreIngreso.getPresupuesto());
+
+        List<CierreDiario> todos = cierreDiarioDAO.todos();
+        assertEquals(1, todos.size());
+        assertEquals(fechaIngreso, todos.get(0).getFecha());
     }
 }

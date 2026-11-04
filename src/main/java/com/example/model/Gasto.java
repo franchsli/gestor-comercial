@@ -10,10 +10,10 @@ public class Gasto {
     private int valor;
     private LocalDate fechaPago;
     private String descripcion;
-    private LocalDate fechaPresupuesto;
+    private Integer idPresupuesto;
 
     public Gasto(LocalDate fechaGasto, Estado estado, int valor, LocalDate fechaPago, String descripcion,
-            LocalDate fechaPresupuesto) {
+            Integer idPresupuesto) {
         this.fechaGasto = fechaGasto;
         if (fechaPago == null) {
             this.estado = Estado.PENDIENTE;
@@ -22,18 +22,23 @@ public class Gasto {
         this.valor = valor;
         this.fechaPago = fechaPago;
         this.descripcion = descripcion;
-        this.fechaPresupuesto = fechaPresupuesto;
+        this.idPresupuesto = idPresupuesto;
     }
 
     public Gasto(int id, LocalDate fechaGasto, Estado estado, int valor, LocalDate fechaPago, String descripcion,
-            LocalDate fechaPresupuesto){
-        this(fechaGasto, estado, valor, fechaPago, descripcion, fechaPresupuesto);
+            Integer idPresupuesto){
+        this(fechaGasto, estado, valor, fechaPago, descripcion, idPresupuesto);
         this.id = id;
     }
     
     public int getId(){
         return id;
-    }    
+    }
+
+    public void setId(int id){
+        if (this.id != 0) throw new IllegalStateException("El id ya fue asignado");
+        this.id = id;
+    }
 
     public LocalDate getFechaGasto() {
         return fechaGasto;
@@ -50,8 +55,8 @@ public class Gasto {
     public String getDescripcion() {
         return descripcion;
     }
-    public LocalDate getFechaPresupuesto() {
-        return fechaPresupuesto;
+    public Integer getIdPresupuesto() {
+        return idPresupuesto;
     }
 
 }
