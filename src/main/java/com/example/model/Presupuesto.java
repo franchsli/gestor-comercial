@@ -12,7 +12,10 @@ public class Presupuesto {
     public Presupuesto(LocalDate fecha, Tipo tipo, int valor) {
         this.fecha = fecha;
         this.tipo = tipo;
-        this.valor = valor;
+        if (valor < 0) {
+            throw new IllegalArgumentException("El valor no puede ser negativo");
+        }
+        else this.valor = valor;
     }
 
     public Presupuesto(int id, LocalDate fecha, Tipo tipo, int valor) {
