@@ -8,8 +8,14 @@ public class Producto {
 
     public Producto(String nombre, int precioUnitario, int cantidad){
         this.nombre = nombre;
-        this.precioUnitario = precioUnitario;
-        this.cantidad = cantidad;
+        if (precioUnitario < 0) {
+            throw new IllegalArgumentException("El precio unitario no puede ser negativo.");
+        }
+        else this.precioUnitario = precioUnitario;
+        if (cantidad < 0) {
+            throw new IllegalArgumentException("La cantidad no puede ser negativa.");
+        }
+        else this.cantidad = cantidad;
     }
 
     public Producto(int id, String nombre, int precioUnitario, int cantidad){

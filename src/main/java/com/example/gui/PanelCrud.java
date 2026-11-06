@@ -122,6 +122,8 @@ public abstract class PanelCrud<T> extends PanelLectura<T> {
                 cargarDatos();
             } catch (DBException e) {
                 mostrarError("Error al actualizar: " + e.getMessage());
+            } catch(IllegalArgumentException e) {
+                mostrarError(e.getMessage());
             }
         }
     }
