@@ -21,7 +21,7 @@ public class PresupuestoTest {
 
     @Test
     @DisplayName("Instanciar un presupuesto con valor no negativo no lanza error.")
-    void instanciarUnPresupuestoConValorNoNegativoLanzaError() {
+    void instanciarUnPresupuestoConValorNoNegativoNoLanzaError() {
         LocalDate fecha = LocalDate.of(2020, 12, 01);
 
         assertDoesNotThrow(() -> new Presupuesto(1, fecha, Presupuesto.Tipo.INGRESO, 0));

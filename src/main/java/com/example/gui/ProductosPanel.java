@@ -69,6 +69,8 @@ public class ProductosPanel extends PanelCrud<Producto> {
                 cargarDatos();
             } catch (DBException e) {
                 mostrarError("Error al guardar: " + e.getMessage());
+            } catch (IllegalArgumentException e){
+                mostrarError(e.getMessage());
             }
         }
     }
