@@ -121,6 +121,15 @@ class GastoDAOTest {
     }
 
     @Test
+    @DisplayName("Insertar un gasto con idPresupuesto inexistente en PRESUPUESTOS lanza excepción programática.")
+    void insertarGastoConIdPresupuestoInexistenteEnPresupuestosLanzaExcepcionProgramatica() {
+        int idPresupuestoInexistente = 99999;
+        Gasto gasto = new Gasto(LocalDate.of(2025, 3, 10), Gasto.Estado.PENDIENTE, 20000, null, "Gasto con presupuesto inexistente", idPresupuestoInexistente);
+
+        assertThrows(IllegalArgumentException.class, () -> gastoDAO.insertar(gasto));
+    }
+
+    @Test
     @DisplayName("Insertar un gasto con fecha pago es null, el estado es \"PENDIENTE\" también.")
     void insertarGastoConFechaPagoNullEstadoEsPendienteTambien() {
         LocalDate fechaGasto = LocalDate.of(2025, 3, 10);
