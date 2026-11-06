@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class VentaTest {
 
@@ -29,5 +31,21 @@ class VentaTest {
         venta.agregarAlValor(2500, 1); // 2500
 
         assertEquals(6000, venta.getValor());
+    }
+
+    @Test
+    @DisplayName("Instanciar venta con valor negativo lanza error.")
+    void instanciarVentaConValorNegativoLanzaError() {
+        assertThrows(IllegalArgumentException.class, () -> 
+                        new Venta(1, LocalDate.of(2020, 1, 1), -1000, Venta.Tipo.EFECTIVO));
+    }
+
+    @Test
+    @DisplayName("Instanciar venta con valor no negativo no lanza error.")
+    void instanciarVentaConValorNoNegativoNoLanzaError() {
+        assertDoesNotThrow(() -> 
+                            new Venta(1, LocalDate.of(2020, 1, 1), 0, Venta.Tipo.EFECTIVO));
+        assertDoesNotThrow(() -> 
+                            new Venta(2, LocalDate.of(2020, 1, 1), 12345, Venta.Tipo.EFECTIVO));
     }
 }
