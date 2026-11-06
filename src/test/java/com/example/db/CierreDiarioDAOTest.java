@@ -102,7 +102,7 @@ class CierreDiarioDAOTest {
         Presupuesto presupuesto = new Presupuesto(fecha, Presupuesto.Tipo.INGRESO, 10000);
         presupuestoDAO.insertar(presupuesto);
         ventaDAO.insertar(new Venta(fecha, 8000, Venta.Tipo.EFECTIVO));
-        gastoDAO.insertar(new Gasto(fecha, Gasto.Estado.PAGADO, 2000, fecha, "Insumos", presupuesto.getId()));
+        gastoDAO.insertar(new Gasto(fecha, Gasto.Estado.PAGADO, 2000, fecha, "Insumos", null));
 
         Connection conn = DBConnection.get();
         try (Statement st = conn.createStatement();
