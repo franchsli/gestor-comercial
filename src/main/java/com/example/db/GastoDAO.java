@@ -24,15 +24,19 @@ public class GastoDAO extends DAOCrud<Gasto> {
 
     @Override
     public void insertar(Gasto gasto){
+        Integer idPresupuesto = gasto.getIdPresupuesto();
+        verificarTipoPresupuestoEgreso(idPresupuesto);
         gasto.setId(insertarFila(gasto.getFechaGasto(), gasto.getEstado(), gasto.getValor(),
-                        gasto.getFechaPago(), gasto.getDescripcion(), gasto.getIdPresupuesto()));
+                        gasto.getFechaPago(), gasto.getDescripcion(), idPresupuesto));
     }
 
     @Override
     public void actualizar(Gasto gasto){
+        Integer idPresupuesto = gasto.getIdPresupuesto();
+        verificarTipoPresupuestoEgreso(idPresupuesto);
         String sql = "UPDATE " + nombreTabla + " SET fecha_gasto = ?, estado = ?, valor = ?, fecha_pago = ?, descripcion = ?, id_presupuesto = ? WHERE id = ?";
         ejecutar(sql, gasto.getFechaGasto(), gasto.getEstado(), gasto.getValor(), gasto.getFechaPago(), 
-                    gasto.getDescripcion(), gasto.getIdPresupuesto(), gasto.getId());
+                    gasto.getDescripcion(), idPresupuesto, gasto.getId());
     }
 
     /**
