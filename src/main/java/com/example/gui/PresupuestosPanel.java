@@ -70,6 +70,8 @@ public class PresupuestosPanel extends PanelCrud<Presupuesto>{
                 mostrarError("Error al guardar: " + e.getMessage());
             } catch (NumberFormatException e) {
                 mostrarError("Valor inválido");
+            } catch (IllegalArgumentException e){
+                mostrarError(e.getMessage());
             }
         }
     }
@@ -111,6 +113,8 @@ public class PresupuestosPanel extends PanelCrud<Presupuesto>{
                 mostrarError("Error al actualizar: " + e.getMessage());
             } catch (NumberFormatException e) {
                 mostrarError("Valor inválido");
+            } catch (IllegalArgumentException e){
+                mostrarError(e.getMessage());
             }
         }
 
