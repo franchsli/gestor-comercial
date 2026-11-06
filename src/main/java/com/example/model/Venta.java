@@ -11,7 +11,10 @@ public class Venta {
 
     public Venta(LocalDate fecha, int valor, Tipo tipo){
         this.fecha = fecha;
-        this.valor = valor;
+        if (valor < 0) {
+            throw new IllegalArgumentException("El valor no puede ser negativo.");
+        }
+        else this.valor = valor;
         this.tipo = tipo;    
     }
 
