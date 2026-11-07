@@ -31,7 +31,7 @@ public class Producto {
     public void reducirCantidad(int numProductosSalientes) throws IllegalArgumentException{
         int inventarioActualizado = this.cantidad - numProductosSalientes;
         if (inventarioActualizado < 0) {
-            throw new IllegalArgumentException("No hay suficientes productos en el inventario para realizar esta operación.");
+            throw new IllegalArgumentException("No hay suficientes " + this.nombre + " en el inventario para realizar esta operación.");
         } else {
             this.cantidad -= numProductosSalientes;  
         }
