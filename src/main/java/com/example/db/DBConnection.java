@@ -19,8 +19,9 @@ public class DBConnection {
             if (connection == null || connection.isClosed()) {
                 connection = DriverManager.getConnection(url);
                 // activa el soporte para que las claves foráneas funcionen
-                PreparedStatement pStatement = connection.prepareStatement("PRAGMA foreign_keys = ON");
-                pStatement.execute();
+                try (PreparedStatement pStatement = connection.prepareStatement("PRAGMA foreign_keys = ON");) {
+                    pStatement.execute(); 
+                }
             }
             return connection; 
         } catch (SQLException e) {
