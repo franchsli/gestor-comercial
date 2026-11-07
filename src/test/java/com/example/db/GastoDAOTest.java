@@ -1,5 +1,6 @@
 package com.example.db;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -19,6 +20,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.example.model.Gasto;
+import com.example.model.Presupuesto;
 
 class GastoDAOTest {
 
@@ -117,7 +119,9 @@ class GastoDAOTest {
         int idPresupuestoInexistente = 99999;
         Gasto gasto = new Gasto(LocalDate.of(2025, 3, 10), Gasto.Estado.PENDIENTE, 20000, null, "Gasto con presupuesto inexistente", idPresupuestoInexistente);
 
-        assertThrows(DBException.class, () -> gastoDAO.insertar(gasto));
+        assertThrows(DBException.class, () -> gastoDAO.ejecutar(
+                "INSERT INTO GASTOS (fecha_gasto, estado, valor, fecha_pago, descripcion, id_presupuesto) VALUES (?, ?, ?, ?, ?, ?)",
+                gasto.getFechaGasto(), gasto.getEstado(), gasto.getValor(), gasto.getFechaPago(), gasto.getDescripcion(), gasto.getIdPresupuesto()));
     }
 
     @Test
@@ -127,6 +131,35 @@ class GastoDAOTest {
         Gasto gasto = new Gasto(LocalDate.of(2025, 3, 10), Gasto.Estado.PENDIENTE, 20000, null, "Gasto con presupuesto inexistente", idPresupuestoInexistente);
 
         assertThrows(IllegalArgumentException.class, () -> gastoDAO.insertar(gasto));
+    }
+
+    @Test
+    @DisplayName("Insertar un gasto con idPresupuesto de un presupuesto de tipo INGRESO lanza excepción y no guarda el gasto.")
+    void insertarGastoConIdPresupuestoDeUnPresupuestoDeTipoIngresoLanzaExcepcionYNoGuardaElGasto() {
+        PresupuestoDAO presupuestoDAO = new PresupuestoDAO();
+        Presupuesto presupuestoIngreso = new Presupuesto(LocalDate.of(2025, 3, 1), Presupuesto.Tipo.INGRESO, 50000);
+        presupuestoDAO.insertar(presupuestoIngreso);
+
+        Gasto gasto = new Gasto(LocalDate.of(2025, 3, 5), Gasto.Estado.PENDIENTE, 10000, null, "Gasto con presupuesto ingreso", presupuestoIngreso.getId());
+
+        assertThrows(IllegalArgumentException.class, () -> gastoDAO.insertar(gasto));
+        assertEquals(0, gastoDAO.todos().size());
+    }
+
+    @Test
+    @DisplayName("Insertar un gasto con idPresupuesto correcto no lanza excepción y guarda el gasto.")
+    void insertarGastoConIdPresupuestoCorrectoNoLanzaExcepcionYGuardaElGasto() {
+        PresupuestoDAO presupuestoDAO = new PresupuestoDAO();
+        Presupuesto presupuestoEgreso = new Presupuesto(LocalDate.of(2025, 3, 1), Presupuesto.Tipo.EGRESO, 50000);
+        presupuestoDAO.insertar(presupuestoEgreso);
+
+        Gasto gasto = new Gasto(LocalDate.of(2025, 3, 5), Gasto.Estado.PENDIENTE, 10000, null, "Gasto con presupuesto egreso", presupuestoEgreso.getId());
+
+        assertDoesNotThrow(() -> gastoDAO.insertar(gasto));
+
+        List<Gasto> gastos = gastoDAO.todos();
+        assertEquals(1, gastos.size());
+        assertEquals(presupuestoEgreso.getId(), gastos.get(0).getIdPresupuesto());
     }
 
     @Test
