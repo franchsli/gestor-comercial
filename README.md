@@ -8,7 +8,7 @@ Una aplicación en Java que gestiona los productos, ventas y gastos de una empre
 
 ## Como ejecutar la app
 
-- Descargar el archivo GestorComercial.jar y bd_de_prueba.db desde [aquí](https://github.com/franchsli/gestor-comercial/releases/tag/v1.0.0-beta).
+- Descargar el archivo GestorComercial.jar y bd_de_prueba.db desde [aquí](https://github.com/franchsli/gestor-comercial/releases/tag/v2.0.0-beta).
 
 - Abrir la carpeta donde estén los archivos descargados.
 
