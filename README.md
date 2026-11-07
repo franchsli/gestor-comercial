@@ -44,13 +44,13 @@ También se puede buscar un producto por su nombre usando la barra de búsqueda 
 
 Esta ventana muestra las ventas registradas y permite crear, editar o anular (eliminar) dichas ventas.
 
-<img width="1600" height="862" alt="VENTAS (D)" src="https://github.com/user-attachments/assets/bd450de9-5c1f-4d54-b712-f175e207977d" />
+<img width="1600" height="855" alt="VENTAS (D)" src="https://github.com/user-attachments/assets/22114107-3b53-40c8-81e1-6b7b7ae4ebf9" />
 
 ### Gastos
 
 Esta ventana muestra los gastos registrados y permite crear, editar o eliminar gastos.
 
-<img width="1600" height="858" alt="GASTOS (D)" src="https://github.com/user-attachments/assets/7223615d-98c8-482c-94d6-80430d337835" />
+<img width="1600" height="860" alt="GASTOS (D)" src="https://github.com/user-attachments/assets/8d697b42-afcf-4ef2-a51e-5bebda5e2f17" />
 
 ### Presupuestos
 
@@ -67,7 +67,7 @@ El valor se redondea y se muestra como porcentaje.
 
 En caso de que el presupuesto sea 0, el cumplimiento será del 0%.
 
-<img width="1600" height="870" alt="CIERRES (R)" src="https://github.com/user-attachments/assets/b06ab11b-9b35-466a-a7ad-ffddb1051e91" />
+<img width="1600" height="858" alt="CIERRES (R)" src="https://github.com/user-attachments/assets/98737686-7fd8-44bc-b9c1-93422058a1e8" />
 
 Esta pestaña también puede filtrar los datos mostrados para facilitar el análisis usando los botones de abajo.
 
