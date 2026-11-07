@@ -91,6 +91,8 @@ public class GastosPanel extends PanelCrud<Gasto> {
                 mostrarError("Error al guardar: " + e.getMessage());
             } catch (NumberFormatException e) {
                 mostrarError("Valor o ID de presupuesto numérico inválido");
+            } catch (IllegalArgumentException e) {
+                mostrarError(e.getMessage());
             }
         }
     }
