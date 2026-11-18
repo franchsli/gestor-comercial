@@ -1,7 +1,9 @@
 package com.example.db;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import com.example.model.Producto;
 import com.example.model.Venta;
@@ -44,5 +46,32 @@ public class VentaDAO extends DAOCrud<Venta> {
 
         venta.agregarAlValor(producto.getPrecioUnitario(), cantidadProducto);
         actualizar(venta);
+    }
+
+    /**
+     * Vende los productos dados con las cantidades dadas
+     * en una sola transacción.
+     * @param venta El objeto de la entidad venta.
+     * @param productos La lista de productos a vender.
+     * @param cantidadesPorProducto La lista de cantidades por producto a vender.
+     */
+    public void venderProductos(Venta venta, List<Producto> productos, List<Integer> cantidadesPorProducto) throws SQLException {
+        Connection connection = DBConnection.get();
+        boolean valorAutoCommitPrevio = connection.getAutoCommit();
+        try {
+            connection.setAutoCommit(false);
+            for (int i = 0; i < productos.size(); i++) {
+                Producto producto = productos.get(i);
+                int cantidad = cantidadesPorProducto.get(i);
+                this.vender(venta, producto, cantidad);
+            }
+            connection.commit();
+        // Hace rollback sin importar que excepción surgió.
+        } catch (Exception e) {
+            connection.rollback();
+            throw e;
+        } finally {
+            connection.setAutoCommit(valorAutoCommitPrevio);
+        }
     }
 }
