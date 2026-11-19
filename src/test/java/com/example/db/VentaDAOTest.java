@@ -83,16 +83,15 @@ class VentaDAOTest {
     }
 
     @Test
-    @DisplayName("vender() crea la fila en VENTAS_PRODUCTOS con la cantidad correcta.")
-    void venderCreaFilaEnVentasProductosConCantidadCorrecta() {
+    @DisplayName("venderProductos() crea la fila en VENTAS_PRODUCTOS con la cantidad correcta.")
+    void venderProductosCreaFilaEnVentasProductosConCantidadCorrecta() {
         ProductoDAO productoDAO = new ProductoDAO();
         int idProducto = productoDAO.insertarFila("Cuaderno", 3000, 20);
         Producto producto = productoDAO.unicoRegistro("id", idProducto);
 
         Venta venta = new Venta(LocalDate.of(2025, 3, 10), 0, Venta.Tipo.EFECTIVO);
-        ventaDAO.insertar(venta);
 
-        ventaDAO.vender(venta, producto, 5);
+        ventaDAO.venderProductos(venta, List.of(producto), List.of(5));
 
         VentaProductoDAO ventaProductoDAO = new VentaProductoDAO();
         List<VentaProducto> detalles = ventaProductoDAO.todos("id_venta = ?", venta.getId());
@@ -108,16 +107,15 @@ class VentaDAOTest {
     }
 
     @Test
-    @DisplayName("vender() actualiza el valor de la venta con precio x cantidad.")
-    void venderActualizaElValorDeLaVentaConPrecioPorCantidad() {
+    @DisplayName("venderProductos() con un producto asigna el valor total correctamente.")
+    void venderProductosConUnProductoAsignaElValorTotalCorrectamente() {
         ProductoDAO productoDAO = new ProductoDAO();
         int idProducto = productoDAO.insertarFila("Lapicero", 2500, 10);
         Producto producto = productoDAO.unicoRegistro("id", idProducto);
 
         Venta venta = new Venta(LocalDate.of(2025, 3, 10), 0, Venta.Tipo.EFECTIVO);
-        ventaDAO.insertar(venta);
 
-        ventaDAO.vender(venta, producto, 4);
+        ventaDAO.venderProductos(venta, List.of(producto), List.of(4));
 
         assertEquals(10000, venta.getValor());
 
@@ -127,8 +125,8 @@ class VentaDAOTest {
     }
 
     @Test
-    @DisplayName("vender() con varios productos acumula el valor total correctamente.")
-    void venderConVariosProductosAcumulaElValorTotalCorrectamente() {
+    @DisplayName("venderProductos() con varios productos acumula el valor total correctamente.")
+    void venderProductosConVariosProductosAcumulaElValorTotalCorrectamente() {
         ProductoDAO productoDAO = new ProductoDAO();
         int idProd1 = productoDAO.insertarFila("Borrador", 1500, 10);
         int idProd2 = productoDAO.insertarFila("Regla", 4000, 5);
@@ -136,10 +134,8 @@ class VentaDAOTest {
         Producto prod2 = productoDAO.unicoRegistro("id", idProd2);
 
         Venta venta = new Venta(LocalDate.of(2025, 3, 10), 0, Venta.Tipo.EFECTIVO);
-        ventaDAO.insertar(venta);
 
-        ventaDAO.vender(venta, prod1, 3);
-        ventaDAO.vender(venta, prod2, 2);
+        ventaDAO.venderProductos(venta, List.of(prod1, prod2), List.of(3, 2));
 
         int valorEsperado = (1500 * 3) + (4000 * 2); // 4500 + 8000 = 12500
         assertEquals(valorEsperado, venta.getValor());
@@ -150,28 +146,90 @@ class VentaDAOTest {
     }
 
     @Test
-    @DisplayName("vender() falla sin modificar la venta si el inventario es insuficiente.")
-    void venderFallaSinModificarLaVentaSiElInventarioEsInsuficiente() {
+    @DisplayName("venderProductos crea las filas en VENTAS_PRODUCTOS con las cantidades correctas por producto.")
+    void venderProductosCreaLasFilasEnVentasProductosConLasCantidadesCorrectasPorProducto() {
         ProductoDAO productoDAO = new ProductoDAO();
-        int idProducto = productoDAO.insertarFila("Tijeras", 5000, 2);
-        Producto producto = productoDAO.unicoRegistro("id", idProducto);
+        int idProd1 = productoDAO.insertarFila("Cuaderno", 3000, 20);
+        int idProd2 = productoDAO.insertarFila("Lapicero", 1500, 10);
+        Producto prod1 = productoDAO.unicoRegistro("id", idProd1);
+        Producto prod2 = productoDAO.unicoRegistro("id", idProd2);
 
-        Venta venta = new Venta(LocalDate.of(2025, 3, 10), 1000, Venta.Tipo.EFECTIVO);
-        ventaDAO.insertar(venta);
+        Venta venta = new Venta(LocalDate.of(2025, 3, 10), 0, Venta.Tipo.EFECTIVO);
 
-        assertThrows(IllegalArgumentException.class, () -> ventaDAO.vender(venta, producto, 5));
-
-        assertEquals(1000, venta.getValor());
-
-        Venta ventaEnDb = ventaDAO.unicoRegistro("id", venta.getId());
-        assertNotNull(ventaEnDb);
-        assertEquals(1000, ventaEnDb.getValor());
+        ventaDAO.venderProductos(venta, List.of(prod1, prod2), List.of(4, 7));
 
         VentaProductoDAO ventaProductoDAO = new VentaProductoDAO();
-        assertTrue(ventaProductoDAO.todos("id_venta = ?", venta.getId()).isEmpty());
+        List<VentaProducto> detalles = ventaProductoDAO.todos("id_venta = ?", venta.getId());
+        assertEquals(2, detalles.size());
 
-        Producto productoActual = productoDAO.unicoRegistro("id", idProducto);
-        assertEquals(2, productoActual.getCantidad());
+        VentaProducto vp1 = detalles.stream()
+                .filter(vp -> vp.getIdProducto() == idProd1)
+                .findFirst()
+                .orElse(null);
+        assertNotNull(vp1);
+        assertEquals(4, vp1.getCantidadProducto());
+
+        VentaProducto vp2 = detalles.stream()
+                .filter(vp -> vp.getIdProducto() == idProd2)
+                .findFirst()
+                .orElse(null);
+        assertNotNull(vp2);
+        assertEquals(7, vp2.getCantidadProducto());
+
+        Producto prod1Actualizado = productoDAO.unicoRegistro("id", idProd1);
+        assertEquals(16, prod1Actualizado.getCantidad());
+
+        Producto prod2Actualizado = productoDAO.unicoRegistro("id", idProd2);
+        assertEquals(3, prod2Actualizado.getCantidad());
+    }
+
+    @Test
+    @DisplayName("venderProductos() falla sin crear la venta si el inventario de algún producto es insuficiente.")
+    void venderProductosFallaSinCrearLaVentaSiElInventarioDeAlgunProductoEsInsuficiente() {
+        ProductoDAO productoDAO = new ProductoDAO();
+        int idProd1 = productoDAO.insertarFila("Tijeras", 5000, 10);
+        int idProd2 = productoDAO.insertarFila("Pegante", 3000, 2);
+        Producto prod1 = productoDAO.unicoRegistro("id", idProd1);
+        Producto prod2 = productoDAO.unicoRegistro("id", idProd2);
+
+        Venta venta = new Venta(LocalDate.of(2025, 3, 10), 0, Venta.Tipo.EFECTIVO);
+
+        assertThrows(IllegalArgumentException.class, () ->
+            ventaDAO.venderProductos(venta, List.of(prod1, prod2), List.of(3, 5))
+        );
+
+        assertTrue(ventaDAO.todos().isEmpty());
+
+        VentaProductoDAO ventaProductoDAO = new VentaProductoDAO();
+        assertTrue(ventaProductoDAO.todos().isEmpty());
+
+        Producto prod1Actual = productoDAO.unicoRegistro("id", idProd1);
+        assertEquals(10, prod1Actual.getCantidad());
+
+        Producto prod2Actual = productoDAO.unicoRegistro("id", idProd2);
+        assertEquals(2, prod2Actual.getCantidad());
+    }
+
+    @Test
+    @DisplayName("venderProductos() falla sin crear la venta bajo cualquier otro error.")
+    void venderProductosFallaSinCrearLaVentaBajoCualquierOtroError() {
+        ProductoDAO productoDAO = new ProductoDAO();
+        int idProducto = productoDAO.insertarFila("Cuaderno", 3000, 20);
+        Producto producto = productoDAO.unicoRegistro("id", idProducto);
+
+        Venta ventaInvalida = new Venta(null, 0, Venta.Tipo.EFECTIVO);
+
+        assertThrows(DBException.class, () ->
+            ventaDAO.venderProductos(ventaInvalida, List.of(producto), List.of(5))
+        );
+
+        assertTrue(ventaDAO.todos().isEmpty());
+
+        VentaProductoDAO ventaProductoDAO = new VentaProductoDAO();
+        assertTrue(ventaProductoDAO.todos().isEmpty());
+
+        Producto productoActualizado = productoDAO.unicoRegistro("id", idProducto);
+        assertEquals(20, productoActualizado.getCantidad());
     }
 
     @Test
