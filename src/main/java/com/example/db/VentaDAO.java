@@ -55,7 +55,7 @@ public class VentaDAO extends DAOCrud<Venta> {
      * @param productos La lista de productos a vender.
      * @param cantidadesPorProducto La lista de cantidades por producto a vender.
      */
-    public void venderProductos(Venta venta, List<Producto> productos, List<Integer> cantidadesPorProducto) throws SQLException {
+    public void venderProductos(Venta venta, List<Producto> productos, List<Integer> cantidadesPorProducto){
         Connection connection = DBConnection.get();
         boolean valorAutoCommitPrevio = true;
         try {
@@ -69,13 +69,22 @@ public class VentaDAO extends DAOCrud<Venta> {
             connection.commit();
         // Hace rollback sin importar que excepción surgió.
         } catch (Exception e) {
-            connection.rollback();
-            if (e instanceof SQLException) {
+            try {
+                connection.rollback();
+                if (e instanceof SQLException) {
+                    throw new DBException(e);
+                }
+                else throw e;
+            } catch (SQLException SQLEx) {
+                throw new DBException(SQLEx);
+            }
+
+        } finally {
+            try {
+                connection.setAutoCommit(valorAutoCommitPrevio);   
+            } catch (SQLException e) {
                 throw new DBException(e);
             }
-            else throw e;
-        } finally {
-            connection.setAutoCommit(valorAutoCommitPrevio);
         }
     }
 }
