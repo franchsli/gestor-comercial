@@ -38,7 +38,7 @@ public class VentaDAO extends DAOCrud<Venta> {
      * @param producto El objeto de la entidad producto.
      * @param cantidadProducto La cantidad del producto en la venta.
      */
-    public void vender(Venta venta, Producto producto, int cantidadProducto){
+    private void vender(Venta venta, Producto producto, int cantidadProducto){
         VentaProductoDAO ventaProductoDAO = new VentaProductoDAO();
 
         VentaProducto ventaProducto = new VentaProducto(venta.getId(), producto.getId(), cantidadProducto);
