@@ -67,13 +67,13 @@ public class VentaDAO extends DAOCrud<Venta> {
                 this.vender(venta, producto, cantidad);
             }
             connection.commit();
-        } catch (SQLException e){
-            connection.rollback();
-            throw new DBException(e);
-        // Hace rollback sin importar que otra excepción surgió.
+        // Hace rollback sin importar que excepción surgió.
         } catch (Exception e) {
             connection.rollback();
-            throw e;
+            if (e instanceof SQLException) {
+                throw new DBException(e);
+            }
+            else throw e;
         } finally {
             connection.setAutoCommit(valorAutoCommitPrevio);
         }
