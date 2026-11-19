@@ -61,6 +61,7 @@ public class VentaDAO extends DAOCrud<Venta> {
         try {
             valorAutoCommitPrevio = connection.getAutoCommit();
             connection.setAutoCommit(false);
+            this.insertar(venta);
             for (int i = 0; i < productos.size(); i++) {
                 Producto producto = productos.get(i);
                 int cantidad = cantidadesPorProducto.get(i);
