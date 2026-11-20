@@ -11,7 +11,6 @@ import javax.swing.ScrollPaneConstants;
 
 import java.awt.GridLayout;
 import java.time.LocalDate;
-import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -150,8 +149,9 @@ public class VentasPanel extends PanelCrud<Venta> {
      * @return Un panel con la nueva fila creada.
      */
     private JPanel crearFilaProducto(List<Producto> productos, JPanel panelProductos) {
-        JPanel fila = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        
+        JPanel fila = new JPanel(new BorderLayout(5, 0));
+        fila.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 5)); // separación vertical y aire antes del scrollbar
+
         JComboBox<Producto> combo = new JComboBox<>(productos.toArray(Producto[]::new));
         JTextField cantidad = new JTextField(5);
         cantidad.setToolTipText("Cantidad");
@@ -163,8 +163,11 @@ public class VentasPanel extends PanelCrud<Venta> {
             panelProductos.repaint();
         });
 
-        fila.add(combo);
-        fila.add(cantidad);
+        fila.add(combo, BorderLayout.CENTER);   // se estira con el ancho disponible
+        fila.add(cantidad, BorderLayout.EAST);  // mantiene su ancho preferido
+
+        // evita que BoxLayout estire la fila en vertical
+        fila.setMaximumSize(new Dimension(Integer.MAX_VALUE, fila.getPreferredSize().height));
         return fila;
     }
 }
