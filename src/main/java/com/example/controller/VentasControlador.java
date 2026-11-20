@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import java.util.List;
+
 import com.example.db.VentaDAO;
 import com.example.model.Producto;
 import com.example.model.Venta;
@@ -17,13 +19,14 @@ public class VentasControlador extends ControladorCrud<Venta> {
     }
 
     /**
-     * Asocia el producto con el nombre dado a una venta en VENTAS_PRODUCTOS.
+     * Vende los productos dados con las cantidades dadas
+     * en una sola transacción.
      * @param venta El objeto de la entidad venta.
-     * @param producto El objeto de la entidad producto.
-     * @param cantidadProducto La cantidad del producto en la venta.
+     * @param productos La lista de productos a vender.
+     * @param cantidadesPorProducto La lista de cantidades por producto a vender.
      */
-    public void vender(Venta venta, Producto producto, int cantidadProducto){
-        this.ventaDAO.vender(venta, producto, cantidadProducto);
+    public void venderProductos(Venta venta, List<Producto> productos, List<Integer> cantidadesPorProducto) {
+        this.ventaDAO.venderProductos(venta, productos, cantidadesPorProducto);
     }
 
 }

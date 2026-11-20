@@ -12,6 +12,7 @@ import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.controller.ProductosControlador;
@@ -89,7 +90,8 @@ public class VentasPanel extends PanelCrud<Venta> {
 
                 Venta nuevaVenta = new Venta(fechaDeCampo(campoFecha), 0, tipoSeleccionado);
 
-                ventasControlador.insertar(nuevaVenta);
+                ArrayList<Producto> productosEnVenta = new ArrayList<>();
+                ArrayList<Integer> cantidadesPorProductoAVender = new ArrayList<>();
 
                 // iterar filas de productos
                 for (Component c : panelProductos.getComponents()) {
@@ -101,8 +103,11 @@ public class VentasPanel extends PanelCrud<Venta> {
                     String cantidadStr = campoCantidad.getText().trim();
                     if (cantidadStr.isEmpty()) continue;
 
-                    ventasControlador.vender(nuevaVenta, producto, Integer.parseInt(cantidadStr));
+                    productosEnVenta.add(producto);
+                    cantidadesPorProductoAVender.add(Integer.parseInt(cantidadStr));
                 }
+
+                ventasControlador.venderProductos(nuevaVenta, productosEnVenta, cantidadesPorProductoAVender);
 
                 cargarDatos();
             } catch (DBException e) {
