@@ -82,7 +82,7 @@ public class VentasPanel extends PanelCrud<Venta> {
 
         // formulario completo
         JPanel form = new JPanel(new BorderLayout(5, 5));
-        JPanel camposFijos = new JPanel(new GridLayout(3, 2, 5, 5));
+        JPanel camposFijos = new JPanel(new GridLayout(2, 2, 5, 5));
         camposFijos.add(new JLabel("Fecha (YYYY-MM-DD):")); 
         camposFijos.add(campoFecha);
         camposFijos.add(new JLabel("Tipo:")); 
