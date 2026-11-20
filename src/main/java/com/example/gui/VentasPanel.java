@@ -78,19 +78,22 @@ public class VentasPanel extends PanelCrud<Venta> {
         scroll.getVerticalScrollBar().setUnitIncrement(16);
         scroll.setBorder(BorderFactory.createEmptyBorder());
 
-
-
-        // formulario completo
-        JPanel form = new JPanel(new BorderLayout(5, 5));
+        // campos fijos
         JPanel camposFijos = new JPanel(new GridLayout(2, 2, 5, 5));
         camposFijos.add(new JLabel("Fecha (YYYY-MM-DD):")); 
         camposFijos.add(campoFecha);
         camposFijos.add(new JLabel("Tipo:")); 
         camposFijos.add(tipo);
 
+        // zona de productos: etiqueta arriba, scroll debajo
+        JPanel zonaProductos = new JPanel(new BorderLayout(5, 5));
+        zonaProductos.add(new JLabel("Productos:"), BorderLayout.NORTH);
+        zonaProductos.add(scroll, BorderLayout.CENTER);
+
+        // formulario completo
+        JPanel form = new JPanel(new BorderLayout(5, 10));
         form.add(camposFijos, BorderLayout.NORTH);
-        form.add(new JLabel("Productos:"), BorderLayout.CENTER);
-        form.add(scroll, BorderLayout.SOUTH);
+        form.add(zonaProductos, BorderLayout.CENTER);
         form.setPreferredSize(new Dimension(450, 250));
 
         int result = JOptionPane.showConfirmDialog(this, form,
