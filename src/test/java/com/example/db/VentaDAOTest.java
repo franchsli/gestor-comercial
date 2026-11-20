@@ -146,7 +146,7 @@ class VentaDAOTest {
     }
 
     @Test
-    @DisplayName("venderProductos crea las filas en VENTAS_PRODUCTOS con las cantidades correctas por producto.")
+    @DisplayName("venderProductos() crea las filas en VENTAS_PRODUCTOS con las cantidades correctas por producto.")
     void venderProductosCreaLasFilasEnVentasProductosConLasCantidadesCorrectasPorProducto() {
         ProductoDAO productoDAO = new ProductoDAO();
         int idProd1 = productoDAO.insertarFila("Cuaderno", 3000, 20);
