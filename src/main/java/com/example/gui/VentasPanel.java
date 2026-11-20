@@ -1,10 +1,13 @@
 package com.example.gui;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 
 import java.awt.GridLayout;
 import java.time.LocalDate;
@@ -67,6 +70,16 @@ public class VentasPanel extends PanelCrud<Venta> {
         // primera fila de producto
         panelProductos.add(crearFilaProducto(productos, panelProductos));
 
+        // scroll de productos
+        JScrollPane scroll = new JScrollPane(panelProductos,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scroll.setPreferredSize(new Dimension(430, 125));
+        scroll.getVerticalScrollBar().setUnitIncrement(16);
+        scroll.setBorder(BorderFactory.createEmptyBorder());
+
+
+
         // formulario completo
         JPanel form = new JPanel(new BorderLayout(5, 5));
         JPanel camposFijos = new JPanel(new GridLayout(3, 2, 5, 5));
@@ -77,7 +90,7 @@ public class VentasPanel extends PanelCrud<Venta> {
 
         form.add(camposFijos, BorderLayout.NORTH);
         form.add(new JLabel("Productos:"), BorderLayout.CENTER);
-        form.add(panelProductos, BorderLayout.SOUTH);
+        form.add(scroll, BorderLayout.SOUTH);
         form.setPreferredSize(new Dimension(450, 250));
 
         int result = JOptionPane.showConfirmDialog(this, form,
