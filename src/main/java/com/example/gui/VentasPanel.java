@@ -85,7 +85,6 @@ public class VentasPanel extends PanelCrud<Venta> {
 
         if (result == JOptionPane.OK_OPTION && formularioEsValido(form)) {
             try {
-                // crear la venta primero (valor se calculará en vender())
                 Venta.Tipo tipoSeleccionado = (Venta.Tipo) tipo.getSelectedItem();
 
                 Venta nuevaVenta = new Venta(fechaDeCampo(campoFecha), 0, tipoSeleccionado);
