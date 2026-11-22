@@ -2,6 +2,7 @@ package com.example.gui;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -177,9 +178,22 @@ public class VentasPanel extends PanelCrud<Venta> {
             });
         });
 
+        JButton btnQuitar = new JButton("Eliminar");
+        btnQuitar.addActionListener(e -> {
+            if (panelProductos.getComponentCount() <= 1) {
+                mostrarAviso("La venta debe tener al menos un producto.");
+                return;
+            }
+            panelProductos.remove(fila);
+            panelProductos.revalidate();
+            panelProductos.repaint();
+        });
+        
+
         fila.add(combo);
         fila.add(Box.createHorizontalStrut(5)); // separación entre combo y cantidad
         fila.add(cantidad);
+        fila.add(btnQuitar);
 
         fila.setMaximumSize(new Dimension(Integer.MAX_VALUE, fila.getPreferredSize().height));
         return fila;
