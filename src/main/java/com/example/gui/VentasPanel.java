@@ -115,7 +115,7 @@ public class VentasPanel extends PanelCrud<Venta> {
                 for (Component c : panelProductos.getComponents()) {
                     JPanel fila = (JPanel) c;
                     JComboBox<?> combo = (JComboBox<?>) fila.getComponent(0);
-                    JTextField campoCantidad = (JTextField) fila.getComponent(1);
+                    JTextField campoCantidad = (JTextField) fila.getComponent(2);
 
                     Producto producto = (Producto) combo.getSelectedItem();
                     String cantidadStr = campoCantidad.getText().trim();
