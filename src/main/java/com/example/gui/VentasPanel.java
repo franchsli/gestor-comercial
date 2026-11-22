@@ -6,9 +6,11 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
 
 import java.awt.GridLayout;
 import java.time.LocalDate;
@@ -163,6 +165,18 @@ public class VentasPanel extends PanelCrud<Venta> {
             panelProductos.add(crearFilaProducto(productos, panelProductos));
             panelProductos.revalidate();
             panelProductos.repaint();
+
+            // Hace scroll a la fila agregada
+            SwingUtilities.invokeLater(() ->
+                SwingUtilities.invokeLater(() -> {
+                    JScrollPane scrollPaneEnPanel = (JScrollPane) SwingUtilities.getAncestorOfClass(
+                            JScrollPane.class, panelProductos);
+                        if (scrollPaneEnPanel != null) {
+                            JScrollBar scrollBar = scrollPaneEnPanel.getVerticalScrollBar();
+                            scrollBar.setValue(scrollBar.getMaximum());
+                        }
+                    })
+            );
         });
 
         fila.add(combo);
