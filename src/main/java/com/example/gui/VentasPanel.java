@@ -167,16 +167,14 @@ public class VentasPanel extends PanelCrud<Venta> {
             panelProductos.repaint();
 
             // Hace scroll a la fila agregada
-            SwingUtilities.invokeLater(() ->
-                SwingUtilities.invokeLater(() -> {
-                    JScrollPane scrollPaneEnPanel = (JScrollPane) SwingUtilities.getAncestorOfClass(
-                            JScrollPane.class, panelProductos);
-                        if (scrollPaneEnPanel != null) {
-                            JScrollBar scrollBar = scrollPaneEnPanel.getVerticalScrollBar();
-                            scrollBar.setValue(scrollBar.getMaximum());
-                        }
-                    })
-            );
+            SwingUtilities.invokeLater(() -> {
+                JScrollPane scrollPaneEnPanel = (JScrollPane) SwingUtilities.getAncestorOfClass(
+                    JScrollPane.class, panelProductos);
+                    if (scrollPaneEnPanel != null) {
+                        JScrollBar scrollBar = scrollPaneEnPanel.getVerticalScrollBar();
+                        scrollBar.setValue(scrollBar.getMaximum());
+                    }
+            });
         });
 
         fila.add(combo);
