@@ -193,6 +193,7 @@ public class VentasPanel extends PanelCrud<Venta> {
         fila.add(combo);
         fila.add(Box.createHorizontalStrut(5)); // separación entre combo y cantidad
         fila.add(cantidad);
+        fila.add(Box.createHorizontalStrut(5)); // separación entre cantidad y botón para eliminar
         fila.add(btnQuitar);
 
         fila.setMaximumSize(new Dimension(Integer.MAX_VALUE, fila.getPreferredSize().height));
