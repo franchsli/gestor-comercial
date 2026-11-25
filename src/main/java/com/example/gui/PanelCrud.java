@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
@@ -173,8 +174,12 @@ public abstract class PanelCrud<T> extends PanelLectura<T> {
                 valor = ((JTextField) c).getText().trim();
             } else if (c instanceof JSpinner) {
                 valor = ((JSpinner) c).getValue().toString().trim();
-            } else if (c instanceof JPanel) {
-                JPanel formAnidado = (JPanel) c;
+            } else if (c instanceof JPanel || c instanceof JScrollPane) {
+                JPanel formAnidado;
+                if (c instanceof JScrollPane) {
+                    JScrollPane scrollAnidado = (JScrollPane) c;
+                    formAnidado = (JPanel) scrollAnidado.getViewport().getView();
+                } else formAnidado = (JPanel) c;
                 boolean formAnidadoEsValido = formularioEsValido(formAnidado, excepciones);
                 if (!formAnidadoEsValido) {
                     return false;
