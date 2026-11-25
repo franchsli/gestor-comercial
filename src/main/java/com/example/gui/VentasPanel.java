@@ -92,7 +92,7 @@ public class VentasPanel extends PanelCrud<Venta> {
         // zona de productos: etiqueta arriba, scroll debajo
         JPanel zonaProductos = new JPanel(new BorderLayout(5, 5));
         zonaProductos.add(new JLabel("Productos:"), BorderLayout.NORTH);
-        zonaProductos.add(scroll, BorderLayout.WEST);
+        zonaProductos.add(scroll, BorderLayout.CENTER);
 
         // formulario completo
         JPanel form = new JPanel(new BorderLayout(5, 10));
