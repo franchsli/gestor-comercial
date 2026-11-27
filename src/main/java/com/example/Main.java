@@ -18,6 +18,7 @@ public class Main {
         UIManager.put("OptionPane.cancelButtonText", "Cancelar");
         UIManager.put("OptionPane.yesButtonText", "Sí");
         UIManager.put("OptionPane.noButtonText", "No");
+        // se crean las pestañas
         JTabbedPane pestañas = new JTabbedPane();
         ProductosPanel pestañaProductos = new ProductosPanel();
         GastosPanel pestañaGastos = new GastosPanel();
