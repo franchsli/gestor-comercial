@@ -115,7 +115,7 @@ class CierreDiarioDAOTest {
             assertEquals(0, cd.getVentasCredito());
             assertEquals(8000, cd.getTotalVentas());
             assertEquals(10000, cd.getPresupuesto());
-            assertEquals(80, cd.getCumplimiento());
+            assertEquals("80%", cd.getCumplimiento());
             assertEquals(2000, cd.getGastos());
         }
     }
@@ -159,7 +159,7 @@ class CierreDiarioDAOTest {
         CierreDiario cierre = cierreDiarioDAO.unicoRegistro("fecha", fecha);
 
         assertNotNull(cierre);
-        assertEquals(75, cierre.getCumplimiento());
+        assertEquals("75%", cierre.getCumplimiento());
     }
 
     @Test
