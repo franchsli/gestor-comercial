@@ -1,5 +1,6 @@
 package com.example;
 import javax.swing.JTabbedPane;
+import javax.swing.UIManager;
 
 import com.example.db.DBConnection;
 import com.example.gui.CierresDiariosPanel;
@@ -12,6 +13,12 @@ import com.example.gui.VentasPanel;
 
 public class Main {
     public static void main(String[] args) {
+        // Se específica el texto de los botones para que estén en español.
+        UIManager.put("OptionPane.okButtonText", "Aceptar");
+        UIManager.put("OptionPane.cancelButtonText", "Cancelar");
+        UIManager.put("OptionPane.yesButtonText", "Sí");
+        UIManager.put("OptionPane.noButtonText", "No");
+        // se crean las pestañas
         JTabbedPane pestañas = new JTabbedPane();
         ProductosPanel pestañaProductos = new ProductosPanel();
         GastosPanel pestañaGastos = new GastosPanel();
@@ -28,7 +35,6 @@ public class Main {
         pestañas.addChangeListener(e -> {
             PanelLectura<?> pestañaSeleccionada = (PanelLectura<?>) pestañas.getSelectedComponent();
             pestañaSeleccionada.cargarDatos();
-            // el módulo de cierres diarios esté migrado.
             // si la pestaña es la de Cierres diarios, recarga los totales
             if (pestañaSeleccionada instanceof CierresDiariosPanel){
                 ((CierresDiariosPanel)pestañaSeleccionada).cargarTotales();
