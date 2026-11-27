@@ -152,14 +152,46 @@ class CierreDiarioDAOTest {
     @Test
     @DisplayName("cumplimiento se calcula correctamente respecto al presupuesto del día.")
     void cumplimientoSeCalculaCorrectamenteRespectoAlPresupuestoDelDia() {
+        LocalDate fecha1 = LocalDate.of(2025, 3, 10);
+        presupuestoDAO.insertar(new Presupuesto(fecha1, Presupuesto.Tipo.INGRESO, 20000));
+        ventaDAO.insertar(new Venta(fecha1, 15000, Venta.Tipo.EFECTIVO));
+
+        LocalDate fecha2 = LocalDate.of(2025, 3, 11);
+        presupuestoDAO.insertar(new Presupuesto(fecha2, Presupuesto.Tipo.INGRESO, 1200000));
+        ventaDAO.insertar(new Venta(fecha2, 1700000, Venta.Tipo.EFECTIVO));
+
+        LocalDate fecha3 = LocalDate.of(2025, 3, 12);
+        presupuestoDAO.insertar(new Presupuesto(fecha3, Presupuesto.Tipo.INGRESO, 1000000));
+        ventaDAO.insertar(new Venta(fecha3, 25000, Venta.Tipo.EFECTIVO));
+
+        LocalDate fecha4 = LocalDate.of(2025, 3, 13);
+        presupuestoDAO.insertar(new Presupuesto(fecha4, Presupuesto.Tipo.INGRESO, 123456));
+
+        CierreDiario cierre1 = cierreDiarioDAO.unicoRegistro("fecha", fecha1);
+        CierreDiario cierre2 = cierreDiarioDAO.unicoRegistro("fecha", fecha2);
+        CierreDiario cierre3 = cierreDiarioDAO.unicoRegistro("fecha", fecha3);
+        CierreDiario cierre4 = cierreDiarioDAO.unicoRegistro("fecha", fecha4);
+
+        assertNotNull(cierre1);
+        assertEquals("75%", cierre1.getCumplimiento());
+        assertNotNull(cierre2);
+        assertEquals("142%", cierre2.getCumplimiento());
+        assertNotNull(cierre3);
+        assertEquals("3%", cierre3.getCumplimiento());
+        assertNotNull(cierre4);
+        assertEquals("0%", cierre4.getCumplimiento());
+    }
+
+    @Test
+    @DisplayName("cumplimiento es cero si en un día sin presupuesto asignado.")
+    void cumplimientoEsCeroSiEnUnDiaSinPresupuestoAsignado() {
         LocalDate fecha = LocalDate.of(2025, 3, 10);
-        presupuestoDAO.insertar(new Presupuesto(fecha, Presupuesto.Tipo.INGRESO, 20000));
         ventaDAO.insertar(new Venta(fecha, 15000, Venta.Tipo.EFECTIVO));
 
         CierreDiario cierre = cierreDiarioDAO.unicoRegistro("fecha", fecha);
 
         assertNotNull(cierre);
-        assertEquals("75%", cierre.getCumplimiento());
+        assertEquals("0%", cierre.getCumplimiento());
     }
 
     @Test
