@@ -28,7 +28,6 @@ public class Main {
         pestañas.addChangeListener(e -> {
             PanelLectura<?> pestañaSeleccionada = (PanelLectura<?>) pestañas.getSelectedComponent();
             pestañaSeleccionada.cargarDatos();
-            // el módulo de cierres diarios esté migrado.
             // si la pestaña es la de Cierres diarios, recarga los totales
             if (pestañaSeleccionada instanceof CierresDiariosPanel){
                 ((CierresDiariosPanel)pestañaSeleccionada).cargarTotales();
