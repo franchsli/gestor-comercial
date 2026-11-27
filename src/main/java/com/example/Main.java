@@ -1,5 +1,6 @@
 package com.example;
 import javax.swing.JTabbedPane;
+import javax.swing.UIManager;
 
 import com.example.db.DBConnection;
 import com.example.gui.CierresDiariosPanel;
@@ -12,6 +13,11 @@ import com.example.gui.VentasPanel;
 
 public class Main {
     public static void main(String[] args) {
+        // Se específica el texto de los botones para que estén en español.
+        UIManager.put("OptionPane.okButtonText", "Aceptar");
+        UIManager.put("OptionPane.cancelButtonText", "Cancelar");
+        UIManager.put("OptionPane.yesButtonText", "Sí");
+        UIManager.put("OptionPane.noButtonText", "No");
         JTabbedPane pestañas = new JTabbedPane();
         ProductosPanel pestañaProductos = new ProductosPanel();
         GastosPanel pestañaGastos = new GastosPanel();
