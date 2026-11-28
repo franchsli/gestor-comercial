@@ -66,7 +66,7 @@ SELECT
   COALESCE(p.valor, 0)            AS presupuesto,
   CASE
     WHEN COALESCE(p.valor, 0) = 0 THEN '0%'
-    ELSE ROUND(COALESCE(vd.total_ventas, 0) * 100.0 / p.valor, 0) || '%'
+    ELSE CAST(ROUND(COALESCE(vd.total_ventas, 0) * 100.0 / p.valor, 0) AS INTEGER) || '%'
   END AS cumplimiento,
   COALESCE(gd.gastos, 0) AS gastos
 FROM fechas f

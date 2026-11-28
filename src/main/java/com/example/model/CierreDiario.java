@@ -10,11 +10,13 @@ public class CierreDiario {
     private int ventasCredito;
     private int totalVentas;
     private int presupuesto;
-    private int cumplimiento;
+    // como String porque se almacenan como entero y signo de
+    // porcentaje ej: 15%
+    private String cumplimiento;
     private int gastos;
 
     public CierreDiario(LocalDate fecha, int ventasEfectivo, int ventasCredito, int totalVentas, int presupuesto,
-            int cumplimiento, int gastos){
+            String cumplimiento, int gastos){
         this.fecha = fecha;
         this.ventasEfectivo = ventasEfectivo;
         this.ventasCredito = ventasCredito;
@@ -44,7 +46,7 @@ public class CierreDiario {
         return presupuesto;
     }
 
-    public int getCumplimiento() {
+    public String getCumplimiento() {
         return cumplimiento;
     }
 

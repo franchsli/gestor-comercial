@@ -16,7 +16,7 @@ public class CierreDiarioDAO extends DAOLectura<CierreDiario> {
     public CierreDiario mapear(ResultSet resultSet) throws SQLException {
         return new CierreDiario(fechaDeColumna(resultSet, "fecha"), resultSet.getInt("ventas_efectivo"), 
                     resultSet.getInt("ventas_credito"), resultSet.getInt("total_ventas"), resultSet.getInt("presupuesto"),
-                    resultSet.getInt("cumplimiento"), resultSet.getInt("gastos"));
+                    resultSet.getString("cumplimiento"), resultSet.getInt("gastos"));
     }
 
     /**
